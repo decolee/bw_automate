@@ -1,0 +1,117 @@
+{
+  "description": "Configuração completa do BW_AUTOMATE com todas as opções disponíveis",
+  "version": "2.0",
+  
+  "analysis_settings": {
+    "fuzzy_match_threshold": 85,
+    "include_temp_tables": true,
+    "schemas_to_analyze": ["public", "staging", "reports", "analytics", "financeiro", "ecommerce"],
+    "file_extensions": [".py", ".sql"],
+    "exclude_patterns": ["__pycache__", ".git", "node_modules", ".venv", "*.pyc", "test_*"],
+    "max_files_to_analyze": 2000,
+    "enable_advanced_sql_analysis": true,
+    "detect_dynamic_tables": true,
+    "analyze_f_strings": true,
+    "include_comments_analysis": true
+  },
+  
+  "sql_extraction": {
+    "include_dynamic_sql": true,
+    "parse_multiline_strings": true,
+    "minimum_sql_length": 10,
+    "extract_from_comments": false,
+    "analyze_sql_complexity": true,
+    "detect_cte_patterns": true,
+    "identify_subqueries": true,
+    "parse_window_functions": true
+  },
+  
+  "table_matching": {
+    "schema_weight_boost": 1.3,
+    "exact_match_priority": true,
+    "remove_prefixes": ["tmp_", "temp_", "staging_", "dev_", "test_"],
+    "remove_suffixes": ["_temp", "_tmp", "_bak", "_old"],
+    "case_sensitive": false,
+    "normalize_names": true,
+    "minimum_match_confidence": 60
+  },
+  
+  "reporting": {
+    "generate_executive_dashboard": true,
+    "generate_technical_report": true,
+    "generate_lineage_visualization": true,
+    "generate_table_explorer": true,
+    "export_to_powerbi": true,
+    "export_to_csv": true,
+    "export_to_json": true,
+    "include_sql_analysis": true,
+    "include_recommendations": true,
+    "max_chart_items": 50,
+    "enable_interactive_charts": true
+  },
+  
+  "performance": {
+    "parallel_processing": false,
+    "max_workers": 4,
+    "memory_limit_mb": 2048,
+    "chunk_size": 1000,
+    "enable_caching": true,
+    "cache_ttl_seconds": 3600,
+    "enable_progress_bars": true
+  },
+  
+  "logging": {
+    "log_level": "INFO",
+    "log_to_console": true,
+    "log_to_file": true,
+    "log_file_rotation": true,
+    "max_log_files": 10,
+    "log_sql_queries": false,
+    "log_performance_metrics": true
+  },
+  
+  "output_settings": {
+    "output_dir": "BW_AUTOMATE/reports",
+    "create_timestamped_dirs": true,
+    "compress_outputs": false,
+    "include_metadata": true,
+    "generate_summary_json": true
+  },
+  
+  "validation": {
+    "validate_table_names": true,
+    "check_schema_existence": false,
+    "validate_sql_syntax": false,
+    "require_description": false,
+    "min_confidence_for_recommendations": 70
+  },
+  
+  "advanced_features": {
+    "enable_ml_matching": false,
+    "use_semantic_analysis": false,
+    "detect_etl_patterns": true,
+    "analyze_data_lineage": true,
+    "identify_critical_tables": true,
+    "detect_unused_tables": true,
+    "calculate_impact_analysis": true
+  },
+  
+  "integrations": {
+    "airflow_connection_id": "postgres_default",
+    "export_airflow_variables": false,
+    "generate_airflow_docs": false,
+    "webhook_notifications": {
+      "enabled": false,
+      "url": "",
+      "on_success": false,
+      "on_error": true
+    }
+  },
+  
+  "security": {
+    "anonymize_table_names": false,
+    "mask_sensitive_data": false,
+    "exclude_patterns_regex": [],
+    "log_security_events": true
+  }
+}

@@ -12,12 +12,6 @@ Data: 2025-09-20
 
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-import plotly.graph_objects as go
-import plotly.express as px
-from plotly.subplots import make_subplots
-import networkx as nx
 import json
 import os
 from datetime import datetime
@@ -26,6 +20,29 @@ from jinja2 import Template
 import base64
 from io import BytesIO
 import logging
+
+# Imports seguros usando o módulo utils
+try:
+    from utils import (
+        matplotlib, seaborn, plotly, networkx,
+        requires_module, SafeLogger, performance_monitor
+    )
+    plt = matplotlib
+    sns = seaborn
+    go = plotly
+    nx = networkx
+except ImportError:
+    # Fallback para imports diretos se utils não estiver disponível
+    try:
+        import matplotlib.pyplot as plt
+        import seaborn as sns
+        import plotly.graph_objects as go
+        import plotly.express as px
+        from plotly.subplots import make_subplots
+        import networkx as nx
+    except ImportError as e:
+        print(f"Aviso: Algumas funcionalidades de visualização podem não estar disponíveis: {e}")
+        plt = sns = go = px = nx = None
 
 
 class AdvancedReportGenerator:
@@ -43,9 +60,8 @@ class AdvancedReportGenerator:
         self.output_dir = output_dir
         os.makedirs(output_dir, exist_ok=True)
         
-        # Configura estilo dos gráficos
-        plt.style.use('seaborn-v0_8')
-        sns.set_palette("husl")
+        # Configura estilo dos gráficos se matplotlib estiver disponível
+        self._setup_plot_style()
         
         # Templates HTML
         self.templates = self._load_templates()
@@ -64,7 +80,36 @@ class AdvancedReportGenerator:
         # Métricas acumuladas
         self.metrics_history = []
         
-        self.logger = logging.getLogger(__name__)
+        try:
+            self.logger = SafeLogger(__name__)
+        except:
+            self.logger = logging.getLogger(__name__)
+    
+    def _setup_plot_style(self):
+        """Configura estilo dos gráficos de forma segura"""
+        if plt is None:
+            return
+        
+        try:
+            # Tenta usar estilos seaborn mais modernos primeiro
+            available_styles = plt.style.available if hasattr(plt, 'style') else []
+            
+            if 'seaborn-v0_8' in available_styles:
+                plt.style.use('seaborn-v0_8')
+            elif 'seaborn' in available_styles:
+                plt.style.use('seaborn')
+            else:
+                plt.style.use('default')
+            
+            # Configura seaborn se disponível
+            if sns is not None:
+                try:
+                    sns.set_palette("husl")
+                except:
+                    pass
+        except Exception as e:
+            if hasattr(self, 'logger'):
+                self.logger.warning(f"Não foi possível configurar estilo de gráficos: {e}")
     
     def _load_templates(self) -> Dict[str, str]:
         """Carrega templates HTML para relatórios"""
