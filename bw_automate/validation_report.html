@@ -1,0 +1,543 @@
+
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>BW_AUTOMATE Analysis Report</title>
+            <style>
+                
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f7;
+        }
+        
+        .report-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+        }
+        
+        .report-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .report-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .report-meta {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .report-nav {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .report-nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .report-nav a {
+            text-decoration: none;
+            color: #495057;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .report-nav a:hover {
+            background: #007bff;
+            color: white;
+        }
+        
+        .report-content {
+            padding: 2rem;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .summary-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .summary-card.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+        }
+        
+        .score-display {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+        
+        .metric {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #007bff;
+        }
+        
+        .excellent { color: #28a745; }
+        .good { color: #17a2b8; }
+        .fair { color: #ffc107; }
+        .poor { color: #dc3545; }
+        
+        .high { color: #dc3545; }
+        .medium { color: #ffc107; }
+        .low { color: #28a745; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        .file-path {
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .report-footer {
+            background: #f8f9fa;
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+            color: #6c757d;
+        }
+        
+        @media (max-width: 768px) {
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .report-nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+            </style>
+        </head>
+        <body>
+            <div class="report-container">
+                <header class="report-header">
+                    <h1>🔍 BW_AUTOMATE Analysis Report</h1>
+                    <div class="report-meta">
+                        <span>Generated: 2025-09-26 23:31:12</span>
+                        <span>Project: /home/dev/code/bw_automate/test_projects/comprehensive_python_project</span>
+                    </div>
+                </header>
+                
+                <nav class="report-nav">
+                    <ul>
+                        <li><a href="#executive-summary">Executive Summary</a></li>
+                        <li><a href="#technical-analysis">Technical Analysis</a></li>
+                        <li><a href="#security-analysis">Security Analysis</a></li>
+                        <li><a href="#performance-analysis">Performance Analysis</a></li>
+                        <li><a href="#file-inventory">File Inventory</a></li>
+                    </ul>
+                </nav>
+                
+                <main class="report-content">
+                    
+        <div class="executive-summary">
+            <h2>Executive Summary</h2>
+            
+            <div class="summary-grid">
+                <div class="summary-card primary">
+                    <h3>Overall Quality Score</h3>
+                    <div class="score-display poor">
+                        67.5/100
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <h3>Files Analyzed</h3>
+                    <div class="metric">5</div>
+                </div>
+                
+                <div class="summary-card">
+                    <h3>Code Constructs</h3>
+                    <div class="metric">200</div>
+                </div>
+                
+                <div class="summary-card">
+                    <h3>Security Issues</h3>
+                    <div class="metric medium">
+                        5
+                    </div>
+                </div>
+            </div>
+            
+            <div class="key-findings">
+                <h3>Key Findings</h3>
+                <ul>
+                    <li><strong>Code Quality:</strong> Poor code quality requiring significant improvements</li>
+                    <li><strong>Security:</strong> 5 security issues found - review recommended</li>
+                    <li><strong>Performance:</strong> 5 performance opportunities identified</li>
+                    <li><strong>Coverage:</strong> Analyzed 5 Python files across 1 directories</li>
+                </ul>
+            </div>
+            
+            <div class="recommendations">
+                <h3>Top Recommendations</h3>
+                <ol><li>Address security vulnerabilities, especially hardcoded credentials</li><li>Implement automated testing and CI/CD pipeline</li><li>Add comprehensive documentation and type hints</li></ol>
+            </div>
+        </div>
+        
+
+        <div class="technical-analysis">
+            <h2>Technical Analysis</h2>
+            
+            <div class="analysis-grid">
+                <div class="analysis-section">
+                    <h3>Python Constructs Distribution</h3>
+                    <div class="chart-placeholder" data-chart="construct_distribution"></div>
+                    
+                    <div class="construct-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Construct Type</th>
+                                    <th>Count</th>
+                                    <th>Percentage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                <tr>
+                    <td>functions</td>
+                    <td>125</td>
+                    <td>62.5%</td>
+                </tr>
+            
+                <tr>
+                    <td>imports</td>
+                    <td>50</td>
+                    <td>25.0%</td>
+                </tr>
+            
+                <tr>
+                    <td>classes</td>
+                    <td>25</td>
+                    <td>12.5%</td>
+                </tr>
+            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="analysis-section">
+                    <h3>Code Complexity Analysis</h3>
+                    
+        <div class="complexity-metrics">
+            <p>Analysis of code complexity patterns and maintainability metrics.</p>
+            <ul>
+                <li>Average function complexity: Medium</li>
+                <li>Deeply nested structures: 12 instances</li>
+                <li>Long functions (>50 lines): 8 functions</li>
+                <li>Cyclomatic complexity: Acceptable range</li>
+            </ul>
+        </div>
+        
+                </div>
+                
+                <div class="analysis-section">
+                    <h3>Import Analysis</h3>
+                    
+        <div class="import-analysis">
+            <p>Analysis of import patterns and dependencies.</p>
+            <ul>
+                <li>Standard library usage: High</li>
+                <li>Third-party dependencies: Moderate</li>
+                <li>Relative imports: 23 instances</li>
+                <li>Circular imports: None detected</li>
+            </ul>
+        </div>
+        
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="security-report">
+            <h2>Security Analysis</h2>
+            
+            <div class="security-overview">
+                <div class="security-stats">
+                    <div class="stat-card critical">
+                        <h4>Critical Issues</h4>
+                        <div class="count">0</div>
+                    </div>
+                    <div class="stat-card high">
+                        <h4>High Priority</h4>
+                        <div class="count">5</div>
+                    </div>
+                    <div class="stat-card medium">
+                        <h4>Medium Priority</h4>
+                        <div class="count">0</div>
+                    </div>
+                    <div class="stat-card low">
+                        <h4>Low Priority</h4>
+                        <div class="count">0</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="security-details">
+                
+                    <div class="security-category high">
+                        <h4>High Priority Issues</h4>
+                        <ul>
+                            
+                <li>
+                    <strong>hardcoded_password</strong> 
+                    in test_file_0.py 
+                    at line 42
+                    <br><em>No description available</em>
+                </li>
+            
+                <li>
+                    <strong>hardcoded_password</strong> 
+                    in test_file_1.py 
+                    at line 42
+                    <br><em>No description available</em>
+                </li>
+            
+                <li>
+                    <strong>hardcoded_password</strong> 
+                    in test_file_2.py 
+                    at line 42
+                    <br><em>No description available</em>
+                </li>
+            
+                <li>
+                    <strong>hardcoded_password</strong> 
+                    in test_file_3.py 
+                    at line 42
+                    <br><em>No description available</em>
+                </li>
+            
+                <li>
+                    <strong>hardcoded_password</strong> 
+                    in test_file_4.py 
+                    at line 42
+                    <br><em>No description available</em>
+                </li>
+            
+                        </ul>
+                    </div>
+                
+            </div>
+            
+            <div class="security-recommendations">
+                <h3>Security Recommendations</h3>
+                <ol><li>Implement secure credential management using environment variables</li><li>Add input validation and sanitization for all user inputs</li><li>Use parameterized queries to prevent SQL injection</li><li>Implement proper error handling to avoid information disclosure</li><li>Regular security audits and dependency updates</li></ol>
+            </div>
+        </div>
+        
+
+        <div class="performance-report">
+            <h2>Performance Analysis</h2>
+            
+            <div class="performance-overview">
+                <h3>Performance Metrics</h3>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <h4>Hot Spots</h4>
+                        <div class="value">0</div>
+                        <div class="description">Files with potential performance issues</div>
+                    </div>
+                    <div class="metric-card">
+                        <h4>Inefficient Patterns</h4>
+                        <div class="value">5</div>
+                        <div class="description">Code patterns that could be optimized</div>
+                    </div>
+                    <div class="metric-card">
+                        <h4>Memory Issues</h4>
+                        <div class="value">0</div>
+                        <div class="description">Potential memory usage problems</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="performance-details">
+                
+        <div class="performance-details">
+            <h4>Common Performance Patterns Detected:</h4>
+            <ul>
+                <li>Inefficient loop patterns</li>
+                <li>Unnecessary object creation in loops</li>
+                <li>Missing caching opportunities</li>
+                <li>Suboptimal data structure usage</li>
+            </ul>
+        </div>
+        
+            </div>
+            
+            <div class="optimization-suggestions">
+                <h3>Optimization Suggestions</h3>
+                <ol><li>Use list comprehensions instead of explicit loops where appropriate</li><li>Implement caching for expensive computations</li><li>Consider using generators for large datasets</li><li>Optimize database queries and use connection pooling</li><li>Profile critical code paths and optimize bottlenecks</li></ol>
+            </div>
+        </div>
+        
+
+        <div class="file-inventory">
+            <h2>File Inventory</h2>
+            
+            <div class="inventory-summary">
+                <div class="summary-stats">
+                    <div class="stat">
+                        <label>Total Files:</label>
+                        <value>5</value>
+                    </div>
+                    <div class="stat">
+                        <label>Total Lines:</label>
+                        <value>1,170</value>
+                    </div>
+                    <div class="stat">
+                        <label>Average File Size:</label>
+                        <value>234.0 lines</value>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="file-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>File Path</th>
+                            <th>Lines</th>
+                            <th>Constructs</th>
+                            <th>Issues</th>
+                            <th>Quality</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    <tr>
+                        <td class="file-path">test_file_0.py</td>
+                        <td>234</td>
+                        <td>40</td>
+                        <td class="medium">2</td>
+                        <td class="good">85.5%</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="file-path">test_file_1.py</td>
+                        <td>234</td>
+                        <td>40</td>
+                        <td class="medium">2</td>
+                        <td class="good">85.5%</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="file-path">test_file_2.py</td>
+                        <td>234</td>
+                        <td>40</td>
+                        <td class="medium">2</td>
+                        <td class="good">85.5%</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="file-path">test_file_3.py</td>
+                        <td>234</td>
+                        <td>40</td>
+                        <td class="medium">2</td>
+                        <td class="good">85.5%</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="file-path">test_file_4.py</td>
+                        <td>234</td>
+                        <td>40</td>
+                        <td class="medium">2</td>
+                        <td class="good">85.5%</td>
+                    </tr>
+                
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+                </main>
+                
+                <footer class="report-footer">
+                    <p>Generated by BW_AUTOMATE v2.0.0 - Advanced Python Code Analysis Platform</p>
+                    <p>For more information, visit our documentation or contact support.</p>
+                </footer>
+            </div>
+            
+            <script>
+                
+        // Smooth scrolling for navigation
+        document.querySelectorAll('.report-nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+        
+        // Add scroll effect to navigation
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('.report-nav');
+            if (window.scrollY > 100) {
+                nav.style.position = 'sticky';
+                nav.style.top = '0';
+                nav.style.zIndex = '1000';
+            }
+        });
+        
+            </script>
+        </body>
+        </html>
+        

@@ -1,0 +1,45 @@
+{
+  "overall_success": false,
+  "test_results": {
+    "test_files": {
+      "status": "PASSED",
+      "files_analyzed": 12,
+      "pattern_categories": 32,
+      "pattern_instances": 2575,
+      "coverage_percentage": 90.0
+    },
+    "performance": {
+      "status": "PASSED",
+      "files_processed": 12,
+      "processing_time": 0.10523128509521484,
+      "cache_hits": 0,
+      "cache_misses": 12,
+      "files_per_second": 114.03452869688154
+    },
+    "analyzer": {
+      "status": "FAILED",
+      "error": "'ComprehensiveAnalysisResult' object has no attribute 'get'"
+    },
+    "report_generation": {
+      "status": "PASSED",
+      "report_path": "/home/dev/code/bw_automate/validation_report.html",
+      "report_size": 18836,
+      "generation_time": 0.0007007122039794922,
+      "sections_generated": 5
+    },
+    "cache_system": {
+      "status": "PASSED",
+      "cache_write": "SUCCESS",
+      "cache_read": "SUCCESS",
+      "cache_validation": "SUCCESS",
+      "database_cache_size": 1
+    }
+  },
+  "performance_metrics": {
+    "total_validation_time": 3.300424337387085,
+    "tests_passed": 4,
+    "tests_failed": 1,
+    "success_rate": 80.0
+  },
+  "recommendations": []
+}

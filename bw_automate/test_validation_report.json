@@ -1,0 +1,435 @@
+{
+  "summary": {
+    "total_files": 12,
+    "total_lines": 8027,
+    "total_patterns_categories": 32,
+    "total_pattern_instances": 2367,
+    "total_ast_constructs": 37688,
+    "unique_construct_types": 82
+  },
+  "patterns_by_category": {
+    "imports": {
+      "count": 130,
+      "examples": [
+        "import asyncio",
+        "import functools",
+        "import typing",
+        "import weakref",
+        "import logging"
+      ]
+    },
+    "from_imports": {
+      "count": 190,
+      "examples": [
+        "from typing import Union",
+        "from typing import Optional",
+        "from typing import List",
+        "from typing import Dict",
+        "from typing import Set"
+      ]
+    },
+    "exception_handling": {
+      "count": 112,
+      "examples": [
+        "try block",
+        "try block",
+        "try block",
+        "try block",
+        "try block"
+      ]
+    },
+    "classes": {
+      "count": 134,
+      "examples": [
+        "UserInfo",
+        "Drawable",
+        "GenericRepository",
+        "Priority",
+        "TaskStatus"
+      ]
+    },
+    "inheritance": {
+      "count": 50,
+      "examples": [
+        "UserInfo inherits from 1 classes",
+        "Drawable inherits from 1 classes",
+        "GenericRepository inherits from 1 classes",
+        "Priority inherits from 1 classes",
+        "TaskStatus inherits from 1 classes"
+      ]
+    },
+    "class_decorators": {
+      "count": 8,
+      "examples": [
+        "Point3D has 1 decorators",
+        "Task has 1 decorators",
+        "User has 1 decorators",
+        "Coordinate has 1 decorators",
+        "User has 1 decorators"
+      ]
+    },
+    "functions": {
+      "count": 557,
+      "examples": [
+        "database_transaction",
+        "retry",
+        "log_calls",
+        "serialize",
+        "_"
+      ]
+    },
+    "function_decorators": {
+      "count": 93,
+      "examples": [
+        "database_transaction has decorators",
+        "serialize has decorators",
+        "_ has decorators",
+        "_ has decorators",
+        "_ has decorators"
+      ]
+    },
+    "async_functions": {
+      "count": 51,
+      "examples": [
+        "async_database_transaction",
+        "example_async_operations",
+        "async_fibonacci_generator",
+        "process_item",
+        "process_batch"
+      ]
+    },
+    "type_hints": {
+      "count": 227,
+      "examples": [
+        "complex_function has return type hint",
+        "process_data_with_walrus has return type hint",
+        "validate_and_process_data has return type hint",
+        "draw has return type hint",
+        "get_area has return type hint"
+      ]
+    },
+    "async_context_managers": {
+      "count": 6,
+      "examples": [
+        "async with statement",
+        "async with statement",
+        "async with statement",
+        "async with statement",
+        "async with statement"
+      ]
+    },
+    "list_comprehensions": {
+      "count": 40,
+      "examples": [
+        "list comprehension",
+        "list comprehension",
+        "list comprehension",
+        "list comprehension",
+        "list comprehension"
+      ]
+    },
+    "lambdas": {
+      "count": 26,
+      "examples": [
+        "lambda function",
+        "lambda function",
+        "lambda function",
+        "lambda function",
+        "lambda function"
+      ]
+    },
+    "generators": {
+      "count": 15,
+      "examples": [
+        "yield statement",
+        "yield statement",
+        "yield statement",
+        "yield statement",
+        "yield statement"
+      ]
+    },
+    "dict_comprehensions": {
+      "count": 10,
+      "examples": [
+        "dict comprehension",
+        "dict comprehension",
+        "dict comprehension",
+        "dict comprehension",
+        "dict comprehension"
+      ]
+    },
+    "await_expressions": {
+      "count": 52,
+      "examples": [
+        "await expression",
+        "await expression",
+        "await expression",
+        "await expression",
+        "await expression"
+      ]
+    },
+    "walrus_operator": {
+      "count": 4,
+      "examples": [
+        "walrus operator :=",
+        "walrus operator :=",
+        "walrus operator :=",
+        "walrus operator :="
+      ]
+    },
+    "generator_expressions": {
+      "count": 23,
+      "examples": [
+        "generator expression",
+        "generator expression",
+        "generator expression",
+        "generator expression",
+        "generator expression"
+      ]
+    },
+    "network_operations": {
+      "count": 80,
+      "examples": [
+        "Network in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/advanced_features_demo.py:177",
+        "Network in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/advanced_features_demo.py:178",
+        "Network in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/advanced_features_demo.py:185",
+        "Network in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/advanced_features_demo.py:186",
+        "Network in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/security_vulnerabilities.py:15"
+      ]
+    },
+    "orm_patterns": {
+      "count": 6,
+      "examples": [
+        "ORM in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/advanced_features_demo.py:184",
+        "ORM in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/api/web_framework_patterns.py:83",
+        "ORM in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/api/web_framework_patterns.py:84",
+        "ORM in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/api/web_framework_patterns.py:87",
+        "ORM in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/api/web_framework_patterns.py:95"
+      ]
+    },
+    "asyncio_usage": {
+      "count": 44,
+      "examples": [
+        "asyncio in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/advanced_features_demo.py:282",
+        "asyncio in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/advanced_features_demo.py:286",
+        "asyncio in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/advanced_features_demo.py:291",
+        "asyncio in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/advanced_features_demo.py:418",
+        "asyncio in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/advanced_features_demo.py:459"
+      ]
+    },
+    "sql_statements": {
+      "count": 62,
+      "examples": [
+        "SQL in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/advanced_features_demo.py:455",
+        "SQL in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/security_vulnerabilities.py:59",
+        "SQL in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/security_vulnerabilities.py:64",
+        "SQL in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/security_vulnerabilities.py:69",
+        "SQL in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/security_vulnerabilities.py:74"
+      ]
+    },
+    "testing_patterns": {
+      "count": 204,
+      "examples": [
+        "Testing in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/advanced_features_demo.py:679",
+        "Testing in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/advanced_features_demo.py:684",
+        "Testing in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/advanced_features_demo.py:688",
+        "Testing in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/advanced_features_demo.py:698",
+        "Testing in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/api/web_framework_patterns.py:187"
+      ]
+    },
+    "context_managers": {
+      "count": 72,
+      "examples": [
+        "with statement",
+        "with statement",
+        "with statement",
+        "with statement",
+        "with statement"
+      ]
+    },
+    "file_io": {
+      "count": 92,
+      "examples": [
+        "File I/O in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/security_vulnerabilities.py:19",
+        "File I/O in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/security_vulnerabilities.py:125",
+        "File I/O in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/security_vulnerabilities.py:126",
+        "File I/O in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/security_vulnerabilities.py:131",
+        "File I/O in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/security_vulnerabilities.py:132"
+      ]
+    },
+    "hardcoded_secrets": {
+      "count": 12,
+      "examples": [
+        "Hardcoded secret in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/security_vulnerabilities.py:26",
+        "Hardcoded secret in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/security_vulnerabilities.py:27",
+        "Hardcoded secret in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/security_vulnerabilities.py:29",
+        "Hardcoded secret in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/security_vulnerabilities.py:30",
+        "Hardcoded secret in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/security_vulnerabilities.py:31"
+      ]
+    },
+    "serialization": {
+      "count": 33,
+      "examples": [
+        "Serialization in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/security_vulnerabilities.py:103",
+        "Serialization in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/security_vulnerabilities.py:259",
+        "Serialization in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/security_vulnerabilities.py:264",
+        "Serialization in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/src/security_vulnerabilities.py:522",
+        "Serialization in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/api/web_framework_patterns.py:609"
+      ]
+    },
+    "web_routes": {
+      "count": 6,
+      "examples": [
+        "Web route in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/api/web_framework_patterns.py:71",
+        "Web route in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/api/web_framework_patterns.py:75",
+        "Web route in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/api/web_framework_patterns.py:93",
+        "Web route in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/api/web_framework_patterns.py:103",
+        "Web route in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/api/web_framework_patterns.py:118"
+      ]
+    },
+    "data_science_libraries": {
+      "count": 2,
+      "examples": [
+        "Data science in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/ml/machine_learning_patterns.py:6",
+        "Data science in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/ml/machine_learning_patterns.py:19"
+      ]
+    },
+    "ml_patterns": {
+      "count": 16,
+      "examples": [
+        "ML pattern in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/ml/machine_learning_patterns.py:380",
+        "ML pattern in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/ml/machine_learning_patterns.py:384",
+        "ML pattern in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/ml/machine_learning_patterns.py:395",
+        "ML pattern in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/ml/machine_learning_patterns.py:432",
+        "ML pattern in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/ml/machine_learning_patterns.py:456"
+      ]
+    },
+    "multiprocessing_usage": {
+      "count": 3,
+      "examples": [
+        "multiprocessing in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/utils/performance_patterns.py:522",
+        "multiprocessing in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/integration/async_patterns.py:433",
+        "multiprocessing in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/integration/async_patterns.py:438"
+      ]
+    },
+    "threading_usage": {
+      "count": 7,
+      "examples": [
+        "threading in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/services/network_patterns.py:214",
+        "threading in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/integration/async_patterns.py:257",
+        "threading in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/integration/async_patterns.py:335",
+        "threading in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/integration/async_patterns.py:396",
+        "threading in /home/dev/code/bw_automate/test_projects/comprehensive_python_project/integration/async_patterns.py:406"
+      ]
+    }
+  },
+  "ast_constructs": {
+    "Load": 9781,
+    "Name": 8203,
+    "Constant": 2992,
+    "Attribute": 2283,
+    "Call": 2140,
+    "Store": 1687,
+    "arg": 1177,
+    "Assign": 1153,
+    "Expr": 1053,
+    "Subscript": 653,
+    "arguments": 634,
+    "FunctionDef": 557,
+    "Return": 469,
+    "If": 320,
+    "alias": 320,
+    "FormattedValue": 317,
+    "keyword": 296,
+    "Compare": 274,
+    "JoinedStr": 264,
+    "BinOp": 255,
+    "Tuple": 179,
+    "Dict": 176,
+    "For": 146,
+    "List": 137,
+    "ClassDef": 134,
+    "Import": 130,
+    "Eq": 120,
+    "ExceptHandler": 116,
+    "Try": 112,
+    "AnnAssign": 111,
+    "Add": 97,
+    "UnaryOp": 79,
+    "withitem": 78,
+    "comprehension": 73,
+    "With": 72,
+    "ImportFrom": 66,
+    "Raise": 66,
+    "Sub": 62,
+    "Not": 60,
+    "Await": 52,
+    "AsyncFunctionDef": 51,
+    "In": 51,
+    "Mult": 50,
+    "BoolOp": 49,
+    "Div": 44,
+    "ListComp": 40,
+    "Slice": 40,
+    "And": 36,
+    "AugAssign": 33,
+    "Pass": 28,
+    "Lambda": 26,
+    "IfExp": 26,
+    "GeneratorExp": 23,
+    "Is": 19,
+    "USub": 19,
+    "Starred": 18,
+    "Pow": 17,
+    "Assert": 17,
+    "Lt": 16,
+    "NotEq": 16,
+    "Yield": 15,
+    "LtE": 14,
+    "Gt": 14,
+    "Or": 13,
+    "Continue": 13,
+    "Module": 11,
+    "DictComp": 10,
+    "NotIn": 10,
+    "IsNot": 10,
+    "GtE": 9,
+    "While": 8,
+    "BitOr": 7,
+    "AsyncWith": 6,
+    "FloorDiv": 6,
+    "Break": 5,
+    "Delete": 5,
+    "Del": 5,
+    "NamedExpr": 4,
+    "Mod": 4,
+    "AsyncFor": 3,
+    "Nonlocal": 2,
+    "BitAnd": 1
+  },
+  "coverage_analysis": {
+    "expected_categories": 20,
+    "found_categories": 32,
+    "coverage_percentage": 90.0,
+    "missing_categories": [
+      "async_patterns",
+      "decorators"
+    ],
+    "extra_categories": [
+      "lambdas",
+      "await_expressions",
+      "async_context_managers",
+      "asyncio_usage",
+      "walrus_operator",
+      "class_decorators",
+      "dict_comprehensions",
+      "data_science_libraries",
+      "generator_expressions",
+      "list_comprehensions",
+      "inheritance",
+      "type_hints",
+      "function_decorators",
+      "hardcoded_secrets"
+    ]
+  }
+}
