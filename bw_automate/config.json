@@ -1,0 +1,167 @@
+{
+  "description": "Configuração do BW_AUTOMATE - Mapeamento de Tabelas PostgreSQL",
+  "version": "1.0.0",
+  
+  "analysis_settings": {
+    "fuzzy_match_threshold": 80,
+    "include_temp_tables": true,
+    "schemas_to_analyze": [
+      "public",
+      "staging", 
+      "reports",
+      "analytics",
+      "logs",
+      "audit"
+    ],
+    "file_extensions": [".py"],
+    "exclude_patterns": [
+      "__pycache__",
+      ".git",
+      "node_modules",
+      ".venv",
+      ".pytest_cache",
+      "*.pyc",
+      ".DS_Store"
+    ],
+    "max_files_to_analyze": 1000,
+    "enable_advanced_sql_analysis": true
+  },
+  
+  "sql_extraction": {
+    "confidence_threshold": 50,
+    "include_dynamic_sql": true,
+    "parse_multiline_strings": true,
+    "analyze_f_strings": true,
+    "extract_from_comments": false,
+    "minimum_sql_length": 10,
+    "supported_frameworks": [
+      "pandas",
+      "sqlalchemy", 
+      "psycopg2",
+      "airflow",
+      "raw_sql"
+    ]
+  },
+  
+  "table_matching": {
+    "exact_match_priority": true,
+    "fuzzy_match_enabled": true,
+    "schema_weight_boost": 1.2,
+    "case_sensitive": false,
+    "remove_prefixes": ["tmp_", "temp_", "bak_"],
+    "remove_suffixes": ["_tmp", "_temp", "_backup"],
+    "schema_priority": ["public", "staging", "reports", "analytics"]
+  },
+  
+  "data_quality": {
+    "minimum_confidence_threshold": 70,
+    "flag_low_usage_tables": true,
+    "minimum_usage_count": 2,
+    "detect_orphaned_tables": true,
+    "analyze_naming_conventions": true,
+    "check_schema_consistency": true
+  },
+  
+  "reporting": {
+    "output_dir": "BW_AUTOMATE/reports",
+    "generate_executive_dashboard": true,
+    "generate_technical_report": true,
+    "generate_lineage_visualization": true,
+    "generate_table_explorer": true,
+    "export_to_powerbi": true,
+    "include_charts": true,
+    "include_recommendations": true,
+    "max_chart_items": 20
+  },
+  
+  "visualization": {
+    "graph_layout": "spring",
+    "node_size_factor": 100,
+    "edge_width_factor": 2,
+    "color_scheme": "default",
+    "interactive_plots": true,
+    "export_formats": ["html", "png", "svg"],
+    "max_nodes_in_graph": 100
+  },
+  
+  "performance": {
+    "parallel_processing": false,
+    "max_workers": 4,
+    "chunk_size": 50,
+    "memory_limit_mb": 1024,
+    "cache_results": true,
+    "cache_ttl_hours": 24
+  },
+  
+  "logging": {
+    "log_level": "INFO",
+    "log_to_file": true,
+    "log_to_console": true,
+    "log_file_rotation": true,
+    "max_log_files": 10,
+    "log_format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  },
+  
+  "custom_patterns": {
+    "additional_sql_patterns": [],
+    "custom_table_patterns": [],
+    "exclude_table_patterns": [
+      "information_schema.*",
+      "pg_catalog.*",
+      "sys.*"
+    ],
+    "temporary_table_indicators": [
+      "temp_",
+      "tmp_", 
+      "_temp",
+      "_tmp",
+      "staging_",
+      "work_"
+    ]
+  },
+  
+  "database_settings": {
+    "default_schema": "public",
+    "case_sensitive_schemas": false,
+    "normalize_table_names": true,
+    "handle_quoted_identifiers": true,
+    "schema_separator": "."
+  },
+  
+  "export_formats": {
+    "csv_encoding": "utf-8",
+    "excel_engine": "openpyxl",
+    "json_indent": 2,
+    "html_template": "bootstrap5",
+    "include_metadata": true
+  },
+  
+  "validation": {
+    "validate_sql_syntax": false,
+    "check_table_existence": false,
+    "verify_column_references": false,
+    "validate_schema_names": true
+  },
+  
+  "advanced_features": {
+    "detect_data_lineage": true,
+    "analyze_join_patterns": true,
+    "identify_fact_dimension_tables": true,
+    "detect_etl_patterns": true,
+    "analyze_data_freshness": false,
+    "performance_impact_analysis": false
+  },
+  
+  "environment": {
+    "development": {
+      "log_level": "DEBUG",
+      "max_files_to_analyze": 100,
+      "enable_detailed_logging": true
+    },
+    "production": {
+      "log_level": "INFO", 
+      "max_files_to_analyze": 10000,
+      "enable_detailed_logging": false
+    }
+  }
+}
