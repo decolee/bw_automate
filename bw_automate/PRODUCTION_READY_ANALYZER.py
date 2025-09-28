@@ -151,7 +151,7 @@ class ProductionMetricsCalculator:
         
         return round(total_score, 2)
 
-class RealTimeCodeAnalyzer:
+class ProductionReadyAnalyzer:
     """Production-ready code analyzer with real calculations"""
     
     def __init__(self):

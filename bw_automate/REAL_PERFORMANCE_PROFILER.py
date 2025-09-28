@@ -297,6 +297,10 @@ class RealPerformanceProfiler:
             'timestamp': datetime.now().isoformat()
         }
     
+    def profile_project(self, project_path: str) -> Dict[str, Any]:
+        """Alias for unified CLI compatibility"""
+        return self.analyze_project_performance(project_path)
+    
     def analyze_project_performance(self, project_path: str) -> Dict[str, Any]:
         """Comprehensive performance analysis of entire project"""
         

@@ -1,0 +1,228 @@
+🗃️ MAPEAMENTO DE TABELAS POSTGRESQL
+==================================================
+
+📊 RESUMO DA ANÁLISE:
+   Arquivos analisados: 8
+   Arquivos com tabelas: 7
+   Total de referências: 52
+   Tabelas únicas: 27
+   Esquemas encontrados: 0
+
+🏆 TABELAS MAIS REFERENCIADAS:
+   if: 8 refs em 2 arquivos
+   audit_log: 3 refs em 2 arquivos
+   products: 3 refs em 2 arquivos
+   user_analytics: 2 refs em 1 arquivos
+   order_metrics: 2 refs em 1 arquivos
+
+📈 DISTRIBUIÇÃO POR CONTEXTO:
+   decorator: 12
+   sql_string: 16
+   orm_class: 8
+   orm_pattern: 14
+   function_call: 2
+
+🔧 DISTRIBUIÇÃO POR OPERAÇÃO:
+   : 36
+   CREATE: 3
+   CREATE TABLE IF: 1
+   DROP: 4
+   SELECT: 1
+   INSERT: 1
+   DELETE: 1
+   CREATE TABLE IF NOT EXISTS USER_PREFERENCES: 1
+   CREATE TABLE IF NOT EXISTS PRODUCT_REVIEWS: 1
+   TRUNCATE: 1
+   COPY IMPORT_STAGING FROM: 1
+   ALTER: 1
+
+📋 TABELAS ENCONTRADAS:
+
+   📄 user_analytics:
+      Referências: 2
+      Arquivos: 1
+      Contextos: decorator
+      Operações: Nenhuma
+      Confiança média: 0.85
+
+   📄 order_metrics:
+      Referências: 2
+      Arquivos: 1
+      Contextos: decorator
+      Operações: Nenhuma
+      Confiança média: 0.85
+
+   📄 product_inventory:
+      Referências: 2
+      Arquivos: 1
+      Contextos: decorator
+      Operações: Nenhuma
+      Confiança média: 0.85
+
+   📄 customer_segments:
+      Referências: 2
+      Arquivos: 1
+      Contextos: decorator
+      Operações: Nenhuma
+      Confiança média: 0.85
+
+   📄 financial_transactions:
+      Referências: 2
+      Arquivos: 1
+      Contextos: decorator
+      Operações: Nenhuma
+      Confiança média: 0.85
+
+   📄 sales_summary:
+      Referências: 2
+      Arquivos: 1
+      Contextos: decorator
+      Operações: Nenhuma
+      Confiança média: 0.85
+
+   📄 if:
+      Referências: 8
+      Arquivos: 2
+      Contextos: sql_string
+      Operações: CREATE TABLE IF, DROP, CREATE
+      Confiança média: 0.95
+
+   📄 departments:
+      Referências: 2
+      Arquivos: 1
+      Contextos: orm_pattern, orm_class
+      Operações: Nenhuma
+      Confiança média: 0.93
+
+   📄 employees:
+      Referências: 2
+      Arquivos: 1
+      Contextos: orm_pattern, orm_class
+      Operações: Nenhuma
+      Confiança média: 0.93
+
+   📄 projects:
+      Referências: 2
+      Arquivos: 1
+      Contextos: orm_pattern, orm_class
+      Operações: Nenhuma
+      Confiança média: 0.93
+
+   📄 project_assignments:
+      Referências: 2
+      Arquivos: 1
+      Contextos: orm_pattern, orm_class
+      Operações: Nenhuma
+      Confiança média: 0.93
+
+   📄 time_entries:
+      Referências: 2
+      Arquivos: 1
+      Contextos: orm_pattern, orm_class
+      Operações: Nenhuma
+      Confiança média: 0.93
+
+   📄 user_metrics:
+      Referências: 1
+      Arquivos: 1
+      Contextos: sql_string
+      Operações: SELECT
+      Confiança média: 0.95
+
+   📄 monthly_reports:
+      Referências: 1
+      Arquivos: 1
+      Contextos: sql_string
+      Operações: INSERT
+      Confiança média: 0.95
+
+   📄 audit_log:
+      Referências: 3
+      Arquivos: 2
+      Contextos: orm_pattern, function_call, sql_string
+      Operações: DELETE
+      Confiança média: 0.92
+
+   📄 user_preferences:
+      Referências: 1
+      Arquivos: 1
+      Contextos: sql_string
+      Operações: CREATE TABLE IF NOT EXISTS USER_PREFERENCES
+      Confiança média: 0.99
+
+   📄 product_reviews:
+      Referências: 1
+      Arquivos: 1
+      Contextos: sql_string
+      Operações: CREATE TABLE IF NOT EXISTS PRODUCT_REVIEWS
+      Confiança média: 0.99
+
+   📄 temp_import_data:
+      Referências: 1
+      Arquivos: 1
+      Contextos: sql_string
+      Operações: TRUNCATE
+      Confiança média: 0.95
+
+   📄 import_staging:
+      Referências: 1
+      Arquivos: 1
+      Contextos: sql_string
+      Operações: COPY IMPORT_STAGING FROM
+      Confiança média: 0.90
+
+   📄 products:
+      Referências: 3
+      Arquivos: 2
+      Contextos: orm_pattern, sql_string, orm_class
+      Operações: ALTER
+      Confiança média: 0.96
+
+   📄 auth_users:
+      Referências: 1
+      Arquivos: 1
+      Contextos: orm_pattern
+      Operações: Nenhuma
+      Confiança média: 0.95
+
+   📄 product_categories:
+      Referências: 1
+      Arquivos: 1
+      Contextos: orm_pattern
+      Operações: Nenhuma
+      Confiança média: 0.95
+
+   📄 blog_posts:
+      Referências: 1
+      Arquivos: 1
+      Contextos: orm_pattern
+      Operações: Nenhuma
+      Confiança média: 0.95
+
+   📄 post_comments:
+      Referências: 1
+      Arquivos: 1
+      Contextos: orm_pattern
+      Operações: Nenhuma
+      Confiança média: 0.95
+
+   📄 users:
+      Referências: 2
+      Arquivos: 1
+      Contextos: orm_pattern, orm_class
+      Operações: Nenhuma
+      Confiança média: 0.96
+
+   📄 orders:
+      Referências: 2
+      Arquivos: 1
+      Contextos: orm_pattern, orm_class
+      Operações: Nenhuma
+      Confiança média: 0.96
+
+   📄 session_tokens:
+      Referências: 2
+      Arquivos: 1
+      Contextos: orm_pattern, function_call
+      Operações: Nenhuma
+      Confiança média: 0.90

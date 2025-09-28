@@ -419,6 +419,10 @@ class RealMLAnalyzer:
         )
         return logging.getLogger(__name__)
     
+    def analyze_project(self, project_path: str) -> Dict[str, Any]:
+        """Alias for unified CLI compatibility"""
+        return self.analyze_project_trends(project_path)
+    
     def analyze_project_trends(self, project_path: str) -> Dict[str, Any]:
         """Comprehensive ML analysis of project trends"""
         

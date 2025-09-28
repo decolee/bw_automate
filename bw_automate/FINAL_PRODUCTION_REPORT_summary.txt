@@ -1,0 +1,235 @@
+🗃️ MAPEAMENTO DE TABELAS POSTGRESQL
+==================================================
+
+📊 RESUMO DA ANÁLISE:
+   Arquivos analisados: 4
+   Arquivos com tabelas: 4
+   Total de referências: 50
+   Tabelas únicas: 29
+   Esquemas encontrados: 13
+
+🏆 TABELAS MAIS REFERENCIADAS:
+   sales.order_items: 5 refs em 2 arquivos
+   product_categories: 4 refs em 3 arquivos
+   crm.customers: 3 refs em 1 arquivos
+   sales.orders: 3 refs em 2 arquivos
+   product_reviews: 3 refs em 2 arquivos
+
+📈 DISTRIBUIÇÃO POR CONTEXTO:
+   sql_string: 38
+   orm_class: 5
+   orm_pattern: 7
+
+🔧 DISTRIBUIÇÃO POR OPERAÇÃO:
+   DELETE: 5
+   INSERT: 6
+   SELECT: 1
+   JOIN: 20
+   CREATE: 4
+   TRUNCATE: 2
+   : 12
+
+📋 TABELAS ENCONTRADAS:
+
+   📄 auth.user_sessions:
+      Referências: 1
+      Arquivos: 1
+      Contextos: sql_string
+      Operações: DELETE
+      Confiança média: 0.98
+
+   📄 archive.system_logs:
+      Referências: 1
+      Arquivos: 1
+      Contextos: sql_string
+      Operações: INSERT
+      Confiança média: 0.98
+
+   📄 logs.application_events:
+      Referências: 2
+      Arquivos: 1
+      Contextos: sql_string
+      Operações: DELETE, SELECT
+      Confiança média: 0.98
+
+   📄 cache.query_results:
+      Referências: 1
+      Arquivos: 1
+      Contextos: sql_string
+      Operações: DELETE
+      Confiança média: 0.98
+
+   📄 auth.api_tokens:
+      Referências: 1
+      Arquivos: 1
+      Contextos: sql_string
+      Operações: DELETE
+      Confiança média: 0.98
+
+   📄 reporting.weekly_summaries:
+      Referências: 1
+      Arquivos: 1
+      Contextos: sql_string
+      Operações: INSERT
+      Confiança média: 0.98
+
+   📄 crm.customers:
+      Referências: 3
+      Arquivos: 1
+      Contextos: sql_string
+      Operações: JOIN, INSERT
+      Confiança média: 0.89
+
+   📄 staging.external_customers:
+      Referências: 2
+      Arquivos: 1
+      Contextos: sql_string
+      Operações: CREATE, TRUNCATE
+      Confiança média: 0.97
+
+   📄 auth.users:
+      Referências: 1
+      Arquivos: 1
+      Contextos: sql_string
+      Operações: JOIN
+      Confiança média: 0.85
+
+   📄 staging.product_updates:
+      Referências: 2
+      Arquivos: 1
+      Contextos: sql_string
+      Operações: CREATE, TRUNCATE
+      Confiança média: 0.97
+
+   📄 analytics.daily_snapshot_orders:
+      Referências: 1
+      Arquivos: 1
+      Contextos: sql_string
+      Operações: CREATE
+      Confiança média: 0.99
+
+   📄 sales.order_items:
+      Referências: 5
+      Arquivos: 2
+      Contextos: sql_string
+      Operações: JOIN
+      Confiança média: 0.85
+
+   📄 product_categories:
+      Referências: 4
+      Arquivos: 3
+      Contextos: sql_string, orm_pattern
+      Operações: JOIN
+      Confiança média: 0.88
+
+   📄 sales.orders:
+      Referências: 3
+      Arquivos: 2
+      Contextos: sql_string
+      Operações: JOIN
+      Confiança média: 0.85
+
+   📄 users:
+      Referências: 2
+      Arquivos: 1
+      Contextos: orm_class, orm_pattern
+      Operações: Nenhuma
+      Confiança média: 0.96
+
+   📄 customers:
+      Referências: 2
+      Arquivos: 1
+      Contextos: orm_class, orm_pattern
+      Operações: Nenhuma
+      Confiança média: 0.96
+
+   📄 products:
+      Referências: 2
+      Arquivos: 1
+      Contextos: orm_class, orm_pattern
+      Operações: Nenhuma
+      Confiança média: 0.96
+
+   📄 orders:
+      Referências: 2
+      Arquivos: 1
+      Contextos: orm_class, orm_pattern
+      Operações: Nenhuma
+      Confiança média: 0.96
+
+   📄 order_items:
+      Referências: 2
+      Arquivos: 1
+      Contextos: orm_class, orm_pattern
+      Operações: Nenhuma
+      Confiança média: 0.96
+
+   📄 product_reviews:
+      Referências: 3
+      Arquivos: 2
+      Contextos: sql_string, orm_pattern
+      Operações: JOIN
+      Confiança média: 0.88
+
+   📄 information_schema.key_column_usage:
+      Referências: 1
+      Arquivos: 1
+      Contextos: sql_string
+      Operações: JOIN
+      Confiança média: 0.85
+
+   📄 information_schema.constraint_column_usage:
+      Referências: 1
+      Arquivos: 1
+      Contextos: sql_string
+      Operações: JOIN
+      Confiança média: 0.85
+
+   📄 inventory.products:
+      Referências: 1
+      Arquivos: 1
+      Contextos: sql_string
+      Operações: JOIN
+      Confiança média: 0.85
+
+   📄 reporting.daily_sales_summary:
+      Referências: 1
+      Arquivos: 1
+      Contextos: sql_string
+      Operações: INSERT
+      Confiança média: 0.98
+
+   📄 top_products:
+      Referências: 1
+      Arquivos: 1
+      Contextos: sql_string
+      Operações: JOIN
+      Confiança média: 0.85
+
+   📄 audit.price_changes:
+      Referências: 1
+      Arquivos: 1
+      Contextos: sql_string
+      Operações: INSERT
+      Confiança média: 0.98
+
+   📄 cache.product_pricing:
+      Referências: 1
+      Arquivos: 1
+      Contextos: sql_string
+      Operações: DELETE
+      Confiança média: 0.98
+
+   📄 notifications.stock_alerts:
+      Referências: 1
+      Arquivos: 1
+      Contextos: sql_string
+      Operações: INSERT
+      Confiança média: 0.98
+
+   📄 analytics.monthly_trends:
+      Referências: 1
+      Arquivos: 1
+      Contextos: sql_string
+      Operações: CREATE
+      Confiança média: 0.99
