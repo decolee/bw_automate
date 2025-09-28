@@ -36,7 +36,7 @@ class TableReference:
         if self.schema:
             self.schema = self.schema.strip('"\'`').lower()
 
-class PostgreSQLTableMapper:
+class PostgreSQLTableMapperEnhanced:
     """Mapeador ULTRA-COMPLETO de tabelas PostgreSQL"""
     
     def __init__(self):
@@ -631,7 +631,7 @@ def main():
         logging.basicConfig(level=logging.DEBUG)
     
     # Analisa o projeto
-    mapper = PostgreSQLTableMapper()
+    mapper = PostgreSQLTableMapperEnhanced()
     results = mapper.analyze_project(args.path)
     
     # Salva resultados
