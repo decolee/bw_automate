@@ -1,10 +1,10 @@
 {
   "project_path": "/home/dev/code/bw_automate",
-  "analysis_timestamp": "2025-09-26T22:55:13.191635",
+  "analysis_timestamp": "2025-09-27T21:25:07.584259",
   "analysis_scope": "complete",
-  "total_files_analyzed": 53,
-  "analysis_duration_seconds": 6.166742563247681,
+  "total_files_analyzed": 320,
+  "analysis_duration_seconds": 23.31798219680786,
   "basic_analysis": {
-    "total_constructs": 23820,
+    "total_constructs": 88823,
     "constructs_by_type": {
       

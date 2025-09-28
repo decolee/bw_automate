@@ -649,18 +649,34 @@ dag = DAG(
 
 def orchestrator_function():
     """Função orquestradora que chama outros módulos"""
+    import os
+    import sys
+    
+    # Adiciona módulos locais ao path para import resolution
+    sys.path.insert(0, os.path.dirname(__file__))
+    
     from data_processor import DataProcessor
     from analytics_engine import AnalyticsEngine
     
+    # Configuração de tabelas para cross-file tracking
+    table_config = {
+        'source_table': 'transactions',
+        'analytics_table': 'user_behavior', 
+        'output_table': 'processed_results'
+    }
+    
     # Processa dados básicos
     processor = DataProcessor()
-    result1 = processor.process_daily_data('transactions')
+    result1 = processor.process_daily_data(table_config['source_table'])
     
     # Executa analytics
     analytics = AnalyticsEngine()
-    result2 = analytics.run_daily_analytics('user_behavior')
+    result2 = analytics.run_daily_analytics(table_config['analytics_table'])
     
-    return {'processor': result1, 'analytics': result2}
+    # Cross-file parameter passing
+    processor.save_to_table(result1, table_config['output_table'])
+    
+    return {'processor': result1, 'analytics': result2, 'tables_used': table_config}
 
 # Tasks
 orchestrate_task = PythonOperator(
@@ -733,6 +749,29 @@ class DataProcessor:
         conn.close()
         
         return len(processed_df)
+    
+    def save_to_table(self, data, table_name: str):
+        """Salva dados em tabela específica - cross-file method"""
+        conn = psycopg2.connect(self.conn_str)
+        cursor = conn.cursor()
+        
+        # Cria tabela se não existir
+        cursor.execute(f"""
+            CREATE TABLE IF NOT EXISTS {table_name} (
+                id SERIAL PRIMARY KEY,
+                data_value INTEGER,
+                created_at TIMESTAMP DEFAULT NOW()
+            )
+        """)
+        
+        # Insere dados
+        cursor.execute(f"""
+            INSERT INTO {table_name} (data_value) VALUES (%s)
+        """, (data,))
+        
+        conn.commit()
+        cursor.close()
+        conn.close()
     
     def _clean_and_transform(self, df):
         """Limpeza e transformação dos dados"""

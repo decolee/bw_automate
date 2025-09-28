@@ -1,0 +1,3143 @@
+{
+  "analysis_summary": {
+    "analysis_time_seconds": 0.64,
+    "files_analyzed": 26,
+    "files_with_table_references": 7,
+    "total_table_references": 88,
+    "unique_tables_found": 46,
+    "schemas_found": [
+      "warehouse",
+      "analytics",
+      "ecommerce",
+      "staging",
+      "financeiro"
+    ],
+    "cross_file_mappings": 65
+  },
+  "tables_discovered": {
+    "com": {
+      "reference_count": 1,
+      "files": [
+        "ENHANCED_POSTGRESQL_AIRFLOW_MAPPER.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "SELECT"
+      ],
+      "average_confidence": 0.9,
+      "references": [
+        {
+          "file": "ENHANCED_POSTGRESQL_AIRFLOW_MAPPER.py",
+          "line": 111,
+          "context": "sql_string",
+          "operation": "SELECT",
+          "confidence": 0.9,
+          "raw_content": "# SELECT FROM com schema"
+        }
+      ]
+    },
+    "sem": {
+      "reference_count": 2,
+      "files": [
+        "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+        "ENHANCED_POSTGRESQL_AIRFLOW_MAPPER.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "JOIN",
+        "SELECT"
+      ],
+      "average_confidence": 0.875,
+      "references": [
+        {
+          "file": "ENHANCED_POSTGRESQL_AIRFLOW_MAPPER.py",
+          "line": 119,
+          "context": "sql_string",
+          "operation": "SELECT",
+          "confidence": 0.9,
+          "raw_content": "# SELECT FROM sem schema"
+        },
+        {
+          "file": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+          "line": 87,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "INNER JOIN dados_pedidos ON 1=1;  -- Join sem critério adequado"
+        }
+      ]
+    },
+    "users": {
+      "reference_count": 4,
+      "files": [
+        "real_test_project/test_real_system.py",
+        "COMPREHENSIVE_TEST_SUITE.py",
+        "ENHANCED_POSTGRESQL_AIRFLOW_MAPPER.py"
+      ],
+      "contexts": [
+        "orm_pattern",
+        "sql_string"
+      ],
+      "operations": [
+        "",
+        "SELECT"
+      ],
+      "average_confidence": 0.92,
+      "references": [
+        {
+          "file": "ENHANCED_POSTGRESQL_AIRFLOW_MAPPER.py",
+          "line": 159,
+          "context": "orm_pattern",
+          "operation": "",
+          "confidence": 0.9,
+          "raw_content": "# Tabelas em variáveis Python (ex: table_name = \"users\")"
+        },
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 1274,
+          "context": "sql_string",
+          "operation": "SELECT",
+          "confidence": 0.9,
+          "raw_content": "SELECT * FROM users WHERE active = true"
+        },
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 359,
+          "context": "orm_pattern",
+          "operation": "",
+          "confidence": 0.98,
+          "raw_content": "__tablename__ = 'users'"
+        },
+        {
+          "file": "real_test_project/test_real_system.py",
+          "line": 143,
+          "context": "sql_string",
+          "operation": "SELECT",
+          "confidence": 0.9,
+          "raw_content": "\"query\": \"SELECT * FROM users WHERE active = ?\","
+        }
+      ]
+    },
+    "customer_addresses": {
+      "reference_count": 1,
+      "files": [
+        "COMPREHENSIVE_TEST_SUITE.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "JOIN"
+      ],
+      "average_confidence": 0.85,
+      "references": [
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 100,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "LEFT JOIN customer_addresses ca ON c.customer_id = ca.customer_id"
+        }
+      ]
+    },
+    "order_items": {
+      "reference_count": 4,
+      "files": [
+        "COMPREHENSIVE_TEST_SUITE.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "JOIN"
+      ],
+      "average_confidence": 0.85,
+      "references": [
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 147,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "JOIN order_items oi ON o.order_id = oi.order_id"
+        },
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 450,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "JOIN order_items oi ON o.id = oi.order_id"
+        },
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 566,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "LEFT JOIN order_items oi ON p.id = oi.product_id"
+        },
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 835,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "LEFT JOIN order_items oi ON p.product_id = oi.product_id"
+        }
+      ]
+    },
+    "products": {
+      "reference_count": 4,
+      "files": [
+        "COMPREHENSIVE_TEST_SUITE.py"
+      ],
+      "contexts": [
+        "orm_pattern",
+        "sql_string"
+      ],
+      "operations": [
+        "",
+        "JOIN",
+        "INSERT"
+      ],
+      "average_confidence": 0.9075,
+      "references": [
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 148,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "JOIN products p ON oi.product_id = p.product_id"
+        },
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 451,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "JOIN products p ON oi.product_id = p.id"
+        },
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 1284,
+          "context": "sql_string",
+          "operation": "INSERT",
+          "confidence": 0.95,
+          "raw_content": "sql = \"INSERT INTO products (name, price) VALUES ('test', 100)\""
+        },
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 368,
+          "context": "orm_pattern",
+          "operation": "",
+          "confidence": 0.98,
+          "raw_content": "__tablename__ = 'products'"
+        }
+      ]
+    },
+    "product_categories": {
+      "reference_count": 1,
+      "files": [
+        "COMPREHENSIVE_TEST_SUITE.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "JOIN"
+      ],
+      "average_confidence": 0.85,
+      "references": [
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 149,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "JOIN product_categories pc ON p.category_id = pc.category_id"
+        }
+      ]
+    },
+    "warehouse.customer_summary": {
+      "reference_count": 4,
+      "files": [
+        "COMPREHENSIVE_TEST_SUITE.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "DELETE",
+        "INSERT",
+        "SELECT"
+      ],
+      "average_confidence": 0.98,
+      "references": [
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 190,
+          "context": "sql_string",
+          "operation": "DELETE",
+          "confidence": 0.98,
+          "raw_content": "DELETE FROM warehouse.customer_summary"
+        },
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 196,
+          "context": "sql_string",
+          "operation": "INSERT",
+          "confidence": 0.98,
+          "raw_content": "INSERT INTO warehouse.customer_summary"
+        },
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 213,
+          "context": "sql_string",
+          "operation": "SELECT",
+          "confidence": 0.98,
+          "raw_content": "total_customers = (SELECT COUNT(*) FROM warehouse.customer_summary),"
+        },
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 214,
+          "context": "sql_string",
+          "operation": "SELECT",
+          "confidence": 0.98,
+          "raw_content": "total_orders = (SELECT SUM(total_orders) FROM warehouse.customer_summary),"
+        }
+      ]
+    },
+    "staging.orders_temp": {
+      "reference_count": 1,
+      "files": [
+        "COMPREHENSIVE_TEST_SUITE.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "JOIN"
+      ],
+      "average_confidence": 0.85,
+      "references": [
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 205,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "LEFT JOIN staging.orders_temp o ON c.customer_id = o.customer_id"
+        }
+      ]
+    },
+    "analytics.segment_metrics": {
+      "reference_count": 1,
+      "files": [
+        "COMPREHENSIVE_TEST_SUITE.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "INSERT"
+      ],
+      "average_confidence": 0.98,
+      "references": [
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 312,
+          "context": "sql_string",
+          "operation": "INSERT",
+          "confidence": 0.98,
+          "raw_content": "INSERT INTO analytics.segment_metrics (segment, customer_count, avg_spent, date_calculated)"
+        }
+      ]
+    },
+    "orders": {
+      "reference_count": 6,
+      "files": [
+        "COMPREHENSIVE_TEST_SUITE.py"
+      ],
+      "contexts": [
+        "orm_pattern",
+        "sql_string"
+      ],
+      "operations": [
+        "",
+        "UPDATE",
+        "JOIN"
+      ],
+      "average_confidence": 0.8883333333333333,
+      "references": [
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 439,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "LEFT JOIN orders o ON u.id = o.user_id"
+        },
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 567,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "LEFT JOIN orders o ON oi.order_id = o.id"
+        },
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 791,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "LEFT JOIN orders o ON u.user_id = o.user_id"
+        },
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 836,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "LEFT JOIN orders o ON oi.order_id = o.order_id"
+        },
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 1288,
+          "context": "sql_string",
+          "operation": "UPDATE",
+          "confidence": 0.95,
+          "raw_content": "UPDATE orders SET status = 'completed' WHERE id = 1"
+        },
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 386,
+          "context": "orm_pattern",
+          "operation": "",
+          "confidence": 0.98,
+          "raw_content": "__tablename__ = 'orders'"
+        }
+      ]
+    },
+    "user_sessions": {
+      "reference_count": 4,
+      "files": [
+        "COMPREHENSIVE_TEST_SUITE.py"
+      ],
+      "contexts": [
+        "orm_pattern",
+        "sql_string"
+      ],
+      "operations": [
+        "",
+        "JOIN",
+        "DELETE"
+      ],
+      "average_confidence": 0.8999999999999999,
+      "references": [
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 440,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "LEFT JOIN user_sessions us ON u.id = us.user_id"
+        },
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 601,
+          "context": "sql_string",
+          "operation": "DELETE",
+          "confidence": 0.95,
+          "raw_content": "\"DELETE FROM user_sessions WHERE created_at < NOW() - INTERVAL '30 days'\","
+        },
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 790,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "LEFT JOIN user_sessions s ON u.user_id = s.user_id"
+        },
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 398,
+          "context": "orm_pattern",
+          "operation": "",
+          "confidence": 0.95,
+          "raw_content": "user_sessions = Table('user_sessions', metadata,"
+        }
+      ]
+    },
+    "categories": {
+      "reference_count": 2,
+      "files": [
+        "COMPREHENSIVE_TEST_SUITE.py"
+      ],
+      "contexts": [
+        "orm_pattern",
+        "sql_string"
+      ],
+      "operations": [
+        "",
+        "JOIN"
+      ],
+      "average_confidence": 0.915,
+      "references": [
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 452,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "JOIN categories c ON p.category_id = c.id"
+        },
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 378,
+          "context": "orm_pattern",
+          "operation": "",
+          "confidence": 0.98,
+          "raw_content": "__tablename__ = 'categories'"
+        }
+      ]
+    },
+    "product_preferences": {
+      "reference_count": 1,
+      "files": [
+        "COMPREHENSIVE_TEST_SUITE.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "JOIN"
+      ],
+      "average_confidence": 0.85,
+      "references": [
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 466,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "LEFT JOIN product_preferences pp ON us.id = pp.user_id"
+        }
+      ]
+    },
+    "user_segments": {
+      "reference_count": 3,
+      "files": [
+        "COMPREHENSIVE_TEST_SUITE.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "DELETE",
+        "CREATE",
+        "INSERT"
+      ],
+      "average_confidence": 0.9633333333333333,
+      "references": [
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 483,
+          "context": "sql_string",
+          "operation": "CREATE",
+          "confidence": 0.99,
+          "raw_content": "CREATE TABLE IF NOT EXISTS user_segments ("
+        },
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 494,
+          "context": "sql_string",
+          "operation": "DELETE",
+          "confidence": 0.95,
+          "raw_content": "DELETE FROM user_segments"
+        },
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 500,
+          "context": "sql_string",
+          "operation": "INSERT",
+          "confidence": 0.95,
+          "raw_content": "INSERT INTO user_segments (user_id, segment_name, segment_value)"
+        }
+      ]
+    },
+    "product_rankings": {
+      "reference_count": 2,
+      "files": [
+        "COMPREHENSIVE_TEST_SUITE.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "CREATE",
+        "INSERT"
+      ],
+      "average_confidence": 0.97,
+      "references": [
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 544,
+          "context": "sql_string",
+          "operation": "CREATE",
+          "confidence": 0.99,
+          "raw_content": "CREATE TABLE IF NOT EXISTS product_rankings ("
+        },
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 579,
+          "context": "sql_string",
+          "operation": "INSERT",
+          "confidence": 0.95,
+          "raw_content": "INSERT INTO product_rankings (product_id, category_id, sales_rank, revenue_rank, popularity_score)"
+        }
+      ]
+    },
+    "product_reviews": {
+      "reference_count": 2,
+      "files": [
+        "COMPREHENSIVE_TEST_SUITE.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "JOIN"
+      ],
+      "average_confidence": 0.85,
+      "references": [
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 568,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "LEFT JOIN product_reviews pr ON p.id = pr.product_id"
+        },
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 837,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "LEFT JOIN product_reviews pr ON p.product_id = pr.product_id"
+        }
+      ]
+    },
+    "audit_logs": {
+      "reference_count": 1,
+      "files": [
+        "COMPREHENSIVE_TEST_SUITE.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "DELETE"
+      ],
+      "average_confidence": 0.95,
+      "references": [
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 602,
+          "context": "sql_string",
+          "operation": "DELETE",
+          "confidence": 0.95,
+          "raw_content": "\"DELETE FROM audit_logs WHERE created_at < NOW() - INTERVAL '90 days'\","
+        }
+      ]
+    },
+    "temporary_calculations": {
+      "reference_count": 1,
+      "files": [
+        "COMPREHENSIVE_TEST_SUITE.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "DELETE"
+      ],
+      "average_confidence": 0.95,
+      "references": [
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 603,
+          "context": "sql_string",
+          "operation": "DELETE",
+          "confidence": 0.95,
+          "raw_content": "\"DELETE FROM temporary_calculations WHERE created_at < NOW() - INTERVAL '1 day'\","
+        }
+      ]
+    },
+    "processing_logs": {
+      "reference_count": 1,
+      "files": [
+        "COMPREHENSIVE_TEST_SUITE.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "INSERT"
+      ],
+      "average_confidence": 0.95,
+      "references": [
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 727,
+          "context": "sql_string",
+          "operation": "INSERT",
+          "confidence": 0.95,
+          "raw_content": "INSERT INTO processing_logs (table_name, records_processed, process_date)"
+        }
+      ]
+    },
+    "analytics_results": {
+      "reference_count": 1,
+      "files": [
+        "COMPREHENSIVE_TEST_SUITE.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "INSERT"
+      ],
+      "average_confidence": 0.95,
+      "references": [
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 809,
+          "context": "sql_string",
+          "operation": "INSERT",
+          "confidence": 0.95,
+          "raw_content": "INSERT INTO analytics_results (analysis_type, metrics, calculated_date)"
+        }
+      ]
+    },
+    "user_behavior_segments": {
+      "reference_count": 3,
+      "files": [
+        "COMPREHENSIVE_TEST_SUITE.py"
+      ],
+      "contexts": [
+        "embedded_sql",
+        "sql_string"
+      ],
+      "operations": [
+        "TRUNCATE",
+        "INSERT"
+      ],
+      "average_confidence": 0.9183333333333333,
+      "references": [
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 862,
+          "context": "sql_string",
+          "operation": "TRUNCATE",
+          "confidence": 0.95,
+          "raw_content": "cursor.execute(\"TRUNCATE TABLE user_behavior_segments\")"
+        },
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 867,
+          "context": "sql_string",
+          "operation": "INSERT",
+          "confidence": 0.95,
+          "raw_content": "INSERT INTO user_behavior_segments (user_id, segment, metrics)"
+        },
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 862,
+          "context": "embedded_sql",
+          "operation": "TRUNCATE",
+          "confidence": 0.855,
+          "raw_content": "TRUNCATE TABLE user_behavior_segments"
+        }
+      ]
+    },
+    "configurações": {
+      "reference_count": 1,
+      "files": [
+        "COMPREHENSIVE_TEST_SUITE.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "INSERT"
+      ],
+      "average_confidence": 0.95,
+      "references": [
+        {
+          "file": "COMPREHENSIVE_TEST_SUITE.py",
+          "line": 1355,
+          "context": "sql_string",
+          "operation": "INSERT",
+          "confidence": 0.95,
+          "raw_content": "sql_especial = \"INSERT INTO configurações (parâmetro, valor) VALUES ('teste', 'ação')\""
+        }
+      ]
+    },
+    "audit_log": {
+      "reference_count": 1,
+      "files": [
+        "real_test_project/test_real_system.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "INSERT"
+      ],
+      "average_confidence": 0.95,
+      "references": [
+        {
+          "file": "real_test_project/test_real_system.py",
+          "line": 158,
+          "context": "sql_string",
+          "operation": "INSERT",
+          "confidence": 0.95,
+          "raw_content": "\"query\": \"INSERT INTO audit_log (action, user_id, timestamp) VALUES (?, ?, ?)\","
+        }
+      ]
+    },
+    "staging.produtos_processados": {
+      "reference_count": 1,
+      "files": [
+        "examples/sample_airflow_dags/dag_example_3_pandas_operations.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "TRUNCATE"
+      ],
+      "average_confidence": 0.95,
+      "references": [
+        {
+          "file": "examples/sample_airflow_dags/dag_example_3_pandas_operations.py",
+          "line": 220,
+          "context": "sql_string",
+          "operation": "TRUNCATE",
+          "confidence": 0.95,
+          "raw_content": "pg_hook.run(\"TRUNCATE TABLE staging.produtos_processados\")"
+        }
+      ]
+    },
+    "analytics.metrics": {
+      "reference_count": 7,
+      "files": [
+        "examples/sample_airflow_dags/dag_example_3_pandas_operations.py",
+        "examples/sample_airflow_dags/dag_example_2_complex_sql.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "DELETE",
+        "INSERT"
+      ],
+      "average_confidence": 0.9799999999999999,
+      "references": [
+        {
+          "file": "examples/sample_airflow_dags/dag_example_3_pandas_operations.py",
+          "line": 258,
+          "context": "sql_string",
+          "operation": "INSERT",
+          "confidence": 0.98,
+          "raw_content": "INSERT INTO analytics.metrics (metrica_nome, valor, descricao, data_calculo, metadata)"
+        },
+        {
+          "file": "examples/sample_airflow_dags/dag_example_3_pandas_operations.py",
+          "line": 332,
+          "context": "sql_string",
+          "operation": "DELETE",
+          "confidence": 0.98,
+          "raw_content": "pg_hook.run(\"DELETE FROM analytics.metrics WHERE metrica_nome = 'relatorio_qualidade_produtos'\")"
+        },
+        {
+          "file": "examples/sample_airflow_dags/dag_example_3_pandas_operations.py",
+          "line": 337,
+          "context": "sql_string",
+          "operation": "INSERT",
+          "confidence": 0.98,
+          "raw_content": "INSERT INTO analytics.metrics (metrica_nome, valor, descricao, data_calculo, metadata)"
+        },
+        {
+          "file": "examples/sample_airflow_dags/dag_example_3_pandas_operations.py",
+          "line": 424,
+          "context": "sql_string",
+          "operation": "INSERT",
+          "confidence": 0.98,
+          "raw_content": "INSERT INTO analytics.metrics (metrica_nome, valor, descricao, data_calculo, metadata)"
+        },
+        {
+          "file": "examples/sample_airflow_dags/dag_example_2_complex_sql.py",
+          "line": 356,
+          "context": "sql_string",
+          "operation": "INSERT",
+          "confidence": 0.98,
+          "raw_content": "INSERT INTO analytics.metrics (metrica_nome, valor, descricao, data_calculo, metadata)"
+        },
+        {
+          "file": "examples/sample_airflow_dags/dag_example_2_complex_sql.py",
+          "line": 378,
+          "context": "sql_string",
+          "operation": "DELETE",
+          "confidence": 0.98,
+          "raw_content": "DELETE FROM analytics.metrics"
+        },
+        {
+          "file": "examples/sample_airflow_dags/dag_example_2_complex_sql.py",
+          "line": 426,
+          "context": "sql_string",
+          "operation": "INSERT",
+          "confidence": 0.98,
+          "raw_content": "INSERT INTO analytics.metrics (metrica_nome, valor, descricao, data_calculo, metadata)"
+        }
+      ]
+    },
+    "metricas_categoria_temp": {
+      "reference_count": 1,
+      "files": [
+        "examples/sample_airflow_dags/dag_example_3_pandas_operations.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "DROP"
+      ],
+      "average_confidence": 0.99,
+      "references": [
+        {
+          "file": "examples/sample_airflow_dags/dag_example_3_pandas_operations.py",
+          "line": 281,
+          "context": "sql_string",
+          "operation": "DROP",
+          "confidence": 0.99,
+          "raw_content": "pg_hook.run(\"DROP TABLE IF EXISTS metricas_categoria_temp\")"
+        }
+      ]
+    },
+    "ecommerce.usuarios": {
+      "reference_count": 1,
+      "files": [
+        "examples/sample_airflow_dags/dag_example_2_complex_sql.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "JOIN"
+      ],
+      "average_confidence": 0.85,
+      "references": [
+        {
+          "file": "examples/sample_airflow_dags/dag_example_2_complex_sql.py",
+          "line": 69,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "INNER JOIN ecommerce.usuarios u ON p.usuario_id = u.id"
+        }
+      ]
+    },
+    "quartis_rfm": {
+      "reference_count": 1,
+      "files": [
+        "examples/sample_airflow_dags/dag_example_2_complex_sql.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "JOIN"
+      ],
+      "average_confidence": 0.85,
+      "references": [
+        {
+          "file": "examples/sample_airflow_dags/dag_example_2_complex_sql.py",
+          "line": 145,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "CROSS JOIN quartis_rfm q"
+        }
+      ]
+    },
+    "analytics.user_segments": {
+      "reference_count": 2,
+      "files": [
+        "examples/sample_airflow_dags/dag_example_2_complex_sql.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "DELETE"
+      ],
+      "average_confidence": 0.98,
+      "references": [
+        {
+          "file": "examples/sample_airflow_dags/dag_example_2_complex_sql.py",
+          "line": 187,
+          "context": "sql_string",
+          "operation": "DELETE",
+          "confidence": 0.98,
+          "raw_content": "delete_sql = f\"DELETE FROM analytics.user_segments WHERE data_analise = '{execution_date}'\""
+        },
+        {
+          "file": "examples/sample_airflow_dags/dag_example_2_complex_sql.py",
+          "line": 375,
+          "context": "sql_string",
+          "operation": "DELETE",
+          "confidence": 0.98,
+          "raw_content": "DELETE FROM analytics.user_segments"
+        }
+      ]
+    },
+    "ecommerce.produtos": {
+      "reference_count": 1,
+      "files": [
+        "examples/sample_airflow_dags/dag_example_2_complex_sql.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "JOIN"
+      ],
+      "average_confidence": 0.85,
+      "references": [
+        {
+          "file": "examples/sample_airflow_dags/dag_example_2_complex_sql.py",
+          "line": 230,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "INNER JOIN ecommerce.produtos p ON e.produto_id = p.id"
+        }
+      ]
+    },
+    "resumo_metricas": {
+      "reference_count": 1,
+      "files": [
+        "examples/sample_airflow_dags/dag_example_2_complex_sql.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "JOIN"
+      ],
+      "average_confidence": 0.85,
+      "references": [
+        {
+          "file": "examples/sample_airflow_dags/dag_example_2_complex_sql.py",
+          "line": 438,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "CROSS JOIN resumo_metricas m"
+        }
+      ]
+    },
+    "financeiro.clientes": {
+      "reference_count": 1,
+      "files": [
+        "examples/sample_airflow_dags/dag_example_1_basic.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "JOIN"
+      ],
+      "average_confidence": 0.85,
+      "references": [
+        {
+          "file": "examples/sample_airflow_dags/dag_example_1_basic.py",
+          "line": 62,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "INNER JOIN financeiro.clientes c ON t.cliente_id = c.id"
+        }
+      ]
+    },
+    "analytics.vendas_diarias": {
+      "reference_count": 2,
+      "files": [
+        "examples/sample_airflow_dags/dag_example_1_basic.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "DELETE",
+        "INSERT"
+      ],
+      "average_confidence": 0.98,
+      "references": [
+        {
+          "file": "examples/sample_airflow_dags/dag_example_1_basic.py",
+          "line": 111,
+          "context": "sql_string",
+          "operation": "DELETE",
+          "confidence": 0.98,
+          "raw_content": "delete_sql = \"DELETE FROM analytics.vendas_diarias WHERE data_processamento = CURRENT_DATE\""
+        },
+        {
+          "file": "examples/sample_airflow_dags/dag_example_1_basic.py",
+          "line": 117,
+          "context": "sql_string",
+          "operation": "INSERT",
+          "confidence": 0.98,
+          "raw_content": "INSERT INTO analytics.vendas_diarias"
+        }
+      ]
+    },
+    "staging.temp_import_clientes": {
+      "reference_count": 3,
+      "files": [
+        "examples/sample_airflow_dags/dag_example_1_basic.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "TRUNCATE",
+        "INSERT",
+        "SELECT"
+      ],
+      "average_confidence": 0.9700000000000001,
+      "references": [
+        {
+          "file": "examples/sample_airflow_dags/dag_example_1_basic.py",
+          "line": 149,
+          "context": "sql_string",
+          "operation": "TRUNCATE",
+          "confidence": 0.95,
+          "raw_content": "truncate_sql = \"TRUNCATE TABLE staging.temp_import_clientes\""
+        },
+        {
+          "file": "examples/sample_airflow_dags/dag_example_1_basic.py",
+          "line": 154,
+          "context": "sql_string",
+          "operation": "INSERT",
+          "confidence": 0.98,
+          "raw_content": "INSERT INTO staging.temp_import_clientes"
+        },
+        {
+          "file": "examples/sample_airflow_dags/dag_example_1_basic.py",
+          "line": 161,
+          "context": "sql_string",
+          "operation": "SELECT",
+          "confidence": 0.98,
+          "raw_content": "count_sql = \"SELECT COUNT(*) as total FROM staging.temp_import_clientes\""
+        }
+      ]
+    },
+    "clientes_ativos": {
+      "reference_count": 1,
+      "files": [
+        "examples/sample_airflow_dags/dag_example_1_basic.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "JOIN"
+      ],
+      "average_confidence": 0.85,
+      "references": [
+        {
+          "file": "examples/sample_airflow_dags/dag_example_1_basic.py",
+          "line": 199,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "LEFT JOIN clientes_ativos c ON v.categoria = c.categoria"
+        }
+      ]
+    },
+    "usuarios": {
+      "reference_count": 2,
+      "files": [
+        "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "DROP",
+        "SELECT"
+      ],
+      "average_confidence": 0.9450000000000001,
+      "references": [
+        {
+          "file": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+          "line": 41,
+          "context": "sql_string",
+          "operation": "SELECT",
+          "confidence": 0.9,
+          "raw_content": "SELECT * FROM usuarios"
+        },
+        {
+          "file": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+          "line": 126,
+          "context": "sql_string",
+          "operation": "DROP",
+          "confidence": 0.99,
+          "raw_content": "usuario_input = \"'; DROP TABLE usuarios; --\""
+        }
+      ]
+    },
+    "123_tabela_invalida": {
+      "reference_count": 1,
+      "files": [
+        "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "SELECT"
+      ],
+      "average_confidence": 0.9,
+      "references": [
+        {
+          "file": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+          "line": 46,
+          "context": "sql_string",
+          "operation": "SELECT",
+          "confidence": 0.9,
+          "raw_content": "sql_nome_invalido = \"SELECT * FROM 123_tabela_invalida\""
+        }
+      ]
+    },
+    "tabela": {
+      "reference_count": 1,
+      "files": [
+        "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "SELECT"
+      ],
+      "average_confidence": 0.9,
+      "references": [
+        {
+          "file": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+          "line": 50,
+          "context": "sql_string",
+          "operation": "SELECT",
+          "confidence": 0.9,
+          "raw_content": "SELECT * FROM \"tabela com espaços\""
+        }
+      ]
+    },
+    "dados_usuario": {
+      "reference_count": 1,
+      "files": [
+        "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "SELECT"
+      ],
+      "average_confidence": 0.9,
+      "references": [
+        {
+          "file": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+          "line": 86,
+          "context": "sql_string",
+          "operation": "SELECT",
+          "confidence": 0.9,
+          "raw_content": "SELECT * FROM dados_usuario"
+        }
+      ]
+    },
+    "dados_pedidos": {
+      "reference_count": 1,
+      "files": [
+        "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "JOIN"
+      ],
+      "average_confidence": 0.85,
+      "references": [
+        {
+          "file": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+          "line": 87,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "raw_content": "INNER JOIN dados_pedidos ON 1=1;  -- Join sem critério adequado"
+        }
+      ]
+    },
+    "pedidos": {
+      "reference_count": 4,
+      "files": [
+        "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "SELECT"
+      ],
+      "average_confidence": 0.9,
+      "references": [
+        {
+          "file": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+          "line": 93,
+          "context": "sql_string",
+          "operation": "SELECT",
+          "confidence": 0.9,
+          "raw_content": "(SELECT COUNT(*) FROM pedidos WHERE usuario_id = u.id) as total_pedidos,"
+        },
+        {
+          "file": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+          "line": 94,
+          "context": "sql_string",
+          "operation": "SELECT",
+          "confidence": 0.9,
+          "raw_content": "(SELECT MAX(data) FROM pedidos WHERE usuario_id = u.id AND STATUS = 'concluido') as ultima_compra,"
+        },
+        {
+          "file": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+          "line": 96,
+          "context": "sql_string",
+          "operation": "SELECT",
+          "confidence": 0.9,
+          "raw_content": "(SELECT produto_nome FROM pedidos WHERE usuario_id = u.id) as ultimo_produto"
+        },
+        {
+          "file": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+          "line": 99,
+          "context": "sql_string",
+          "operation": "SELECT",
+          "confidence": 0.9,
+          "raw_content": "SELECT 1 FROM pedidos"
+        }
+      ]
+    },
+    "tabela_que_nao_existe": {
+      "reference_count": 1,
+      "files": [
+        "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "SELECT"
+      ],
+      "average_confidence": 0.9,
+      "references": [
+        {
+          "file": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+          "line": 113,
+          "context": "sql_string",
+          "operation": "SELECT",
+          "confidence": 0.9,
+          "raw_content": "SELECT * FROM tabela_que_nao_existe"
+        }
+      ]
+    },
+    "logs": {
+      "reference_count": 1,
+      "files": [
+        "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "SELECT"
+      ],
+      "average_confidence": 0.9,
+      "references": [
+        {
+          "file": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+          "line": 127,
+          "context": "sql_string",
+          "operation": "SELECT",
+          "confidence": 0.9,
+          "raw_content": "sql_injection = f\"SELECT * FROM logs WHERE usuario = '{usuario_input}'\""
+        }
+      ]
+    },
+    "situacao_usuarios": {
+      "reference_count": 1,
+      "files": [
+        "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "SELECT"
+      ],
+      "average_confidence": 0.9,
+      "references": [
+        {
+          "file": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+          "line": 146,
+          "context": "sql_string",
+          "operation": "SELECT",
+          "confidence": 0.9,
+          "raw_content": "sql_comentarios = \"SELECT * FROM situacao_usuarios\""
+        }
+      ]
+    },
+    "tabela_modulo_quebrado": {
+      "reference_count": 1,
+      "files": [
+        "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "SELECT"
+      ],
+      "average_confidence": 0.9,
+      "references": [
+        {
+          "file": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+          "line": 151,
+          "context": "sql_string",
+          "operation": "SELECT",
+          "confidence": 0.9,
+          "raw_content": "sql_com_import_quebrado = \"SELECT * FROM tabela_modulo_quebrado\""
+        }
+      ]
+    }
+  },
+  "statistics": {
+    "context_breakdown": {
+      "sql_string": 81,
+      "orm_pattern": 6,
+      "embedded_sql": 1
+    },
+    "operation_breakdown": {
+      "SELECT": 19,
+      "": 6,
+      "JOIN": 27,
+      "DELETE": 10,
+      "INSERT": 17,
+      "CREATE": 2,
+      "TRUNCATE": 4,
+      "UPDATE": 1,
+      "DROP": 2
+    },
+    "most_referenced_tables": [
+      {
+        "table": "analytics.metrics",
+        "references": 7,
+        "files": 2
+      },
+      {
+        "table": "orders",
+        "references": 6,
+        "files": 1
+      },
+      {
+        "table": "users",
+        "references": 4,
+        "files": 3
+      },
+      {
+        "table": "order_items",
+        "references": 4,
+        "files": 1
+      },
+      {
+        "table": "products",
+        "references": 4,
+        "files": 1
+      },
+      {
+        "table": "warehouse.customer_summary",
+        "references": 4,
+        "files": 1
+      },
+      {
+        "table": "user_sessions",
+        "references": 4,
+        "files": 1
+      },
+      {
+        "table": "pedidos",
+        "references": 4,
+        "files": 1
+      },
+      {
+        "table": "user_segments",
+        "references": 3,
+        "files": 1
+      },
+      {
+        "table": "user_behavior_segments",
+        "references": 3,
+        "files": 1
+      }
+    ],
+    "confidence_distribution": {
+      "high (>= 0.9)": 60,
+      "medium (0.7-0.9)": 28,
+      "low (< 0.7)": 0
+    }
+  },
+  "detailed_references": [
+    {
+      "table_name": "com",
+      "schema": null,
+      "file_path": "ENHANCED_POSTGRESQL_AIRFLOW_MAPPER.py",
+      "line_number": 111,
+      "context_type": "sql_string",
+      "operation_type": "SELECT",
+      "confidence": 0.9,
+      "raw_content": "# SELECT FROM com schema",
+      "context_details": {
+        "full_match": "SELECT FROM com ",
+        "pattern_used": "(?i)SELECT\\s+.*?\\bFROM\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|$|,)"
+      }
+    },
+    {
+      "table_name": "sem",
+      "schema": null,
+      "file_path": "ENHANCED_POSTGRESQL_AIRFLOW_MAPPER.py",
+      "line_number": 119,
+      "context_type": "sql_string",
+      "operation_type": "SELECT",
+      "confidence": 0.9,
+      "raw_content": "# SELECT FROM sem schema",
+      "context_details": {
+        "full_match": "SELECT FROM sem ",
+        "pattern_used": "(?i)SELECT\\s+.*?\\bFROM\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|$|,)"
+      }
+    },
+    {
+      "table_name": "users",
+      "schema": null,
+      "file_path": "ENHANCED_POSTGRESQL_AIRFLOW_MAPPER.py",
+      "line_number": 159,
+      "context_type": "orm_pattern",
+      "operation_type": "",
+      "confidence": 0.9,
+      "raw_content": "# Tabelas em variáveis Python (ex: table_name = \"users\")",
+      "context_details": {
+        "orm_context": "peewee_model",
+        "full_match": "table_name = \"users\""
+      }
+    },
+    {
+      "table_name": "customer_addresses",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 100,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "LEFT JOIN customer_addresses ca ON c.customer_id = ca.customer_id",
+      "context_details": {
+        "full_match": "JOIN customer_addresses ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "order_items",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 147,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "JOIN order_items oi ON o.order_id = oi.order_id",
+      "context_details": {
+        "full_match": "JOIN order_items ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "products",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 148,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "JOIN products p ON oi.product_id = p.product_id",
+      "context_details": {
+        "full_match": "JOIN products ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "product_categories",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 149,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "JOIN product_categories pc ON p.category_id = pc.category_id",
+      "context_details": {
+        "full_match": "JOIN product_categories ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "customer_summary",
+      "schema": "warehouse",
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 190,
+      "context_type": "sql_string",
+      "operation_type": "DELETE",
+      "confidence": 0.98,
+      "raw_content": "DELETE FROM warehouse.customer_summary",
+      "context_details": {
+        "full_match": "DELETE FROM warehouse.customer_summary",
+        "pattern_used": "(?i)DELETE\\s+FROM\\s+(?:[\"\\']?)(\\w+)\\.(\\w+)(?:[\"\\']?)"
+      }
+    },
+    {
+      "table_name": "customer_summary",
+      "schema": "warehouse",
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 196,
+      "context_type": "sql_string",
+      "operation_type": "INSERT",
+      "confidence": 0.98,
+      "raw_content": "INSERT INTO warehouse.customer_summary",
+      "context_details": {
+        "full_match": "INSERT INTO warehouse.customer_summary",
+        "pattern_used": "(?i)INSERT\\s+INTO\\s+(?:[\"\\']?)(\\w+)\\.(\\w+)(?:[\"\\']?)"
+      }
+    },
+    {
+      "table_name": "orders_temp",
+      "schema": "staging",
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 205,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "LEFT JOIN staging.orders_temp o ON c.customer_id = o.customer_id",
+      "context_details": {
+        "full_match": "JOIN staging.orders_temp ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "customer_summary",
+      "schema": "warehouse",
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 213,
+      "context_type": "sql_string",
+      "operation_type": "SELECT",
+      "confidence": 0.98,
+      "raw_content": "total_customers = (SELECT COUNT(*) FROM warehouse.customer_summary),",
+      "context_details": {
+        "full_match": "SELECT COUNT(*) FROM warehouse.customer_summary",
+        "pattern_used": "(?i)SELECT\\s+.*?\\bFROM\\s+(?:[\"\\']?)(\\w+)\\.(\\w+)(?:[\"\\']?)"
+      }
+    },
+    {
+      "table_name": "customer_summary",
+      "schema": "warehouse",
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 214,
+      "context_type": "sql_string",
+      "operation_type": "SELECT",
+      "confidence": 0.98,
+      "raw_content": "total_orders = (SELECT SUM(total_orders) FROM warehouse.customer_summary),",
+      "context_details": {
+        "full_match": "SELECT SUM(total_orders) FROM warehouse.customer_summary",
+        "pattern_used": "(?i)SELECT\\s+.*?\\bFROM\\s+(?:[\"\\']?)(\\w+)\\.(\\w+)(?:[\"\\']?)"
+      }
+    },
+    {
+      "table_name": "segment_metrics",
+      "schema": "analytics",
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 312,
+      "context_type": "sql_string",
+      "operation_type": "INSERT",
+      "confidence": 0.98,
+      "raw_content": "INSERT INTO analytics.segment_metrics (segment, customer_count, avg_spent, date_calculated)",
+      "context_details": {
+        "full_match": "INSERT INTO analytics.segment_metrics",
+        "pattern_used": "(?i)INSERT\\s+INTO\\s+(?:[\"\\']?)(\\w+)\\.(\\w+)(?:[\"\\']?)"
+      }
+    },
+    {
+      "table_name": "orders",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 439,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "LEFT JOIN orders o ON u.id = o.user_id",
+      "context_details": {
+        "full_match": "JOIN orders ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "user_sessions",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 440,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "LEFT JOIN user_sessions us ON u.id = us.user_id",
+      "context_details": {
+        "full_match": "JOIN user_sessions ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "order_items",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 450,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "JOIN order_items oi ON o.id = oi.order_id",
+      "context_details": {
+        "full_match": "JOIN order_items ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "products",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 451,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "JOIN products p ON oi.product_id = p.id",
+      "context_details": {
+        "full_match": "JOIN products ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "categories",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 452,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "JOIN categories c ON p.category_id = c.id",
+      "context_details": {
+        "full_match": "JOIN categories ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "product_preferences",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 466,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "LEFT JOIN product_preferences pp ON us.id = pp.user_id",
+      "context_details": {
+        "full_match": "JOIN product_preferences ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "user_segments",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 483,
+      "context_type": "sql_string",
+      "operation_type": "CREATE",
+      "confidence": 0.99,
+      "raw_content": "CREATE TABLE IF NOT EXISTS user_segments (",
+      "context_details": {
+        "full_match": "CREATE TABLE IF NOT EXISTS user_segments",
+        "pattern_used": "(?i)CREATE\\s+TABLE\\s+(?:IF\\s+NOT\\s+EXISTS\\s+)?(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)"
+      }
+    },
+    {
+      "table_name": "user_segments",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 494,
+      "context_type": "sql_string",
+      "operation_type": "DELETE",
+      "confidence": 0.95,
+      "raw_content": "DELETE FROM user_segments",
+      "context_details": {
+        "full_match": "DELETE FROM user_segments ",
+        "pattern_used": "(?i)DELETE\\s+FROM\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|$)"
+      }
+    },
+    {
+      "table_name": "user_segments",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 500,
+      "context_type": "sql_string",
+      "operation_type": "INSERT",
+      "confidence": 0.95,
+      "raw_content": "INSERT INTO user_segments (user_id, segment_name, segment_value)",
+      "context_details": {
+        "full_match": "INSERT INTO user_segments ",
+        "pattern_used": "(?i)INSERT\\s+INTO\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|\\()"
+      }
+    },
+    {
+      "table_name": "product_rankings",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 544,
+      "context_type": "sql_string",
+      "operation_type": "CREATE",
+      "confidence": 0.99,
+      "raw_content": "CREATE TABLE IF NOT EXISTS product_rankings (",
+      "context_details": {
+        "full_match": "CREATE TABLE IF NOT EXISTS product_rankings",
+        "pattern_used": "(?i)CREATE\\s+TABLE\\s+(?:IF\\s+NOT\\s+EXISTS\\s+)?(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)"
+      }
+    },
+    {
+      "table_name": "order_items",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 566,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "LEFT JOIN order_items oi ON p.id = oi.product_id",
+      "context_details": {
+        "full_match": "JOIN order_items ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "orders",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 567,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "LEFT JOIN orders o ON oi.order_id = o.id",
+      "context_details": {
+        "full_match": "JOIN orders ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "product_reviews",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 568,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "LEFT JOIN product_reviews pr ON p.id = pr.product_id",
+      "context_details": {
+        "full_match": "JOIN product_reviews ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "product_rankings",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 579,
+      "context_type": "sql_string",
+      "operation_type": "INSERT",
+      "confidence": 0.95,
+      "raw_content": "INSERT INTO product_rankings (product_id, category_id, sales_rank, revenue_rank, popularity_score)",
+      "context_details": {
+        "full_match": "INSERT INTO product_rankings ",
+        "pattern_used": "(?i)INSERT\\s+INTO\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|\\()"
+      }
+    },
+    {
+      "table_name": "user_sessions",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 601,
+      "context_type": "sql_string",
+      "operation_type": "DELETE",
+      "confidence": 0.95,
+      "raw_content": "\"DELETE FROM user_sessions WHERE created_at < NOW() - INTERVAL '30 days'\",",
+      "context_details": {
+        "full_match": "DELETE FROM user_sessions ",
+        "pattern_used": "(?i)DELETE\\s+FROM\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|$)"
+      }
+    },
+    {
+      "table_name": "audit_logs",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 602,
+      "context_type": "sql_string",
+      "operation_type": "DELETE",
+      "confidence": 0.95,
+      "raw_content": "\"DELETE FROM audit_logs WHERE created_at < NOW() - INTERVAL '90 days'\",",
+      "context_details": {
+        "full_match": "DELETE FROM audit_logs ",
+        "pattern_used": "(?i)DELETE\\s+FROM\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|$)"
+      }
+    },
+    {
+      "table_name": "temporary_calculations",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 603,
+      "context_type": "sql_string",
+      "operation_type": "DELETE",
+      "confidence": 0.95,
+      "raw_content": "\"DELETE FROM temporary_calculations WHERE created_at < NOW() - INTERVAL '1 day'\",",
+      "context_details": {
+        "full_match": "DELETE FROM temporary_calculations ",
+        "pattern_used": "(?i)DELETE\\s+FROM\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|$)"
+      }
+    },
+    {
+      "table_name": "processing_logs",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 727,
+      "context_type": "sql_string",
+      "operation_type": "INSERT",
+      "confidence": 0.95,
+      "raw_content": "INSERT INTO processing_logs (table_name, records_processed, process_date)",
+      "context_details": {
+        "full_match": "INSERT INTO processing_logs ",
+        "pattern_used": "(?i)INSERT\\s+INTO\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|\\()"
+      }
+    },
+    {
+      "table_name": "user_sessions",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 790,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "LEFT JOIN user_sessions s ON u.user_id = s.user_id",
+      "context_details": {
+        "full_match": "JOIN user_sessions ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "orders",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 791,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "LEFT JOIN orders o ON u.user_id = o.user_id",
+      "context_details": {
+        "full_match": "JOIN orders ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "analytics_results",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 809,
+      "context_type": "sql_string",
+      "operation_type": "INSERT",
+      "confidence": 0.95,
+      "raw_content": "INSERT INTO analytics_results (analysis_type, metrics, calculated_date)",
+      "context_details": {
+        "full_match": "INSERT INTO analytics_results ",
+        "pattern_used": "(?i)INSERT\\s+INTO\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|\\()"
+      }
+    },
+    {
+      "table_name": "order_items",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 835,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "LEFT JOIN order_items oi ON p.product_id = oi.product_id",
+      "context_details": {
+        "full_match": "JOIN order_items ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "orders",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 836,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "LEFT JOIN orders o ON oi.order_id = o.order_id",
+      "context_details": {
+        "full_match": "JOIN orders ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "product_reviews",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 837,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "LEFT JOIN product_reviews pr ON p.product_id = pr.product_id",
+      "context_details": {
+        "full_match": "JOIN product_reviews ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "user_behavior_segments",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 862,
+      "context_type": "sql_string",
+      "operation_type": "TRUNCATE",
+      "confidence": 0.95,
+      "raw_content": "cursor.execute(\"TRUNCATE TABLE user_behavior_segments\")",
+      "context_details": {
+        "full_match": "TRUNCATE TABLE user_behavior_segments\"",
+        "pattern_used": "(?i)TRUNCATE\\s+TABLE\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)"
+      }
+    },
+    {
+      "table_name": "user_behavior_segments",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 867,
+      "context_type": "sql_string",
+      "operation_type": "INSERT",
+      "confidence": 0.95,
+      "raw_content": "INSERT INTO user_behavior_segments (user_id, segment, metrics)",
+      "context_details": {
+        "full_match": "INSERT INTO user_behavior_segments ",
+        "pattern_used": "(?i)INSERT\\s+INTO\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|\\()"
+      }
+    },
+    {
+      "table_name": "users",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 1274,
+      "context_type": "sql_string",
+      "operation_type": "SELECT",
+      "confidence": 0.9,
+      "raw_content": "SELECT * FROM users WHERE active = true",
+      "context_details": {
+        "full_match": "SELECT * FROM users ",
+        "pattern_used": "(?i)SELECT\\s+.*?\\bFROM\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|$|,)"
+      }
+    },
+    {
+      "table_name": "products",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 1284,
+      "context_type": "sql_string",
+      "operation_type": "INSERT",
+      "confidence": 0.95,
+      "raw_content": "sql = \"INSERT INTO products (name, price) VALUES ('test', 100)\"",
+      "context_details": {
+        "full_match": "INSERT INTO products ",
+        "pattern_used": "(?i)INSERT\\s+INTO\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|\\()"
+      }
+    },
+    {
+      "table_name": "orders",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 1288,
+      "context_type": "sql_string",
+      "operation_type": "UPDATE",
+      "confidence": 0.95,
+      "raw_content": "UPDATE orders SET status = 'completed' WHERE id = 1",
+      "context_details": {
+        "full_match": "UPDATE orders SET",
+        "pattern_used": "(?i)UPDATE\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)\\s+SET"
+      }
+    },
+    {
+      "table_name": "configurações",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 1355,
+      "context_type": "sql_string",
+      "operation_type": "INSERT",
+      "confidence": 0.95,
+      "raw_content": "sql_especial = \"INSERT INTO configurações (parâmetro, valor) VALUES ('teste', 'ação')\"",
+      "context_details": {
+        "full_match": "INSERT INTO configurações ",
+        "pattern_used": "(?i)INSERT\\s+INTO\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|\\()"
+      }
+    },
+    {
+      "table_name": "users",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 359,
+      "context_type": "orm_pattern",
+      "operation_type": "",
+      "confidence": 0.98,
+      "raw_content": "__tablename__ = 'users'",
+      "context_details": {
+        "orm_context": "sqlalchemy_model",
+        "full_match": "__tablename__ = 'users'"
+      }
+    },
+    {
+      "table_name": "products",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 368,
+      "context_type": "orm_pattern",
+      "operation_type": "",
+      "confidence": 0.98,
+      "raw_content": "__tablename__ = 'products'",
+      "context_details": {
+        "orm_context": "sqlalchemy_model",
+        "full_match": "__tablename__ = 'products'"
+      }
+    },
+    {
+      "table_name": "categories",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 378,
+      "context_type": "orm_pattern",
+      "operation_type": "",
+      "confidence": 0.98,
+      "raw_content": "__tablename__ = 'categories'",
+      "context_details": {
+        "orm_context": "sqlalchemy_model",
+        "full_match": "__tablename__ = 'categories'"
+      }
+    },
+    {
+      "table_name": "orders",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 386,
+      "context_type": "orm_pattern",
+      "operation_type": "",
+      "confidence": 0.98,
+      "raw_content": "__tablename__ = 'orders'",
+      "context_details": {
+        "orm_context": "sqlalchemy_model",
+        "full_match": "__tablename__ = 'orders'"
+      }
+    },
+    {
+      "table_name": "user_sessions",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 398,
+      "context_type": "orm_pattern",
+      "operation_type": "",
+      "confidence": 0.95,
+      "raw_content": "user_sessions = Table('user_sessions', metadata,",
+      "context_details": {
+        "orm_context": "sqlalchemy_table",
+        "full_match": "Table('user_sessions'"
+      }
+    },
+    {
+      "table_name": "user_behavior_segments",
+      "schema": null,
+      "file_path": "COMPREHENSIVE_TEST_SUITE.py",
+      "line_number": 862,
+      "context_type": "embedded_sql",
+      "operation_type": "TRUNCATE",
+      "confidence": 0.855,
+      "raw_content": "TRUNCATE TABLE user_behavior_segments",
+      "context_details": {
+        "extraction_method": "from_execute_call"
+      }
+    },
+    {
+      "table_name": "users",
+      "schema": null,
+      "file_path": "real_test_project/test_real_system.py",
+      "line_number": 143,
+      "context_type": "sql_string",
+      "operation_type": "SELECT",
+      "confidence": 0.9,
+      "raw_content": "\"query\": \"SELECT * FROM users WHERE active = ?\",",
+      "context_details": {
+        "full_match": "SELECT * FROM users ",
+        "pattern_used": "(?i)SELECT\\s+.*?\\bFROM\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|$|,)"
+      }
+    },
+    {
+      "table_name": "audit_log",
+      "schema": null,
+      "file_path": "real_test_project/test_real_system.py",
+      "line_number": 158,
+      "context_type": "sql_string",
+      "operation_type": "INSERT",
+      "confidence": 0.95,
+      "raw_content": "\"query\": \"INSERT INTO audit_log (action, user_id, timestamp) VALUES (?, ?, ?)\",",
+      "context_details": {
+        "full_match": "INSERT INTO audit_log ",
+        "pattern_used": "(?i)INSERT\\s+INTO\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|\\()"
+      }
+    },
+    {
+      "table_name": "produtos_processados",
+      "schema": "staging",
+      "file_path": "examples/sample_airflow_dags/dag_example_3_pandas_operations.py",
+      "line_number": 220,
+      "context_type": "sql_string",
+      "operation_type": "TRUNCATE",
+      "confidence": 0.95,
+      "raw_content": "pg_hook.run(\"TRUNCATE TABLE staging.produtos_processados\")",
+      "context_details": {
+        "full_match": "TRUNCATE TABLE staging.produtos_processados\"",
+        "pattern_used": "(?i)TRUNCATE\\s+TABLE\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)"
+      }
+    },
+    {
+      "table_name": "metrics",
+      "schema": "analytics",
+      "file_path": "examples/sample_airflow_dags/dag_example_3_pandas_operations.py",
+      "line_number": 258,
+      "context_type": "sql_string",
+      "operation_type": "INSERT",
+      "confidence": 0.98,
+      "raw_content": "INSERT INTO analytics.metrics (metrica_nome, valor, descricao, data_calculo, metadata)",
+      "context_details": {
+        "full_match": "INSERT INTO analytics.metrics",
+        "pattern_used": "(?i)INSERT\\s+INTO\\s+(?:[\"\\']?)(\\w+)\\.(\\w+)(?:[\"\\']?)"
+      }
+    },
+    {
+      "table_name": "metricas_categoria_temp",
+      "schema": null,
+      "file_path": "examples/sample_airflow_dags/dag_example_3_pandas_operations.py",
+      "line_number": 281,
+      "context_type": "sql_string",
+      "operation_type": "DROP",
+      "confidence": 0.99,
+      "raw_content": "pg_hook.run(\"DROP TABLE IF EXISTS metricas_categoria_temp\")",
+      "context_details": {
+        "full_match": "DROP TABLE IF EXISTS metricas_categoria_temp\"",
+        "pattern_used": "(?i)DROP\\s+TABLE\\s+(?:IF\\s+EXISTS\\s+)?(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)"
+      }
+    },
+    {
+      "table_name": "metrics",
+      "schema": "analytics",
+      "file_path": "examples/sample_airflow_dags/dag_example_3_pandas_operations.py",
+      "line_number": 332,
+      "context_type": "sql_string",
+      "operation_type": "DELETE",
+      "confidence": 0.98,
+      "raw_content": "pg_hook.run(\"DELETE FROM analytics.metrics WHERE metrica_nome = 'relatorio_qualidade_produtos'\")",
+      "context_details": {
+        "full_match": "DELETE FROM analytics.metrics",
+        "pattern_used": "(?i)DELETE\\s+FROM\\s+(?:[\"\\']?)(\\w+)\\.(\\w+)(?:[\"\\']?)"
+      }
+    },
+    {
+      "table_name": "metrics",
+      "schema": "analytics",
+      "file_path": "examples/sample_airflow_dags/dag_example_3_pandas_operations.py",
+      "line_number": 337,
+      "context_type": "sql_string",
+      "operation_type": "INSERT",
+      "confidence": 0.98,
+      "raw_content": "INSERT INTO analytics.metrics (metrica_nome, valor, descricao, data_calculo, metadata)",
+      "context_details": {
+        "full_match": "INSERT INTO analytics.metrics",
+        "pattern_used": "(?i)INSERT\\s+INTO\\s+(?:[\"\\']?)(\\w+)\\.(\\w+)(?:[\"\\']?)"
+      }
+    },
+    {
+      "table_name": "metrics",
+      "schema": "analytics",
+      "file_path": "examples/sample_airflow_dags/dag_example_3_pandas_operations.py",
+      "line_number": 424,
+      "context_type": "sql_string",
+      "operation_type": "INSERT",
+      "confidence": 0.98,
+      "raw_content": "INSERT INTO analytics.metrics (metrica_nome, valor, descricao, data_calculo, metadata)",
+      "context_details": {
+        "full_match": "INSERT INTO analytics.metrics",
+        "pattern_used": "(?i)INSERT\\s+INTO\\s+(?:[\"\\']?)(\\w+)\\.(\\w+)(?:[\"\\']?)"
+      }
+    },
+    {
+      "table_name": "usuarios",
+      "schema": "ecommerce",
+      "file_path": "examples/sample_airflow_dags/dag_example_2_complex_sql.py",
+      "line_number": 69,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "INNER JOIN ecommerce.usuarios u ON p.usuario_id = u.id",
+      "context_details": {
+        "full_match": "JOIN ecommerce.usuarios ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "quartis_rfm",
+      "schema": null,
+      "file_path": "examples/sample_airflow_dags/dag_example_2_complex_sql.py",
+      "line_number": 145,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "CROSS JOIN quartis_rfm q",
+      "context_details": {
+        "full_match": "JOIN quartis_rfm ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "user_segments",
+      "schema": "analytics",
+      "file_path": "examples/sample_airflow_dags/dag_example_2_complex_sql.py",
+      "line_number": 187,
+      "context_type": "sql_string",
+      "operation_type": "DELETE",
+      "confidence": 0.98,
+      "raw_content": "delete_sql = f\"DELETE FROM analytics.user_segments WHERE data_analise = '{execution_date}'\"",
+      "context_details": {
+        "full_match": "DELETE FROM analytics.user_segments",
+        "pattern_used": "(?i)DELETE\\s+FROM\\s+(?:[\"\\']?)(\\w+)\\.(\\w+)(?:[\"\\']?)"
+      }
+    },
+    {
+      "table_name": "produtos",
+      "schema": "ecommerce",
+      "file_path": "examples/sample_airflow_dags/dag_example_2_complex_sql.py",
+      "line_number": 230,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "INNER JOIN ecommerce.produtos p ON e.produto_id = p.id",
+      "context_details": {
+        "full_match": "JOIN ecommerce.produtos ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "metrics",
+      "schema": "analytics",
+      "file_path": "examples/sample_airflow_dags/dag_example_2_complex_sql.py",
+      "line_number": 356,
+      "context_type": "sql_string",
+      "operation_type": "INSERT",
+      "confidence": 0.98,
+      "raw_content": "INSERT INTO analytics.metrics (metrica_nome, valor, descricao, data_calculo, metadata)",
+      "context_details": {
+        "full_match": "INSERT INTO analytics.metrics",
+        "pattern_used": "(?i)INSERT\\s+INTO\\s+(?:[\"\\']?)(\\w+)\\.(\\w+)(?:[\"\\']?)"
+      }
+    },
+    {
+      "table_name": "user_segments",
+      "schema": "analytics",
+      "file_path": "examples/sample_airflow_dags/dag_example_2_complex_sql.py",
+      "line_number": 375,
+      "context_type": "sql_string",
+      "operation_type": "DELETE",
+      "confidence": 0.98,
+      "raw_content": "DELETE FROM analytics.user_segments",
+      "context_details": {
+        "full_match": "DELETE FROM analytics.user_segments",
+        "pattern_used": "(?i)DELETE\\s+FROM\\s+(?:[\"\\']?)(\\w+)\\.(\\w+)(?:[\"\\']?)"
+      }
+    },
+    {
+      "table_name": "metrics",
+      "schema": "analytics",
+      "file_path": "examples/sample_airflow_dags/dag_example_2_complex_sql.py",
+      "line_number": 378,
+      "context_type": "sql_string",
+      "operation_type": "DELETE",
+      "confidence": 0.98,
+      "raw_content": "DELETE FROM analytics.metrics",
+      "context_details": {
+        "full_match": "DELETE FROM analytics.metrics",
+        "pattern_used": "(?i)DELETE\\s+FROM\\s+(?:[\"\\']?)(\\w+)\\.(\\w+)(?:[\"\\']?)"
+      }
+    },
+    {
+      "table_name": "metrics",
+      "schema": "analytics",
+      "file_path": "examples/sample_airflow_dags/dag_example_2_complex_sql.py",
+      "line_number": 426,
+      "context_type": "sql_string",
+      "operation_type": "INSERT",
+      "confidence": 0.98,
+      "raw_content": "INSERT INTO analytics.metrics (metrica_nome, valor, descricao, data_calculo, metadata)",
+      "context_details": {
+        "full_match": "INSERT INTO analytics.metrics",
+        "pattern_used": "(?i)INSERT\\s+INTO\\s+(?:[\"\\']?)(\\w+)\\.(\\w+)(?:[\"\\']?)"
+      }
+    },
+    {
+      "table_name": "resumo_metricas",
+      "schema": null,
+      "file_path": "examples/sample_airflow_dags/dag_example_2_complex_sql.py",
+      "line_number": 438,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "CROSS JOIN resumo_metricas m",
+      "context_details": {
+        "full_match": "JOIN resumo_metricas ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "clientes",
+      "schema": "financeiro",
+      "file_path": "examples/sample_airflow_dags/dag_example_1_basic.py",
+      "line_number": 62,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "INNER JOIN financeiro.clientes c ON t.cliente_id = c.id",
+      "context_details": {
+        "full_match": "JOIN financeiro.clientes ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "vendas_diarias",
+      "schema": "analytics",
+      "file_path": "examples/sample_airflow_dags/dag_example_1_basic.py",
+      "line_number": 111,
+      "context_type": "sql_string",
+      "operation_type": "DELETE",
+      "confidence": 0.98,
+      "raw_content": "delete_sql = \"DELETE FROM analytics.vendas_diarias WHERE data_processamento = CURRENT_DATE\"",
+      "context_details": {
+        "full_match": "DELETE FROM analytics.vendas_diarias",
+        "pattern_used": "(?i)DELETE\\s+FROM\\s+(?:[\"\\']?)(\\w+)\\.(\\w+)(?:[\"\\']?)"
+      }
+    },
+    {
+      "table_name": "vendas_diarias",
+      "schema": "analytics",
+      "file_path": "examples/sample_airflow_dags/dag_example_1_basic.py",
+      "line_number": 117,
+      "context_type": "sql_string",
+      "operation_type": "INSERT",
+      "confidence": 0.98,
+      "raw_content": "INSERT INTO analytics.vendas_diarias",
+      "context_details": {
+        "full_match": "INSERT INTO analytics.vendas_diarias",
+        "pattern_used": "(?i)INSERT\\s+INTO\\s+(?:[\"\\']?)(\\w+)\\.(\\w+)(?:[\"\\']?)"
+      }
+    },
+    {
+      "table_name": "temp_import_clientes",
+      "schema": "staging",
+      "file_path": "examples/sample_airflow_dags/dag_example_1_basic.py",
+      "line_number": 149,
+      "context_type": "sql_string",
+      "operation_type": "TRUNCATE",
+      "confidence": 0.95,
+      "raw_content": "truncate_sql = \"TRUNCATE TABLE staging.temp_import_clientes\"",
+      "context_details": {
+        "full_match": "TRUNCATE TABLE staging.temp_import_clientes\"",
+        "pattern_used": "(?i)TRUNCATE\\s+TABLE\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)"
+      }
+    },
+    {
+      "table_name": "temp_import_clientes",
+      "schema": "staging",
+      "file_path": "examples/sample_airflow_dags/dag_example_1_basic.py",
+      "line_number": 154,
+      "context_type": "sql_string",
+      "operation_type": "INSERT",
+      "confidence": 0.98,
+      "raw_content": "INSERT INTO staging.temp_import_clientes",
+      "context_details": {
+        "full_match": "INSERT INTO staging.temp_import_clientes",
+        "pattern_used": "(?i)INSERT\\s+INTO\\s+(?:[\"\\']?)(\\w+)\\.(\\w+)(?:[\"\\']?)"
+      }
+    },
+    {
+      "table_name": "temp_import_clientes",
+      "schema": "staging",
+      "file_path": "examples/sample_airflow_dags/dag_example_1_basic.py",
+      "line_number": 161,
+      "context_type": "sql_string",
+      "operation_type": "SELECT",
+      "confidence": 0.98,
+      "raw_content": "count_sql = \"SELECT COUNT(*) as total FROM staging.temp_import_clientes\"",
+      "context_details": {
+        "full_match": "SELECT COUNT(*) as total FROM staging.temp_import_clientes\"",
+        "pattern_used": "(?i)SELECT\\s+.*?\\bFROM\\s+(?:[\"\\']?)(\\w+)\\.(\\w+)(?:[\"\\']?)"
+      }
+    },
+    {
+      "table_name": "clientes_ativos",
+      "schema": null,
+      "file_path": "examples/sample_airflow_dags/dag_example_1_basic.py",
+      "line_number": 199,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "LEFT JOIN clientes_ativos c ON v.categoria = c.categoria",
+      "context_details": {
+        "full_match": "JOIN clientes_ativos ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "usuarios",
+      "schema": null,
+      "file_path": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+      "line_number": 41,
+      "context_type": "sql_string",
+      "operation_type": "SELECT",
+      "confidence": 0.9,
+      "raw_content": "SELECT * FROM usuarios",
+      "context_details": {
+        "full_match": "SELECT * FROM usuarios",
+        "pattern_used": "(?i)SELECT\\s+.*?\\bFROM\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|$|,)"
+      }
+    },
+    {
+      "table_name": "123_tabela_invalida",
+      "schema": null,
+      "file_path": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+      "line_number": 46,
+      "context_type": "sql_string",
+      "operation_type": "SELECT",
+      "confidence": 0.9,
+      "raw_content": "sql_nome_invalido = \"SELECT * FROM 123_tabela_invalida\"",
+      "context_details": {
+        "full_match": "SELECT * FROM 123_tabela_invalida\"",
+        "pattern_used": "(?i)SELECT\\s+.*?\\bFROM\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|$|,)"
+      }
+    },
+    {
+      "table_name": "tabela",
+      "schema": null,
+      "file_path": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+      "line_number": 50,
+      "context_type": "sql_string",
+      "operation_type": "SELECT",
+      "confidence": 0.9,
+      "raw_content": "SELECT * FROM \"tabela com espaços\"",
+      "context_details": {
+        "full_match": "SELECT * FROM \"tabela ",
+        "pattern_used": "(?i)SELECT\\s+.*?\\bFROM\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|$|,)"
+      }
+    },
+    {
+      "table_name": "dados_usuario",
+      "schema": null,
+      "file_path": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+      "line_number": 86,
+      "context_type": "sql_string",
+      "operation_type": "SELECT",
+      "confidence": 0.9,
+      "raw_content": "SELECT * FROM dados_usuario",
+      "context_details": {
+        "full_match": "SELECT * FROM dados_usuario ",
+        "pattern_used": "(?i)SELECT\\s+.*?\\bFROM\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|$|,)"
+      }
+    },
+    {
+      "table_name": "dados_pedidos",
+      "schema": null,
+      "file_path": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+      "line_number": 87,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "INNER JOIN dados_pedidos ON 1=1;  -- Join sem critério adequado",
+      "context_details": {
+        "full_match": "JOIN dados_pedidos ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "sem",
+      "schema": null,
+      "file_path": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+      "line_number": 87,
+      "context_type": "sql_string",
+      "operation_type": "JOIN",
+      "confidence": 0.85,
+      "raw_content": "INNER JOIN dados_pedidos ON 1=1;  -- Join sem critério adequado",
+      "context_details": {
+        "full_match": "Join sem ",
+        "pattern_used": "(?i)JOIN\\s+(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)\\s+"
+      }
+    },
+    {
+      "table_name": "pedidos",
+      "schema": null,
+      "file_path": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+      "line_number": 93,
+      "context_type": "sql_string",
+      "operation_type": "SELECT",
+      "confidence": 0.9,
+      "raw_content": "(SELECT COUNT(*) FROM pedidos WHERE usuario_id = u.id) as total_pedidos,",
+      "context_details": {
+        "full_match": "SELECT COUNT(*) FROM pedidos ",
+        "pattern_used": "(?i)SELECT\\s+.*?\\bFROM\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|$|,)"
+      }
+    },
+    {
+      "table_name": "pedidos",
+      "schema": null,
+      "file_path": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+      "line_number": 94,
+      "context_type": "sql_string",
+      "operation_type": "SELECT",
+      "confidence": 0.9,
+      "raw_content": "(SELECT MAX(data) FROM pedidos WHERE usuario_id = u.id AND STATUS = 'concluido') as ultima_compra,",
+      "context_details": {
+        "full_match": "SELECT MAX(data) FROM pedidos ",
+        "pattern_used": "(?i)SELECT\\s+.*?\\bFROM\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|$|,)"
+      }
+    },
+    {
+      "table_name": "pedidos",
+      "schema": null,
+      "file_path": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+      "line_number": 96,
+      "context_type": "sql_string",
+      "operation_type": "SELECT",
+      "confidence": 0.9,
+      "raw_content": "(SELECT produto_nome FROM pedidos WHERE usuario_id = u.id) as ultimo_produto",
+      "context_details": {
+        "full_match": "SELECT produto_nome FROM pedidos ",
+        "pattern_used": "(?i)SELECT\\s+.*?\\bFROM\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|$|,)"
+      }
+    },
+    {
+      "table_name": "pedidos",
+      "schema": null,
+      "file_path": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+      "line_number": 99,
+      "context_type": "sql_string",
+      "operation_type": "SELECT",
+      "confidence": 0.9,
+      "raw_content": "SELECT 1 FROM pedidos",
+      "context_details": {
+        "full_match": "SELECT 1 FROM pedidos ",
+        "pattern_used": "(?i)SELECT\\s+.*?\\bFROM\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|$|,)"
+      }
+    },
+    {
+      "table_name": "tabela_que_nao_existe",
+      "schema": null,
+      "file_path": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+      "line_number": 113,
+      "context_type": "sql_string",
+      "operation_type": "SELECT",
+      "confidence": 0.9,
+      "raw_content": "SELECT * FROM tabela_que_nao_existe",
+      "context_details": {
+        "full_match": "SELECT * FROM tabela_que_nao_existe",
+        "pattern_used": "(?i)SELECT\\s+.*?\\bFROM\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|$|,)"
+      }
+    },
+    {
+      "table_name": "usuarios",
+      "schema": null,
+      "file_path": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+      "line_number": 126,
+      "context_type": "sql_string",
+      "operation_type": "DROP",
+      "confidence": 0.99,
+      "raw_content": "usuario_input = \"'; DROP TABLE usuarios; --\"",
+      "context_details": {
+        "full_match": "DROP TABLE usuarios",
+        "pattern_used": "(?i)DROP\\s+TABLE\\s+(?:IF\\s+EXISTS\\s+)?(?:[\"\\']?)(?:(\\w+)\\.)?(\\w+)(?:[\"\\']?)"
+      }
+    },
+    {
+      "table_name": "logs",
+      "schema": null,
+      "file_path": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+      "line_number": 127,
+      "context_type": "sql_string",
+      "operation_type": "SELECT",
+      "confidence": 0.9,
+      "raw_content": "sql_injection = f\"SELECT * FROM logs WHERE usuario = '{usuario_input}'\"",
+      "context_details": {
+        "full_match": "SELECT * FROM logs ",
+        "pattern_used": "(?i)SELECT\\s+.*?\\bFROM\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|$|,)"
+      }
+    },
+    {
+      "table_name": "situacao_usuarios",
+      "schema": null,
+      "file_path": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+      "line_number": 146,
+      "context_type": "sql_string",
+      "operation_type": "SELECT",
+      "confidence": 0.9,
+      "raw_content": "sql_comentarios = \"SELECT * FROM situacao_usuarios\"",
+      "context_details": {
+        "full_match": "SELECT * FROM situacao_usuarios\"",
+        "pattern_used": "(?i)SELECT\\s+.*?\\bFROM\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|$|,)"
+      }
+    },
+    {
+      "table_name": "tabela_modulo_quebrado",
+      "schema": null,
+      "file_path": "examples/troubleshooting/problematic_files/broken_dag_syntax_errors.py",
+      "line_number": 151,
+      "context_type": "sql_string",
+      "operation_type": "SELECT",
+      "confidence": 0.9,
+      "raw_content": "sql_com_import_quebrado = \"SELECT * FROM tabela_modulo_quebrado\"",
+      "context_details": {
+        "full_match": "SELECT * FROM tabela_modulo_quebrado\"",
+        "pattern_used": "(?i)SELECT\\s+.*?\\bFROM\\s+(?:[\"\\']?)(\\w+)(?:[\"\\']?)(?:\\s|$|,)"
+      }
+    }
+  ],
+  "cross_file_analysis": [
+    {
+      "source_file": "AIRFLOW_INTEGRATION_CLI.py",
+      "target_file": "ENHANCED_POSTGRESQL_AIRFLOW_MAPPER.py",
+      "reference_type": "from_import",
+      "tables_involved": 3
+    },
+    {
+      "source_file": "AIRFLOW_INTEGRATION_CLI.py",
+      "target_file": "POSTGRESQL_TABLE_MAPPER.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "ENHANCED_POSTGRESQL_AIRFLOW_MAPPER.py",
+      "target_file": "real_test_project/src/core/__init__.py",
+      "reference_type": "import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "COMPREHENSIVE_TEST_SUITE.py",
+      "target_file": "ENHANCED_POSTGRESQL_AIRFLOW_MAPPER.py",
+      "reference_type": "from_import",
+      "tables_involved": 3
+    },
+    {
+      "source_file": "COMPREHENSIVE_TEST_SUITE.py",
+      "target_file": "POSTGRESQL_TABLE_MAPPER.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "COMPREHENSIVE_TEST_SUITE.py",
+      "target_file": "AIRFLOW_INTEGRATION_CLI.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "COMPREHENSIVE_TEST_SUITE.py",
+      "target_file": "BW_UNIFIED_CLI.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "POSTGRESQL_TABLE_MAPPER.py",
+      "target_file": "real_test_project/src/core/__init__.py",
+      "reference_type": "import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "BW_UNIFIED_CLI.py",
+      "target_file": "POSTGRESQL_TABLE_MAPPER.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "BW_UNIFIED_CLI.py",
+      "target_file": "PRODUCTION_READY_ANALYZER.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "BW_UNIFIED_CLI.py",
+      "target_file": "REAL_ML_ANALYZER.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "BW_UNIFIED_CLI.py",
+      "target_file": "REAL_PERFORMANCE_PROFILER.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "BW_UNIFIED_CLI.py",
+      "target_file": "POSTGRESQL_TABLE_MAPPER.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "BW_UNIFIED_CLI.py",
+      "target_file": "PRODUCTION_READY_ANALYZER.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "BW_UNIFIED_CLI.py",
+      "target_file": "REAL_ML_ANALYZER.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "BW_UNIFIED_CLI.py",
+      "target_file": "REAL_PERFORMANCE_PROFILER.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "REAL_ML_ANALYZER.py",
+      "target_file": "PRODUCTION_READY_ANALYZER.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "tests/test_error_handler.py",
+      "target_file": "tests/test_error_handler.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "tests/test_error_handler.py",
+      "target_file": "tests/test_error_handler.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "tests/test_error_handler.py",
+      "target_file": "tests/test_error_handler.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "tests/test_error_handler.py",
+      "target_file": "tests/test_error_handler.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "tests/test_error_handler.py",
+      "target_file": "tests/test_error_handler.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "tests/test_error_handler.py",
+      "target_file": "tests/test_error_handler.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "tests/test_error_handler.py",
+      "target_file": "tests/test_error_handler.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "tests/test_error_handler.py",
+      "target_file": "tests/test_error_handler.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "tests/test_error_handler.py",
+      "target_file": "tests/test_error_handler.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "tests/test_error_handler.py",
+      "target_file": "tests/test_error_handler.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "tests/test_error_handler.py",
+      "target_file": "tests/test_error_handler.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "tests/test_utils.py",
+      "target_file": "tests/test_utils.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "tests/test_utils.py",
+      "target_file": "tests/test_utils.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "tests/test_utils.py",
+      "target_file": "tests/test_utils.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "tests/test_utils.py",
+      "target_file": "tests/test_utils.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "tests/test_utils.py",
+      "target_file": "tests/test_utils.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "tests/test_utils.py",
+      "target_file": "tests/test_utils.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "tests/test_utils.py",
+      "target_file": "tests/test_utils.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "tests/test_utils.py",
+      "target_file": "tests/test_utils.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "tests/test_utils.py",
+      "target_file": "tests/test_utils.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/test_real_system.py",
+      "target_file": "real_test_project/src/core/base.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/test_real_system.py",
+      "target_file": "real_test_project/src/core/base.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/test_real_system.py",
+      "target_file": "real_test_project/src/core/base.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/test_real_system.py",
+      "target_file": "real_test_project/src/utils/helpers.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/test_real_system.py",
+      "target_file": "real_test_project/src/utils/helpers.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/test_real_system.py",
+      "target_file": "real_test_project/src/utils/helpers.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/test_real_system.py",
+      "target_file": "real_test_project/src/utils/helpers.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/test_real_system.py",
+      "target_file": "real_test_project/src/services/api_services.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/test_real_system.py",
+      "target_file": "real_test_project/src/services/api_services.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/test_real_system.py",
+      "target_file": "real_test_project/src/services/api_services.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/test_real_system.py",
+      "target_file": "real_test_project/src/services/api_services.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/test_real_system.py",
+      "target_file": "real_test_project/src/services/api_services.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/test_real_system.py",
+      "target_file": "real_test_project/src/models/data_models.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/test_real_system.py",
+      "target_file": "real_test_project/src/models/data_models.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/test_real_system.py",
+      "target_file": "real_test_project/src/models/data_models.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/test_real_system.py",
+      "target_file": "real_test_project/src/models/data_models.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/test_real_system.py",
+      "target_file": "real_test_project/src/models/data_models.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/src/utils/helpers.py",
+      "target_file": "real_test_project/src/core/base.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/src/utils/helpers.py",
+      "target_file": "real_test_project/src/core/base.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/src/utils/helpers.py",
+      "target_file": "real_test_project/src/core/base.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/src/models/data_models.py",
+      "target_file": "real_test_project/src/core/base.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/src/models/data_models.py",
+      "target_file": "real_test_project/src/utils/helpers.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/src/services/api_services.py",
+      "target_file": "real_test_project/src/core/base.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/src/services/api_services.py",
+      "target_file": "real_test_project/src/core/base.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/src/services/api_services.py",
+      "target_file": "real_test_project/src/core/base.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/src/services/api_services.py",
+      "target_file": "real_test_project/src/core/base.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/src/services/api_services.py",
+      "target_file": "real_test_project/src/utils/helpers.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    },
+    {
+      "source_file": "real_test_project/src/services/api_services.py",
+      "target_file": "real_test_project/src/utils/helpers.py",
+      "reference_type": "from_import",
+      "tables_involved": 0
+    }
+  ]
+}

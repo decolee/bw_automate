@@ -1,0 +1,148 @@
+version: '3.8'
+
+services:
+  # Main BW_AUTOMATE application
+  bw-automate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: bw-automate-app
+    environment:
+      - ENVIRONMENT=production
+      - LOG_LEVEL=INFO
+      - RESULTS_DIR=/app/results
+    volumes:
+      - ./results:/app/results
+      - ./logs:/app/logs
+      - type: bind
+        source: /path/to/your/project
+        target: /app/analysis_target
+        read_only: true
+    networks:
+      - bw-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python3", "-c", "from BW_UNIFIED_CLI import BWUnifiedCLI; print('OK')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # Development environment
+  bw-automate-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+      args:
+        INSTALL_DEV: "true"
+    container_name: bw-automate-dev
+    environment:
+      - ENVIRONMENT=development
+      - DEBUG=true
+      - LOG_LEVEL=DEBUG
+    volumes:
+      - .:/app
+      - ./results:/app/results
+      - ./logs:/app/logs
+    ports:
+      - "8000:8000"
+    networks:
+      - bw-network
+    command: python3 COMPREHENSIVE_TEST_SUITE.py
+    profiles:
+      - dev
+
+  # PostgreSQL database for testing
+  postgres:
+    image: postgres:15-alpine
+    container_name: bw-automate-postgres
+    environment:
+      - POSTGRES_DB=bw_automate_test
+      - POSTGRES_USER=bw_user
+      - POSTGRES_PASSWORD=bw_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./test_data:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - bw-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bw_user -d bw_automate_test"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    profiles:
+      - dev
+      - testing
+
+  # Redis for caching (optional)
+  redis:
+    image: redis:7-alpine
+    container_name: bw-automate-redis
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - bw-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    profiles:
+      - dev
+      - caching
+
+  # Monitoring with Prometheus (optional)
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: bw-automate-prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - bw-network
+    profiles:
+      - monitoring
+
+  # Grafana for visualization (optional)
+  grafana:
+    image: grafana/grafana:latest
+    container_name: bw-automate-grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+    ports:
+      - "3000:3000"
+    networks:
+      - bw-network
+    depends_on:
+      - prometheus
+    profiles:
+      - monitoring
+
+volumes:
+  postgres_data:
+  redis_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  bw-network:
+    driver: bridge
