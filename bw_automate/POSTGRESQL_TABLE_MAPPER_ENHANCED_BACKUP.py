@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-🚀 POSTGRESQL TABLE MAPPER - ULTIMATE VERSION
-Sistema DEFINITIVO que detecta ABSOLUTAMENTE QUALQUER padrão de tabela
-Incluindo padrões exóticos, modernos e "fora da caixa"
+🗃️ POSTGRESQL TABLE MAPPER - ENHANCED VERSION
+Sistema ULTRA-COMPLETO para mapear tabelas PostgreSQL em códigos Python
+Detecta TODOS os padrões possíveis: ORMs, migrações, configs, variáveis, etc.
 """
 
 import ast
@@ -10,8 +10,6 @@ import re
 import os
 import json
 import time
-import base64
-import hashlib
 from pathlib import Path
 from typing import Dict, List, Set, Any, Optional, Tuple
 from dataclasses import dataclass, field
@@ -31,7 +29,6 @@ class TableReference:
     operation_type: str = ""  
     confidence: float = 1.0  
     raw_content: str = ""
-    encoding_type: str = ""  # normal, base64, hash, unicode
     
     def __post_init__(self):
         # Normaliza nome da tabela
@@ -40,25 +37,18 @@ class TableReference:
             self.schema = self.schema.strip('"\'`').lower()
 
 class PostgreSQLTableMapper:
-    """Mapeador DEFINITIVO e COMPLETO de tabelas PostgreSQL"""
+    """Mapeador ULTRA-COMPLETO de tabelas PostgreSQL"""
     
     def __init__(self):
         self.logger = self._setup_logging()
         self.table_references: List[TableReference] = []
         self.analyzed_files: Set[str] = set()
         
-        # Padrões tradicionais
+        # Padrões para detecção
         self.sql_patterns = self._initialize_sql_patterns()
         self.orm_patterns = self._initialize_enhanced_orm_patterns()
         self.decorator_patterns = self._initialize_decorator_patterns()
         self.config_patterns = self._initialize_config_patterns()
-        
-        # Padrões EXÓTICOS
-        self.exotic_patterns = self._initialize_exotic_patterns()
-        self.documentation_patterns = self._initialize_documentation_patterns()
-        self.logging_patterns = self._initialize_logging_patterns()
-        self.serialization_patterns = self._initialize_serialization_patterns()
-        self.infrastructure_patterns = self._initialize_infrastructure_patterns()
         
     def _setup_logging(self):
         """Setup logging para debugging"""
@@ -68,46 +58,125 @@ class PostgreSQLTableMapper:
     def _initialize_sql_patterns(self) -> List[Dict]:
         """Padrões SQL expandidos"""
         return [
-            {'pattern': r'(?i)CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?(?:["\']?)(?:(\w+)\.)?(\w+)(?:["\']?)', 'table_group': 2, 'schema_group': 1, 'operation': 'CREATE', 'confidence': 0.99},
-            {'pattern': r'(?i)DROP\s+TABLE\s+(?:IF\s+EXISTS\s+)?(?:["\']?)(?:(\w+)\.)?(\w+)(?:["\']?)', 'table_group': 2, 'schema_group': 1, 'operation': 'DROP', 'confidence': 0.99},
-            {'pattern': r'(?i)SELECT\s+.*?\bFROM\s+(?:["\']?)(\w+)\.(\w+)(?:["\']?)', 'table_group': 2, 'schema_group': 1, 'operation': 'SELECT', 'confidence': 0.98},
-            {'pattern': r'(?i)SELECT\s+.*?\bFROM\s+(?:["\']?)(\w+)(?:["\']?)(?:\s|$|,)', 'table_group': 1, 'schema_group': None, 'operation': 'SELECT', 'confidence': 0.90},
-            {'pattern': r'(?i)INSERT\s+INTO\s+(?:["\']?)(\w+)\.(\w+)(?:["\']?)', 'table_group': 2, 'schema_group': 1, 'operation': 'INSERT', 'confidence': 0.98},
-            {'pattern': r'(?i)INSERT\s+INTO\s+(?:["\']?)(\w+)(?:["\']?)(?:\s|\()', 'table_group': 1, 'schema_group': None, 'operation': 'INSERT', 'confidence': 0.95},
-            {'pattern': r'(?i)UPDATE\s+(?:["\']?)(\w+)\.(\w+)(?:["\']?)\s+SET', 'table_group': 2, 'schema_group': 1, 'operation': 'UPDATE', 'confidence': 0.98},
-            {'pattern': r'(?i)UPDATE\s+(?:["\']?)(\w+)(?:["\']?)\s+SET', 'table_group': 1, 'schema_group': None, 'operation': 'UPDATE', 'confidence': 0.95},
-            {'pattern': r'(?i)DELETE\s+FROM\s+(?:["\']?)(\w+)\.(\w+)(?:["\']?)', 'table_group': 2, 'schema_group': 1, 'operation': 'DELETE', 'confidence': 0.98},
-            {'pattern': r'(?i)DELETE\s+FROM\s+(?:["\']?)(\w+)(?:["\']?)(?:\s|$)', 'table_group': 1, 'schema_group': None, 'operation': 'DELETE', 'confidence': 0.95},
-            {'pattern': r'(?i)JOIN\s+(?:["\']?)(?:(\w+)\.)?(\w+)(?:["\']?)\s+', 'table_group': 2, 'schema_group': 1, 'operation': 'JOIN', 'confidence': 0.85},
-            {'pattern': r'(?i)COPY\s+(?:["\']?)(?:(\w+)\.)?(\w+)(?:["\']?)\s+(?:FROM|TO)', 'table_group': 2, 'schema_group': 1, 'operation': 'COPY', 'confidence': 0.90},
-            {'pattern': r'(?i)TRUNCATE\s+TABLE\s+(?:["\']?)(?:(\w+)\.)?(\w+)(?:["\']?)', 'table_group': 2, 'schema_group': 1, 'operation': 'TRUNCATE', 'confidence': 0.95},
-            {'pattern': r'(?i)ALTER\s+TABLE\s+(?:["\']?)(?:(\w+)\.)?(\w+)(?:["\']?)', 'table_group': 2, 'schema_group': 1, 'operation': 'ALTER', 'confidence': 0.95}
+            # CREATE TABLE
+            {
+                'pattern': r'(?i)CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?(?:["\']?)(?:(\w+)\.)?(\w+)(?:["\']?)',
+                'table_group': 2, 'schema_group': 1, 'operation': 'CREATE', 'confidence': 0.99
+            },
+            # DROP TABLE
+            {
+                'pattern': r'(?i)DROP\s+TABLE\s+(?:IF\s+EXISTS\s+)?(?:["\']?)(?:(\w+)\.)?(\w+)(?:["\']?)',
+                'table_group': 2, 'schema_group': 1, 'operation': 'DROP', 'confidence': 0.99
+            },
+            # SELECT FROM
+            {
+                'pattern': r'(?i)SELECT\s+.*?\bFROM\s+(?:["\']?)(\w+)\.(\w+)(?:["\']?)',
+                'table_group': 2, 'schema_group': 1, 'operation': 'SELECT', 'confidence': 0.98
+            },
+            {
+                'pattern': r'(?i)SELECT\s+.*?\bFROM\s+(?:["\']?)(\w+)(?:["\']?)(?:\s|$|,)',
+                'table_group': 1, 'schema_group': None, 'operation': 'SELECT', 'confidence': 0.90
+            },
+            # INSERT INTO
+            {
+                'pattern': r'(?i)INSERT\s+INTO\s+(?:["\']?)(\w+)\.(\w+)(?:["\']?)',
+                'table_group': 2, 'schema_group': 1, 'operation': 'INSERT', 'confidence': 0.98
+            },
+            {
+                'pattern': r'(?i)INSERT\s+INTO\s+(?:["\']?)(\w+)(?:["\']?)(?:\s|\()',
+                'table_group': 1, 'schema_group': None, 'operation': 'INSERT', 'confidence': 0.95
+            },
+            # UPDATE
+            {
+                'pattern': r'(?i)UPDATE\s+(?:["\']?)(\w+)\.(\w+)(?:["\']?)\s+SET',
+                'table_group': 2, 'schema_group': 1, 'operation': 'UPDATE', 'confidence': 0.98
+            },
+            {
+                'pattern': r'(?i)UPDATE\s+(?:["\']?)(\w+)(?:["\']?)\s+SET',
+                'table_group': 1, 'schema_group': None, 'operation': 'UPDATE', 'confidence': 0.95
+            },
+            # DELETE FROM
+            {
+                'pattern': r'(?i)DELETE\s+FROM\s+(?:["\']?)(\w+)\.(\w+)(?:["\']?)',
+                'table_group': 2, 'schema_group': 1, 'operation': 'DELETE', 'confidence': 0.98
+            },
+            {
+                'pattern': r'(?i)DELETE\s+FROM\s+(?:["\']?)(\w+)(?:["\']?)(?:\s|$)',
+                'table_group': 1, 'schema_group': None, 'operation': 'DELETE', 'confidence': 0.95
+            },
+            # JOIN patterns
+            {
+                'pattern': r'(?i)JOIN\s+(?:["\']?)(?:(\w+)\.)?(\w+)(?:["\']?)\s+',
+                'table_group': 2, 'schema_group': 1, 'operation': 'JOIN', 'confidence': 0.85
+            },
+            # COPY
+            {
+                'pattern': r'(?i)COPY\s+(?:["\']?)(?:(\w+)\.)?(\w+)(?:["\']?)\s+(?:FROM|TO)',
+                'table_group': 2, 'schema_group': 1, 'operation': 'COPY', 'confidence': 0.90
+            },
+            # TRUNCATE
+            {
+                'pattern': r'(?i)TRUNCATE\s+TABLE\s+(?:["\']?)(?:(\w+)\.)?(\w+)(?:["\']?)',
+                'table_group': 2, 'schema_group': 1, 'operation': 'TRUNCATE', 'confidence': 0.95
+            },
+            # ALTER TABLE
+            {
+                'pattern': r'(?i)ALTER\s+TABLE\s+(?:["\']?)(?:(\w+)\.)?(\w+)(?:["\']?)',
+                'table_group': 2, 'schema_group': 1, 'operation': 'ALTER', 'confidence': 0.95
+            }
         ]
     
     def _initialize_enhanced_orm_patterns(self) -> List[Dict]:
-        """Padrões ORM expandidos"""
+        """Padrões ORM ULTRA-EXPANDIDOS"""
         return [
-            # SQLAlchemy
+            # === SQLALCHEMY ===
             {'pattern': r'Table\s*\(\s*["\'](\w+)["\']', 'table_group': 1, 'context': 'sqlalchemy_table', 'confidence': 0.95},
             {'pattern': r'__tablename__\s*=\s*["\'](\w+)["\']', 'table_group': 1, 'context': 'sqlalchemy_model', 'confidence': 0.98},
-            # Django
+            
+            # === DJANGO ===
             {'pattern': r'db_table\s*=\s*["\'](\w+)["\']', 'table_group': 1, 'context': 'django_model', 'confidence': 0.95},
-            # Outros ORMs
+            
+            # === PEEWEE ===
             {'pattern': r'table_name\s*=\s*["\'](\w+)["\']', 'table_group': 1, 'context': 'peewee_model', 'confidence': 0.90},
+            
+            # === TORTOISE ORM ===
             {'pattern': r'table\s*=\s*["\'](\w+)["\']', 'table_group': 1, 'context': 'tortoise_model', 'confidence': 0.90},
+            
+            # === PONY ORM ===
             {'pattern': r'_table_\s*=\s*["\'](\w+)["\']', 'table_group': 1, 'context': 'pony_model', 'confidence': 0.90},
-            # Pandas
+            
+            # === SQLMODEL (FastAPI) ===
+            {'pattern': r'__tablename__\s*=\s*["\'](\w+)["\']', 'table_group': 1, 'context': 'sqlmodel', 'confidence': 0.95},
+            
+            # === PANDAS OPERATIONS ===
             {'pattern': r'read_sql\s*\(\s*["\']([^"\']*SELECT[^"\']*FROM\s+(\w+)[^"\']*)["\']', 'table_group': 2, 'context': 'pandas_read_sql', 'confidence': 0.85},
             {'pattern': r'read_sql_table\s*\(\s*["\'](\w+)["\']', 'table_group': 1, 'context': 'pandas_read_table', 'confidence': 0.90},
             {'pattern': r'to_sql\s*\(\s*["\'](\w+)["\']', 'table_group': 1, 'context': 'pandas_to_sql', 'confidence': 0.90},
-            # Migrações
+            {'pattern': r'read_sql_query\s*\(\s*["\']([^"\']*FROM\s+(\w+)[^"\']*)["\']', 'table_group': 2, 'context': 'pandas_query', 'confidence': 0.85},
+            
+            # === MIGRATION OPERATIONS ===
             {'pattern': r'create_table\s*\(\s*["\'](\w+)["\']', 'table_group': 1, 'context': 'migration_create', 'confidence': 0.95},
             {'pattern': r'drop_table\s*\(\s*["\'](\w+)["\']', 'table_group': 1, 'context': 'migration_drop', 'confidence': 0.95},
+            {'pattern': r'rename_table\s*\(\s*["\'](\w+)["\']', 'table_group': 1, 'context': 'migration_rename', 'confidence': 0.95},
             {'pattern': r'op\.create_table\s*\(\s*["\'](\w+)["\']', 'table_group': 1, 'context': 'alembic_create', 'confidence': 0.95},
-            # Database operations
+            {'pattern': r'op\.drop_table\s*\(\s*["\'](\w+)["\']', 'table_group': 1, 'context': 'alembic_drop', 'confidence': 0.95},
+            {'pattern': r'op\.rename_table\s*\(\s*["\'](\w+)["\']', 'table_group': 1, 'context': 'alembic_rename', 'confidence': 0.95},
+            
+            # === DATABASE OPERATIONS ===
             {'pattern': r'copy_from\s*\([^,]*["\'](\w+)["\']', 'table_group': 1, 'context': 'copy_from', 'confidence': 0.90},
             {'pattern': r'copy_to\s*\([^,]*["\'](\w+)["\']', 'table_group': 1, 'context': 'copy_to', 'confidence': 0.90},
-            # Raw SQL
+            {'pattern': r'copy_expert\s*\([^,]*["\']([^"\']*(\w+)[^"\']*)["\']', 'table_group': 2, 'context': 'copy_expert', 'confidence': 0.85},
+            
+            # === ASYNC OPERATIONS ===
+            {'pattern': r'fetch\s*\(\s*["\']([^"\']*FROM\s+(\w+)[^"\']*)["\']', 'table_group': 2, 'context': 'async_fetch', 'confidence': 0.85},
+            {'pattern': r'execute\s*\(\s*["\']([^"\']*FROM\s+(\w+)[^"\']*)["\']', 'table_group': 2, 'context': 'async_execute', 'confidence': 0.85},
+            {'pattern': r'executemany\s*\(\s*["\']([^"\']*INTO\s+(\w+)[^"\']*)["\']', 'table_group': 2, 'context': 'async_executemany', 'confidence': 0.85},
+            
+            # === SPECIFIC LIBRARIES ===
+            {'pattern': r'db\.query\s*\(\s*["\']([^"\']*FROM\s+(\w+)[^"\']*)["\']', 'table_group': 2, 'context': 'records_query', 'confidence': 0.80},
+            {'pattern': r'db\[["\'](\w+)["\']\]', 'table_group': 1, 'context': 'dataset_table', 'confidence': 0.85},
+            
+            # === RAW SQL EXECUTION ===
             {'pattern': r'cursor\.execute\s*\(\s*["\']([^"\']*)["\']', 'sql_group': 1, 'context': 'cursor_execute', 'confidence': 0.85},
             {'pattern': r'execute\s*\(\s*["\']([^"\']*)["\']', 'sql_group': 1, 'context': 'raw_execute', 'confidence': 0.80}
         ]
@@ -122,102 +191,18 @@ class PostgreSQLTableMapper:
     def _initialize_config_patterns(self) -> List[Dict]:
         """Padrões de configuração"""
         return [
+            # Dicionários de configuração
             {'pattern': r'["\'](\w+)["\']:\s*["\'](\w+_\w+)["\']', 'table_group': 2, 'confidence': 0.60},
+            # Constantes
             {'pattern': r'([A-Z_]+_TABLE)\s*=\s*["\'](\w+)["\']', 'table_group': 2, 'confidence': 0.70},
+            # Listas de tabelas
             {'pattern': r'\[\s*["\'](\w+_\w+)["\']', 'table_group': 1, 'confidence': 0.50},
+            # Variables with table in name
             {'pattern': r'(\w*table\w*)\s*=\s*["\'](\w+)["\']', 'table_group': 2, 'confidence': 0.65}
         ]
     
-    def _initialize_exotic_patterns(self) -> List[Dict]:
-        """Padrões EXÓTICOS e modernos"""
-        return [
-            # GraphQL
-            {'pattern': r'type\s+Query\s*\{[^}]*(\w+_graphql|\w+_api)[^}]*\}', 'table_group': 1, 'context': 'graphql_schema', 'confidence': 0.80},
-            {'pattern': r'(\w+_graphql|\w+_api):\s*\[', 'table_group': 1, 'context': 'graphql_type', 'confidence': 0.75},
-            
-            # FastAPI dependency injection
-            {'pattern': r'table_name:\s*str\s*=\s*["\'](\w+)["\']', 'table_group': 1, 'context': 'fastapi_dependency', 'confidence': 0.85},
-            {'pattern': r'fetch_from_table\s*\(\s*["\'](\w+)["\']', 'table_group': 1, 'context': 'async_fetch', 'confidence': 0.85},
-            
-            # Magic commands (Jupyter)
-            {'pattern': r'%sql\s+SELECT[^"\']*FROM\s+(\w+)', 'table_group': 1, 'context': 'jupyter_magic', 'confidence': 0.90},
-            {'pattern': r'%%sql[^"\']*FROM\s+(\w+)', 'table_group': 1, 'context': 'jupyter_cell_magic', 'confidence': 0.90},
-            
-            # Redis/Cache patterns
-            {'pattern': r'cache:table:(\w+)', 'table_group': 1, 'context': 'redis_key', 'confidence': 0.70},
-            {'pattern': r'session:data:(\w+)', 'table_group': 1, 'context': 'session_cache', 'confidence': 0.65},
-            
-            # Message Queue patterns
-            {'pattern': r'queue\.processar\.(\w+)', 'table_group': 1, 'context': 'rabbitmq_queue', 'confidence': 0.75},
-            {'pattern': r'eventos\.(\w+)\.', 'table_group': 1, 'context': 'kafka_topic', 'confidence': 0.70},
-            
-            # Feature store
-            {'pattern': r'source_table["\']:\s*["\'](\w+)["\']', 'table_group': 1, 'context': 'feature_store', 'confidence': 0.80},
-            {'pattern': r'features_(\w+)', 'table_group': 1, 'context': 'ml_features', 'confidence': 0.70},
-            
-            # Time-based tables
-            {'pattern': r'(\w+)_\d{4}_\d{2}_\d{2}', 'table_group': 1, 'context': 'time_based_table', 'confidence': 0.75},
-            {'pattern': r'(\w+)_partition_\w+', 'table_group': 1, 'context': 'partitioned_table', 'confidence': 0.80},
-            
-            # Internationalization
-            {'pattern': r'["\'](\w+_international_\w+)["\']', 'table_group': 1, 'context': 'i18n_table', 'confidence': 0.75}
-        ]
-    
-    def _initialize_documentation_patterns(self) -> List[Dict]:
-        """Padrões em documentação"""
-        return [
-            # OpenAPI/Swagger
-            {'pattern': r'"description":\s*"[^"]*FROM\s+(\w+)', 'table_group': 1, 'context': 'openapi_docs', 'confidence': 0.70},
-            {'pattern': r'"example":\s*"(\w+_api|\w+_swagger)"', 'table_group': 1, 'context': 'api_example', 'confidence': 0.65},
-            
-            # JSON Schema
-            {'pattern': r'"const":\s*"(\w+_schema|\w+_json)"', 'table_group': 1, 'context': 'json_schema', 'confidence': 0.70},
-            
-            # YAML configurations
-            {'pattern': r'-\s*(\w+_yaml|\w+_config)', 'table_group': 1, 'context': 'yaml_list', 'confidence': 0.65},
-            {'pattern': r'(\w+):\s*["\']?(\w+_yaml|\w+_toml)["\']?', 'table_group': 2, 'context': 'yaml_mapping', 'confidence': 0.65}
-        ]
-    
-    def _initialize_logging_patterns(self) -> List[Dict]:
-        """Padrões de logging e monitoramento"""
-        return [
-            # Structured logging
-            {'pattern': r'table=["\'"](\w+)["\']', 'table_group': 1, 'context': 'structured_log', 'confidence': 0.80},
-            {'pattern': r'logger\.\w+\([^)]*["\'](\w+_log|\w+_audit)["\']', 'table_group': 1, 'context': 'logger_call', 'confidence': 0.75},
-            
-            # Metrics
-            {'pattern': r'labels\(table_name=["\'](\w+)["\']\)', 'table_group': 1, 'context': 'prometheus_metric', 'confidence': 0.85},
-            {'pattern': r'db\.table\.name["\'],\s*["\'](\w+)["\']', 'table_group': 1, 'context': 'opentelemetry_trace', 'confidence': 0.85},
-            
-            # Health checks
-            {'pattern': r'"tables":\s*\[[^]]*["\'](\w+)["\']', 'table_group': 1, 'context': 'health_check', 'confidence': 0.75}
-        ]
-    
-    def _initialize_serialization_patterns(self) -> List[Dict]:
-        """Padrões de serialização e encoding"""
-        return [
-            # Protobuf-like
-            {'pattern': r'message\s+\w+\s*\{[^}]*["\'](\w+_protobuf|\w+_message)["\']', 'table_group': 1, 'context': 'protobuf_schema', 'confidence': 0.70},
-            
-            # Base64 (detectar padrões que podem ser nomes de tabela encoded)
-            {'pattern': r'base64\.\w+\([^)]*["\']([^"\']+)["\']', 'table_group': 1, 'context': 'base64_encoded', 'confidence': 0.40},
-            
-            # Hash patterns
-            {'pattern': r'hashlib\.\w+\([^)]*["\']tabela_(\w+)["\']', 'table_group': 1, 'context': 'hashed_table', 'confidence': 0.60}
-        ]
-    
-    def _initialize_infrastructure_patterns(self) -> List[Dict]:
-        """Padrões de infraestrutura"""
-        return [
-            # Docker/Kubernetes
-            {'pattern': r'DB_TABLE_\w+["\']?:\s*["\'](\w+)["\']', 'table_group': 1, 'context': 'env_variable', 'confidence': 0.80},
-            
-            # Terraform
-            {'pattern': r'name\s*=\s*["\'](\w+_terraform|\w+_infrastructure)["\']', 'table_group': 1, 'context': 'terraform_resource', 'confidence': 0.75}
-        ]
-    
     def analyze_project(self, project_path: str) -> Dict[str, Any]:
-        """Análise DEFINITIVA de projeto"""
+        """Analisa projeto completo"""
         start_time = time.time()
         project_path = Path(project_path)
         
@@ -226,22 +211,22 @@ class PostgreSQLTableMapper:
         else:
             python_files = list(project_path.rglob("*.py"))
         
-        self.logger.info(f"🚀 Iniciando mapeamento DEFINITIVO de tabelas PostgreSQL em {project_path}")
+        self.logger.info(f"🗃️ Iniciando mapeamento ULTRA-COMPLETO de tabelas PostgreSQL em {project_path}")
         self.logger.info(f"📁 Encontrados {len(python_files)} arquivos Python")
         
-        # Analisa cada arquivo com TODOS os métodos
+        # Analisa cada arquivo
         for file_path in python_files:
             try:
-                self._analyze_file_ultimate(str(file_path))
+                self._analyze_file(str(file_path))
             except Exception as e:
                 self.logger.warning(f"Erro ao analisar {file_path}: {e}")
                 continue
         
         analysis_time = time.time() - start_time
-        return self._generate_ultimate_report(analysis_time)
+        return self._generate_enhanced_report(analysis_time)
     
-    def _analyze_file_ultimate(self, file_path: str):
-        """Análise DEFINITIVA de arquivo"""
+    def _analyze_file(self, file_path: str):
+        """Análise ULTRA-COMPLETA de arquivo"""
         if file_path in self.analyzed_files:
             return
             
@@ -249,7 +234,7 @@ class PostgreSQLTableMapper:
         
         # Tenta diferentes encodings
         content = None
-        for encoding in ['utf-8', 'latin-1', 'cp1252', 'utf-16']:
+        for encoding in ['utf-8', 'latin-1', 'cp1252']:
             try:
                 with open(file_path, 'r', encoding=encoding) as f:
                     content = f.read()
@@ -265,7 +250,7 @@ class PostgreSQLTableMapper:
             # Parse AST
             tree = ast.parse(content)
             
-            # TODAS as análises tradicionais
+            # TODAS as análises possíveis
             self._analyze_ast_nodes(tree, file_path)
             self._analyze_sql_strings(content, file_path)
             self._analyze_orm_patterns(content, file_path)
@@ -275,17 +260,6 @@ class PostgreSQLTableMapper:
             self._analyze_function_calls(tree, file_path)
             self._analyze_string_literals(tree, file_path)
             
-            # ANÁLISES EXÓTICAS E AVANÇADAS
-            self._analyze_exotic_patterns(content, file_path)
-            self._analyze_documentation_patterns(content, file_path)
-            self._analyze_logging_patterns(content, file_path)
-            self._analyze_serialization_patterns(content, file_path)
-            self._analyze_infrastructure_patterns(content, file_path)
-            self._analyze_multiline_strings(content, file_path)
-            self._analyze_comments_and_docstrings(content, file_path)
-            self._analyze_unicode_patterns(content, file_path)
-            self._analyze_encoded_patterns(content, file_path)
-            
         except SyntaxError as e:
             # Arquivo com erro de sintaxe - análise por regex
             self.logger.warning(f"Erro de sintaxe em {file_path}, usando análise de texto: {e}")
@@ -293,11 +267,9 @@ class PostgreSQLTableMapper:
             self._analyze_orm_patterns(content, file_path)
             self._analyze_decorators(content, file_path)
             self._analyze_configuration_patterns(content, file_path)
-            self._analyze_exotic_patterns(content, file_path)
-            self._analyze_documentation_patterns(content, file_path)
     
     def _analyze_ast_nodes(self, tree: ast.AST, file_path: str):
-        """Análise básica de nós AST"""
+        """Análise de nós AST"""
         class TableVisitor(ast.NodeVisitor):
             def __init__(self, mapper, file_path):
                 self.mapper = mapper
@@ -311,6 +283,7 @@ class PostgreSQLTableMapper:
                 self.current_class = old_class
             
             def visit_Assign(self, node):
+                # Detecta assignments como __tablename__ = 'users'
                 for target in node.targets:
                     if (isinstance(target, ast.Name) and 
                         target.id in ['__tablename__', 'table_name', '_table_', 'db_table'] and
@@ -494,7 +467,7 @@ class PostgreSQLTableMapper:
                     
                     table_functions = [
                         'Table', 'create_table', 'drop_table', 'read_sql_table',
-                        'to_sql', 'copy_from', 'copy_to', 'fetch_from_table'
+                        'to_sql', 'copy_from', 'copy_to'
                     ]
                     
                     if func_name in table_functions and node.args:
@@ -524,6 +497,7 @@ class PostgreSQLTableMapper:
                 
             def visit_Constant(self, node):
                 if isinstance(node.value, str) and '_' in node.value:
+                    # Procura por padrões de tabela em strings
                     if (len(node.value) > 3 and 
                         node.value.count('_') >= 1 and
                         node.value.islower() and
@@ -532,9 +506,8 @@ class PostgreSQLTableMapper:
                         # Score baseado em características
                         score = 0.20
                         if 'table' in node.value: score += 0.20
-                        if node.value.endswith('s'): score += 0.10
+                        if node.value.endswith('s'): score += 0.10  # Plural
                         if any(word in node.value for word in ['user', 'product', 'order', 'data']): score += 0.15
-                        if any(suffix in node.value for suffix in ['_log', '_config', '_api', '_db']): score += 0.15
                         
                         if score > 0.30:
                             ref = TableReference(
@@ -550,234 +523,6 @@ class PostgreSQLTableMapper:
         
         visitor = StringVisitor(self, file_path)
         visitor.visit(tree)
-    
-    def _analyze_exotic_patterns(self, content: str, file_path: str):
-        """Análise de padrões EXÓTICOS"""
-        lines = content.split('\n')
-        
-        for line_num, line in enumerate(lines, 1):
-            for pattern_info in self.exotic_patterns:
-                matches = re.finditer(pattern_info['pattern'], line, re.IGNORECASE | re.MULTILINE)
-                
-                for match in matches:
-                    table_name = match.group(pattern_info['table_group'])
-                    
-                    if table_name and len(table_name) > 2:
-                        ref = TableReference(
-                            table_name=table_name,
-                            file_path=file_path,
-                            line_number=line_num,
-                            context_type='exotic_pattern',
-                            confidence=pattern_info['confidence'],
-                            raw_content=line.strip()[:100],
-                            context_details={'exotic_context': pattern_info['context']}
-                        )
-                        self.table_references.append(ref)
-    
-    def _analyze_documentation_patterns(self, content: str, file_path: str):
-        """Análise de padrões em documentação"""
-        lines = content.split('\n')
-        
-        for line_num, line in enumerate(lines, 1):
-            for pattern_info in self.documentation_patterns:
-                matches = re.finditer(pattern_info['pattern'], line, re.IGNORECASE)
-                
-                for match in matches:
-                    table_name = match.group(pattern_info['table_group'])
-                    
-                    if table_name and len(table_name) > 3:
-                        ref = TableReference(
-                            table_name=table_name,
-                            file_path=file_path,
-                            line_number=line_num,
-                            context_type='documentation',
-                            confidence=pattern_info['confidence'],
-                            raw_content=line.strip()[:100],
-                            context_details={'doc_context': pattern_info['context']}
-                        )
-                        self.table_references.append(ref)
-    
-    def _analyze_logging_patterns(self, content: str, file_path: str):
-        """Análise de padrões de logging"""
-        lines = content.split('\n')
-        
-        for line_num, line in enumerate(lines, 1):
-            for pattern_info in self.logging_patterns:
-                matches = re.finditer(pattern_info['pattern'], line, re.IGNORECASE)
-                
-                for match in matches:
-                    table_name = match.group(pattern_info['table_group'])
-                    
-                    if table_name and len(table_name) > 3:
-                        ref = TableReference(
-                            table_name=table_name,
-                            file_path=file_path,
-                            line_number=line_num,
-                            context_type='logging_monitoring',
-                            confidence=pattern_info['confidence'],
-                            raw_content=line.strip()[:100],
-                            context_details={'log_context': pattern_info['context']}
-                        )
-                        self.table_references.append(ref)
-    
-    def _analyze_serialization_patterns(self, content: str, file_path: str):
-        """Análise de padrões de serialização"""
-        lines = content.split('\n')
-        
-        for line_num, line in enumerate(lines, 1):
-            for pattern_info in self.serialization_patterns:
-                matches = re.finditer(pattern_info['pattern'], line, re.IGNORECASE)
-                
-                for match in matches:
-                    table_name = match.group(pattern_info['table_group'])
-                    
-                    if table_name and len(table_name) > 3:
-                        # Detectar tipo de encoding
-                        encoding_type = 'normal'
-                        if 'base64' in pattern_info['context']:
-                            encoding_type = 'base64'
-                            try:
-                                # Tentar decodificar base64
-                                decoded = base64.b64decode(table_name).decode('utf-8')
-                                if '_' in decoded:
-                                    table_name = decoded
-                            except:
-                                pass
-                        elif 'hash' in pattern_info['context']:
-                            encoding_type = 'hash'
-                        
-                        ref = TableReference(
-                            table_name=table_name,
-                            file_path=file_path,
-                            line_number=line_num,
-                            context_type='serialization',
-                            confidence=pattern_info['confidence'],
-                            raw_content=line.strip()[:100],
-                            encoding_type=encoding_type,
-                            context_details={'serial_context': pattern_info['context']}
-                        )
-                        self.table_references.append(ref)
-    
-    def _analyze_infrastructure_patterns(self, content: str, file_path: str):
-        """Análise de padrões de infraestrutura"""
-        lines = content.split('\n')
-        
-        for line_num, line in enumerate(lines, 1):
-            for pattern_info in self.infrastructure_patterns:
-                matches = re.finditer(pattern_info['pattern'], line, re.IGNORECASE)
-                
-                for match in matches:
-                    table_name = match.group(pattern_info['table_group'])
-                    
-                    if table_name and len(table_name) > 3:
-                        ref = TableReference(
-                            table_name=table_name,
-                            file_path=file_path,
-                            line_number=line_num,
-                            context_type='infrastructure',
-                            confidence=pattern_info['confidence'],
-                            raw_content=line.strip()[:100],
-                            context_details={'infra_context': pattern_info['context']}
-                        )
-                        self.table_references.append(ref)
-    
-    def _analyze_multiline_strings(self, content: str, file_path: str):
-        """Análise de strings multilinha (YAML, JSON, etc.)"""
-        # Detectar blocos YAML/JSON embedded
-        yaml_blocks = re.finditer(r'"""([^"]*(?:table|Table)[^"]*)"""', content, re.MULTILINE | re.DOTALL)
-        for match in yaml_blocks:
-            yaml_content = match.group(1)
-            lines = yaml_content.split('\n')
-            start_line = content[:match.start()].count('\n') + 1
-            
-            for i, line in enumerate(lines):
-                # Padrões YAML
-                yaml_matches = re.finditer(r'-\s*(\w+_yaml|\w+_config)', line)
-                for yaml_match in yaml_matches:
-                    table_name = yaml_match.group(1)
-                    ref = TableReference(
-                        table_name=table_name,
-                        file_path=file_path,
-                        line_number=start_line + i,
-                        context_type='yaml_embedded',
-                        confidence=0.70,
-                        raw_content=line.strip()
-                    )
-                    self.table_references.append(ref)
-    
-    def _analyze_comments_and_docstrings(self, content: str, file_path: str):
-        """Análise de comentários e docstrings"""
-        lines = content.split('\n')
-        
-        for line_num, line in enumerate(lines, 1):
-            # Comentários
-            if line.strip().startswith('#'):
-                # Procurar referências a tabelas em comentários
-                comment_matches = re.finditer(r'(\w+_table|\w+_data|\w+_db)', line, re.IGNORECASE)
-                for match in comment_matches:
-                    table_name = match.group(1)
-                    if len(table_name) > 4:
-                        ref = TableReference(
-                            table_name=table_name,
-                            file_path=file_path,
-                            line_number=line_num,
-                            context_type='comment_reference',
-                            confidence=0.50,
-                            raw_content=line.strip()
-                        )
-                        self.table_references.append(ref)
-    
-    def _analyze_unicode_patterns(self, content: str, file_path: str):
-        """Análise de padrões Unicode (nomes de tabela em outros idiomas)"""
-        lines = content.split('\n')
-        
-        unicode_table_patterns = [
-            r'["\']?(usuários|usuarios)_(\w+)["\']?',  # Portuguese
-            r'["\']?(продукты|данные)_(\w+)["\']?',     # Russian  
-            r'["\']?(用户|数据)_(\w+)["\']?',             # Chinese
-            r'["\']?(ユーザー|データ)_(\w+)["\']?'        # Japanese
-        ]
-        
-        for line_num, line in enumerate(lines, 1):
-            for pattern in unicode_table_patterns:
-                matches = re.finditer(pattern, line)
-                for match in matches:
-                    table_name = match.group(0).strip('\'"')
-                    ref = TableReference(
-                        table_name=table_name,
-                        file_path=file_path,
-                        line_number=line_num,
-                        context_type='unicode_table',
-                        confidence=0.75,
-                        encoding_type='unicode',
-                        raw_content=line.strip()
-                    )
-                    self.table_references.append(ref)
-    
-    def _analyze_encoded_patterns(self, content: str, file_path: str):
-        """Análise de padrões codificados/ofuscados"""
-        lines = content.split('\n')
-        
-        for line_num, line in enumerate(lines, 1):
-            # Detectar possíveis nomes de tabela em base64
-            base64_matches = re.finditer(r'["\']([A-Za-z0-9+/]{12,}={0,2})["\']', line)
-            for match in base64_matches:
-                encoded_str = match.group(1)
-                try:
-                    decoded = base64.b64decode(encoded_str + '==').decode('utf-8')
-                    if '_' in decoded and len(decoded) > 3 and decoded.replace('_', '').isalnum():
-                        ref = TableReference(
-                            table_name=decoded,
-                            file_path=file_path,
-                            line_number=line_num,
-                            context_type='base64_decoded',
-                            confidence=0.60,
-                            encoding_type='base64',
-                            raw_content=f"base64: {encoded_str}"
-                        )
-                        self.table_references.append(ref)
-                except:
-                    pass
     
     def _extract_tables_from_sql(self, sql_content: str, file_path: str, line_num: int, context: str = 'embedded_sql'):
         """Extrai tabelas de conteúdo SQL"""
@@ -801,8 +546,8 @@ class PostgreSQLTableMapper:
                     )
                     self.table_references.append(ref)
     
-    def _generate_ultimate_report(self, analysis_time: float) -> Dict[str, Any]:
-        """Gera relatório DEFINITIVO"""
+    def _generate_enhanced_report(self, analysis_time: float) -> Dict[str, Any]:
+        """Gera relatório ULTRA-COMPLETO"""
         # Estatísticas básicas
         total_references = len(self.table_references)
         unique_tables = len(set(ref.table_name for ref in self.table_references))
@@ -813,7 +558,6 @@ class PostgreSQLTableMapper:
         context_breakdown = defaultdict(int)
         operation_breakdown = defaultdict(int)
         confidence_breakdown = defaultdict(int)
-        encoding_breakdown = defaultdict(int)
         
         for ref in self.table_references:
             tables_map[ref.table_name].append(ref)
@@ -823,9 +567,6 @@ class PostgreSQLTableMapper:
             # Breakdown de confiança
             conf_range = 'high' if ref.confidence >= 0.8 else 'medium' if ref.confidence >= 0.5 else 'low'
             confidence_breakdown[conf_range] += 1
-            
-            # Breakdown de encoding
-            encoding_breakdown[ref.encoding_type or 'normal'] += 1
         
         # Top tabelas
         most_referenced = sorted(
@@ -836,13 +577,6 @@ class PostgreSQLTableMapper:
         # Esquemas
         schemas = set(ref.schema for ref in self.table_references if ref.schema)
         
-        # Padrões detectados
-        total_patterns = (len(self.sql_patterns) + len(self.orm_patterns) + 
-                         len(self.decorator_patterns) + len(self.config_patterns) +
-                         len(self.exotic_patterns) + len(self.documentation_patterns) +
-                         len(self.logging_patterns) + len(self.serialization_patterns) +
-                         len(self.infrastructure_patterns))
-        
         return {
             'analysis_summary': {
                 'analysis_time_seconds': round(analysis_time, 2),
@@ -851,22 +585,12 @@ class PostgreSQLTableMapper:
                 'total_table_references': total_references,
                 'unique_tables_found': unique_tables,
                 'schemas_found': list(schemas),
-                'total_detection_patterns': total_patterns,
-                'pattern_categories': {
-                    'sql_patterns': len(self.sql_patterns),
-                    'orm_patterns': len(self.orm_patterns),
-                    'exotic_patterns': len(self.exotic_patterns),
-                    'documentation_patterns': len(self.documentation_patterns),
-                    'logging_patterns': len(self.logging_patterns),
-                    'serialization_patterns': len(self.serialization_patterns),
-                    'infrastructure_patterns': len(self.infrastructure_patterns)
-                }
+                'detection_patterns': len(self.sql_patterns) + len(self.orm_patterns) + len(self.decorator_patterns) + len(self.config_patterns)
             },
             'statistics': {
                 'context_breakdown': dict(context_breakdown),
                 'operation_breakdown': dict(operation_breakdown),
                 'confidence_breakdown': dict(confidence_breakdown),
-                'encoding_breakdown': dict(encoding_breakdown),
                 'most_referenced_tables': [{'table': table, 'references': count} for table, count in most_referenced]
             },
             'tables_discovered': {
@@ -875,7 +599,6 @@ class PostgreSQLTableMapper:
                     'files': list(set(ref.file_path for ref in refs)),
                     'contexts': list(set(ref.context_type for ref in refs)),
                     'operations': list(set(ref.operation_type for ref in refs if ref.operation_type)),
-                    'encoding_types': list(set(ref.encoding_type for ref in refs if ref.encoding_type)),
                     'average_confidence': sum(ref.confidence for ref in refs) / len(refs),
                     'references': [
                         {
@@ -884,7 +607,6 @@ class PostgreSQLTableMapper:
                             'context': ref.context_type,
                             'operation': ref.operation_type,
                             'confidence': ref.confidence,
-                            'encoding': ref.encoding_type,
                             'raw_content': ref.raw_content[:100] + '...' if len(ref.raw_content) > 100 else ref.raw_content
                         }
                         for ref in refs
@@ -898,9 +620,9 @@ def main():
     """Função principal para execução via CLI"""
     import argparse
     
-    parser = argparse.ArgumentParser(description='Mapeador DEFINITIVO de tabelas PostgreSQL')
+    parser = argparse.ArgumentParser(description='Mapeador ULTRA-COMPLETO de tabelas PostgreSQL')
     parser.add_argument('path', help='Caminho para analisar')
-    parser.add_argument('--output', '-o', default='postgresql_ultimate_map.json', help='Arquivo de saída')
+    parser.add_argument('--output', '-o', default='postgresql_enhanced_map.json', help='Arquivo de saída')
     parser.add_argument('--verbose', '-v', action='store_true', help='Modo verboso')
     
     args = parser.parse_args()
@@ -918,11 +640,11 @@ def main():
     
     # Mostra resumo
     summary = results['analysis_summary']
-    print(f"\n🚀 Análise DEFINITIVA:")
+    print(f"\n📊 Análise ULTRA-COMPLETA:")
     print(f"   📁 Arquivos analisados: {summary['files_analyzed']}")
     print(f"   🗃️ Tabelas encontradas: {summary['unique_tables_found']}")
     print(f"   📊 Total de referências: {summary['total_table_references']}")
-    print(f"   🔍 Padrões de detecção: {summary['total_detection_patterns']}")
+    print(f"   🔍 Padrões de detecção: {summary['detection_patterns']}")
     print(f"   ⏱️ Tempo de análise: {summary['analysis_time_seconds']}s")
     
     if results['tables_discovered']:
@@ -930,7 +652,7 @@ def main():
         for item in results['statistics']['most_referenced_tables'][:5]:
             print(f"   • {item['table']}: {item['references']} referências")
     
-    print(f"\n📄 Relatório DEFINITIVO salvo em: {args.output}")
+    print(f"\n📄 Relatório ULTRA-COMPLETO salvo em: {args.output}")
 
 if __name__ == "__main__":
     main()
