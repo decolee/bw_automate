@@ -251,6 +251,9 @@ class PostgreSQLTableMapper:
                 self.logger.warning(f"Erro ao analisar {file_path}: {e}")
                 continue
         
+        # APLICAR PÓS-PROCESSAMENTO INTELIGENTE
+        self._post_process_and_filter_results()
+        
         analysis_time = time.time() - start_time
         return self._generate_ultimate_report(analysis_time)
     
@@ -624,20 +627,98 @@ class PostgreSQLTableMapper:
             pass
     
     def _is_valid_table_name(self, table_name: str) -> bool:
-        """Valida se o nome parece ser uma tabela PostgreSQL válida"""
+        """Valida se o nome parece ser uma tabela PostgreSQL válida com filtros INTELIGENTES"""
         if not table_name or len(table_name) < 2:
             return False
         
+        # Remove emojis e caracteres especiais
+        cleaned_name = re.sub(r'[^\w\-_]', '', table_name)
+        if len(cleaned_name) < 2:
+            return False
+        
         # Aceita apenas letras, números, underscore e hífen
-        if not re.match(r'^[a-zA-Z][a-zA-Z0-9_-]*$', table_name):
+        if not re.match(r'^[a-zA-Z][a-zA-Z0-9_-]*$', cleaned_name):
             return False
         
-        # Evita nomes muito comuns que provavelmente não são tabelas
-        common_words = {'data', 'info', 'value', 'result', 'output', 'input', 'temp', 'test'}
-        if table_name.lower() in common_words:
+        # BLACKLIST INTELIGENTE - palavras que NUNCA são tabelas
+        blacklist_words = {
+            # Palavras comuns
+            'data', 'info', 'value', 'result', 'output', 'input', 'temp', 'test',
+            'item', 'name', 'id', 'key', 'type', 'status', 'message', 'error',
+            'success', 'failed', 'true', 'false', 'none', 'null', 'empty',
+            
+            # Termos técnicos
+            'string', 'text', 'json', 'xml', 'html', 'csv', 'pdf', 'doc',
+            'file', 'path', 'url', 'uri', 'api', 'sql', 'query', 'command',
+            
+            # Frases em português/inglês
+            'arquivo', 'teste', 'controlado', 'criado', 'from', 'this', 'point',
+            'will', 'select', 'best', 'approach', 'create', 'new', 'update',
+            'system', 'we', 'the', 'and', 'or', 'not', 'with', 'for',
+            
+            # Nomes genéricos que aparecem em SQL de exemplo/teste
+            'dados_principais', 'dados_raw', 'temp_old_data', 'old_data',
+            'raw_data', 'temp_data', 'test_data', 'sample_data', 'mock_data'
+        }
+        
+        # Verifica se é uma palavra blacklistada
+        if cleaned_name.lower() in blacklist_words:
             return False
         
+        # Filtro anti-emoji e caracteres especiais
+        if any(ord(c) > 127 for c in table_name):
+            # Se contém caracteres unicode, verifica se parece com emoji
+            emoji_pattern = r'[\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF\U00002702-\U000027B0\U000024C2-\U0001F251]+'
+            if re.search(emoji_pattern, table_name):
+                return False
+        
+        # Filtro anti-frases (mais de 3 palavras separadas por espaço)
+        if ' ' in table_name and len(table_name.split()) > 3:
+            return False
+        
+        # Filtro anti-patterns específicos
+        anti_patterns = [
+            r'arquivo.*teste.*controlado.*criado',  # Frases específicas
+            r'from.*this.*point.*on',               # Frases em inglês
+            r'create.*new.*update',                 # Comandos SQL genéricos
+            r'best.*approach'                       # Frases comuns
+        ]
+        
+        for pattern in anti_patterns:
+            if re.search(pattern, table_name.lower(), re.IGNORECASE):
+                return False
+        
+        # Filtro de contexto: tabelas devem ter pelo menos um underscore OU ser nomes descritivos
+        if '_' not in cleaned_name and len(cleaned_name) < 6:
+            return False
+            
         return True
+    
+    def _calculate_sql_context_confidence(self, table_name: str, sql_content: str, base_confidence: float) -> float:
+        """Calcula confiança ajustada baseada no contexto SQL"""
+        confidence = base_confidence
+        
+        # Boost para tabelas com nomes realistas de banco de dados
+        if any(keyword in table_name.lower() for keyword in ['user', 'product', 'order', 'item', 'data', 'log', 'audit', 'session', 'config']):
+            confidence += 0.1
+        
+        # Boost para operações CRUD reais
+        sql_lower = sql_content.lower()
+        if any(op in sql_lower for op in ['insert into', 'update', 'delete from', 'create table']):
+            confidence += 0.05
+        
+        # Penalidade para tabelas que aparecem em contextos suspeitos
+        if 'expected_tables' in sql_content.lower():
+            confidence -= 0.2  # Provavelmente é lista de teste
+        
+        if 'print(' in sql_content or 'console.log' in sql_content:
+            confidence -= 0.15  # Provavelmente é debug/logging
+        
+        # Boost para SQL com WHERE, JOIN, etc. (mais realista)
+        if any(clause in sql_lower for clause in ['where', 'join', 'group by', 'order by']):
+            confidence += 0.05
+        
+        return max(0.0, min(1.0, confidence))  # Mantém entre 0 e 1
     
     def _analyze_documentation_patterns(self, content: str, file_path: str):
         """Análise de padrões em documentação"""
@@ -931,7 +1012,7 @@ class PostgreSQLTableMapper:
                     pass
     
     def _extract_tables_from_sql(self, sql_content: str, file_path: str, line_num: int, context: str = 'embedded_sql'):
-        """Extrai tabelas de conteúdo SQL"""
+        """Extrai tabelas de conteúdo SQL com validação inteligente"""
         for pattern_info in self.sql_patterns:
             matches = re.finditer(pattern_info['pattern'], sql_content)
             
@@ -939,7 +1020,14 @@ class PostgreSQLTableMapper:
                 table_name = match.group(pattern_info['table_group'])
                 schema = match.group(pattern_info['schema_group']) if pattern_info.get('schema_group') else None
                 
-                if table_name and len(table_name) > 1:
+                # APLICAR FILTRO INTELIGENTE
+                if table_name and len(table_name) > 1 and self._is_valid_table_name(table_name):
+                    # Calcula confiança ajustada baseada no contexto SQL
+                    base_confidence = pattern_info['confidence'] * 0.9
+                    adjusted_confidence = self._calculate_sql_context_confidence(
+                        table_name, sql_content, base_confidence
+                    )
+                    
                     ref = TableReference(
                         table_name=table_name,
                         schema=schema,
@@ -947,7 +1035,7 @@ class PostgreSQLTableMapper:
                         line_number=line_num,
                         context_type=context,
                         operation_type=pattern_info['operation'],
-                        confidence=pattern_info['confidence'] * 0.9,
+                        confidence=adjusted_confidence,
                         raw_content=sql_content[:100]
                     )
                     self.table_references.append(ref)
@@ -1044,6 +1132,117 @@ class PostgreSQLTableMapper:
                 for table_name, refs in tables_map.items()
             }
         }
+    
+    def _post_process_and_filter_results(self):
+        """Pós-processamento INTELIGENTE para filtrar e rankear resultados"""
+        if not self.table_references:
+            return
+        
+        # 1. Agrupar por nome de tabela
+        table_groups = defaultdict(list)
+        for ref in self.table_references:
+            table_groups[ref.table_name.lower()].append(ref)
+        
+        # 2. Aplicar filtros inteligentes
+        filtered_refs = []
+        
+        for table_name, refs in table_groups.items():
+            # Calcula score final para cada tabela
+            final_score = self._calculate_final_table_score(table_name, refs)
+            
+            # THRESHOLD INTELIGENTE: só aceita tabelas com score > 0.65
+            if final_score > 0.65:
+                # Mantém apenas a melhor referência de cada contexto
+                best_refs = self._select_best_references_per_context(refs)
+                
+                # Atualiza confiança final
+                for ref in best_refs:
+                    ref.confidence = final_score
+                
+                filtered_refs.extend(best_refs)
+        
+        # 3. Substitui a lista original
+        self.table_references = filtered_refs
+        
+        # 4. Log do filtro aplicado
+        self.logger.info(f"🧹 Filtro inteligente aplicado: {len(filtered_refs)} referências mantidas")
+    
+    def _calculate_final_table_score(self, table_name: str, refs: List[TableReference]) -> float:
+        """Calcula score final inteligente baseado em múltiplos fatores"""
+        if not refs:
+            return 0.0
+        
+        # Score base: média das confianças
+        base_score = sum(ref.confidence for ref in refs) / len(refs)
+        
+        # Fatores de ajuste
+        adjustments = 0.0
+        
+        # 1. Boost para múltiplas referências (indica table real)
+        if len(refs) > 1:
+            adjustments += 0.1 * min(len(refs), 5)  # Max boost: 0.5
+        
+        # 2. Boost para contextos diversos (mais realista)
+        unique_contexts = len(set(ref.context_type for ref in refs))
+        if unique_contexts > 2:
+            adjustments += 0.15
+        
+        # 3. Boost para operações SQL reais
+        sql_operations = [ref.operation_type for ref in refs if ref.operation_type]
+        if any(op in sql_operations for op in ['SELECT', 'INSERT', 'UPDATE', 'DELETE']):
+            adjustments += 0.2
+        
+        # 4. Penalidade para nomes suspeitos
+        suspicious_patterns = [
+            'arquivo.*teste.*controlado.*criado',
+            'expected.*tables',
+            'test.*data',
+            'mock.*table',
+            'dados_principais',
+            'dados_raw', 
+            'temp_old_data',
+            'old_data',
+            'raw_data'
+        ]
+        
+        for pattern in suspicious_patterns:
+            if re.search(pattern, table_name.lower(), re.IGNORECASE):
+                adjustments -= 0.5  # Penalidade maior
+                break
+        
+        # 5. Boost para nomes realistas de BD
+        realistic_patterns = [
+            r'.*_(user|product|order|item|data|log|audit|session|config|backup|temp|history)s?$',
+            r'^(user|product|order|item|data|log|audit|session|config|backup|temp|history)s?_.*',
+            r'.*_\w+_\w+.*'  # Padrão módulo_entidade_tipo
+        ]
+        
+        for pattern in realistic_patterns:
+            if re.search(pattern, table_name.lower()):
+                adjustments += 0.1
+                break
+        
+        # Score final limitado entre 0 e 1
+        final_score = max(0.0, min(1.0, base_score + adjustments))
+        
+        return final_score
+    
+    def _select_best_references_per_context(self, refs: List[TableReference]) -> List[TableReference]:
+        """Seleciona as melhores referências por contexto"""
+        context_groups = defaultdict(list)
+        
+        # Agrupa por contexto
+        for ref in refs:
+            context_groups[ref.context_type].append(ref)
+        
+        # Seleciona a melhor de cada contexto
+        best_refs = []
+        for context, context_refs in context_groups.items():
+            # Ordena por confiança descendente
+            best_ref = max(context_refs, key=lambda r: r.confidence)
+            best_refs.append(best_ref)
+        
+        return best_refs
 
 def main():
     """Função principal para execução via CLI"""
