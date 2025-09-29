@@ -160,7 +160,21 @@ class PostgreSQLTableMapper:
             {'pattern': r'(\w+)_partition_\w+', 'table_group': 1, 'context': 'partitioned_table', 'confidence': 0.80},
             
             # Internationalization
-            {'pattern': r'["\'](\w+_international_\w+)["\']', 'table_group': 1, 'context': 'i18n_table', 'confidence': 0.75}
+            {'pattern': r'["\'](\w+_international_\w+)["\']', 'table_group': 1, 'context': 'i18n_table', 'confidence': 0.75},
+            
+            # Cutting-edge technologies
+            {'pattern': r'(\w+_quantum|\w+_blockchain|\w+_wasm|\w+_neuromorphic)', 'table_group': 1, 'context': 'cutting_edge_tech', 'confidence': 0.70},
+            {'pattern': r'(\w+_metaverse|\w+_nft|\w+_defi)', 'table_group': 1, 'context': 'web3_metaverse', 'confidence': 0.70},
+            
+            # Self-modifying and dynamic patterns
+            {'pattern': r'f["\'](\w+_autogerada_\d+)["\']', 'table_group': 1, 'context': 'self_modifying', 'confidence': 0.60},
+            {'pattern': r'random\.[\w]+.*["\'](\w+_dinamica)["\']', 'table_group': 1, 'context': 'dynamic_generation', 'confidence': 0.55},
+            
+            # Binary and byte patterns
+            {'pattern': r'decode\(["\']utf-8["\']\)', 'table_group': 0, 'context': 'binary_decode', 'confidence': 0.40},
+            
+            # Emoji and special characters
+            {'pattern': r'["\'][^"\']*[🚀🔥⚡🎯🌟][^"\']*["\']', 'table_group': 0, 'context': 'emoji_tables', 'confidence': 0.30}
         ]
     
     def _initialize_documentation_patterns(self) -> List[Dict]:
@@ -285,6 +299,8 @@ class PostgreSQLTableMapper:
             self._analyze_comments_and_docstrings(content, file_path)
             self._analyze_unicode_patterns(content, file_path)
             self._analyze_encoded_patterns(content, file_path)
+            self._analyze_dynamic_patterns(content, file_path)
+            self._analyze_byte_patterns(content, file_path)
             
         except SyntaxError as e:
             # Arquivo com erro de sintaxe - análise por regex
@@ -573,6 +589,55 @@ class PostgreSQLTableMapper:
                             context_details={'exotic_context': pattern_info['context']}
                         )
                         self.table_references.append(ref)
+        
+        # NOVA ANÁLISE: Detecção específica de listas de tabelas cutting-edge
+        try:
+            tree = ast.parse(content)
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Assign):
+                    for target in node.targets:
+                        if isinstance(target, ast.Name):
+                            var_name = target.id.lower()
+                            # Procura variáveis com nomes relacionados a tecnologias cutting-edge
+                            if any(keyword in var_name for keyword in [
+                                'quantum', 'circuit', 'neuromorphic', 'metaverse', 'spatial', 
+                                'edge', 'temporal', 'graph', 'blockchain', 'crypto', 'dna',
+                                'bci', 'diffusion', 'llm', 'grpc', 'http3', 'lambda',
+                                'emscripten', 'tables'  # Adiciona detecção específica para listas de tabelas
+                            ]):
+                                if isinstance(node.value, ast.List):
+                                    for item in node.value.elts:
+                                        if isinstance(item, ast.Constant) and isinstance(item.value, str):
+                                            table_name = item.value.strip()
+                                            if self._is_valid_table_name(table_name):
+                                                ref = TableReference(
+                                                    table_name=table_name,
+                                                    file_path=file_path,
+                                                    line_number=getattr(node, 'lineno', 0),
+                                                    context_type='exotic_pattern',
+                                                    confidence=0.85,
+                                                    raw_content=f'{var_name} = ["{table_name}", ...]',
+                                                    context_details={'exotic_context': f'cutting_edge_list_{var_name}'}
+                                                )
+                                                self.table_references.append(ref)
+        except:
+            pass
+    
+    def _is_valid_table_name(self, table_name: str) -> bool:
+        """Valida se o nome parece ser uma tabela PostgreSQL válida"""
+        if not table_name or len(table_name) < 2:
+            return False
+        
+        # Aceita apenas letras, números, underscore e hífen
+        if not re.match(r'^[a-zA-Z][a-zA-Z0-9_-]*$', table_name):
+            return False
+        
+        # Evita nomes muito comuns que provavelmente não são tabelas
+        common_words = {'data', 'info', 'value', 'result', 'output', 'input', 'temp', 'test'}
+        if table_name.lower() in common_words:
+            return False
+        
+        return True
     
     def _analyze_documentation_patterns(self, content: str, file_path: str):
         """Análise de padrões em documentação"""
@@ -776,6 +841,92 @@ class PostgreSQLTableMapper:
                             raw_content=f"base64: {encoded_str}"
                         )
                         self.table_references.append(ref)
+                except:
+                    pass
+    
+    def _analyze_dynamic_patterns(self, content: str, file_path: str):
+        """Análise de padrões dinâmicos e auto-modificáveis"""
+        lines = content.split('\n')
+        
+        for line_num, line in enumerate(lines, 1):
+            # Função que gera nomes de tabela dinamicamente
+            if 'def generate_table_name' in line or 'f"tabela_autogerada_' in line:
+                # Procurar por padrões de geração dinâmica
+                dynamic_matches = re.finditer(r'["\'](\w+_autogerada_\d+)["\']', line)
+                for match in dynamic_matches:
+                    table_name = match.group(1)
+                    ref = TableReference(
+                        table_name=table_name,
+                        file_path=file_path,
+                        line_number=line_num,
+                        context_type='dynamic_generation',
+                        confidence=0.65,
+                        raw_content=line.strip()
+                    )
+                    self.table_references.append(ref)
+            
+            # Código que escreve código
+            if 'setattr' in line or 'exec(' in line or 'eval(' in line:
+                # Procurar por referências de tabela em código auto-modificável
+                meta_matches = re.finditer(r'["\'](\w+_dinamica|\w+_runtime|\w+_reflexao)["\']', line)
+                for match in meta_matches:
+                    table_name = match.group(1)
+                    ref = TableReference(
+                        table_name=table_name,
+                        file_path=file_path,
+                        line_number=line_num,
+                        context_type='self_modifying_code',
+                        confidence=0.60,
+                        raw_content=line.strip()
+                    )
+                    self.table_references.append(ref)
+    
+    def _analyze_byte_patterns(self, content: str, file_path: str):
+        """Análise de padrões em bytes e encoding complexo"""
+        lines = content.split('\n')
+        
+        for line_num, line in enumerate(lines, 1):
+            # Detectar byte strings que podem conter nomes de tabela
+            byte_matches = re.finditer(r'b["\']([^"\']*)["\']\.decode\(["\']utf-8["\']\)', line)
+            for match in byte_matches:
+                byte_content = match.group(1)
+                try:
+                    # Tentar decodificar e verificar se é nome de tabela
+                    decoded = bytes(byte_content, 'utf-8').decode('unicode_escape')
+                    if '_' in decoded and len(decoded) > 3 and decoded.replace('_', '').replace('-', '').isalnum():
+                        ref = TableReference(
+                            table_name=decoded,
+                            file_path=file_path,
+                            line_number=line_num,
+                            context_type='byte_decoded',
+                            confidence=0.55,
+                            encoding_type='byte_string',
+                            raw_content=line.strip()
+                        )
+                        self.table_references.append(ref)
+                except:
+                    pass
+            
+            # Detectar hex patterns que podem ser nomes de tabela
+            hex_matches = re.finditer(r'\\x[0-9a-fA-F]{2}', line)
+            if hex_matches:
+                try:
+                    # Tentar decodificar sequência hex completa
+                    hex_bytes = re.findall(r'\\x([0-9a-fA-F]{2})', line)
+                    if len(hex_bytes) > 4:  # Pelo menos 4 bytes
+                        decoded_bytes = bytes([int(h, 16) for h in hex_bytes])
+                        decoded_str = decoded_bytes.decode('utf-8')
+                        if '_' in decoded_str and decoded_str.replace('_', '').isalnum():
+                            ref = TableReference(
+                                table_name=decoded_str,
+                                file_path=file_path,
+                                line_number=line_num,
+                                context_type='hex_decoded',
+                                confidence=0.50,
+                                encoding_type='hex_bytes',
+                                raw_content=line.strip()
+                            )
+                            self.table_references.append(ref)
                 except:
                     pass
     
