@@ -1,0 +1,994 @@
+{
+  "analysis_summary": {
+    "analysis_time_seconds": 0.06,
+    "files_analyzed": 1,
+    "files_with_table_references": 1,
+    "total_table_references": 63,
+    "unique_tables_found": 19,
+    "schemas_found": [],
+    "total_detection_patterns": 72,
+    "pattern_categories": {
+      "sql_patterns": 14,
+      "orm_patterns": 16,
+      "exotic_patterns": 21,
+      "documentation_patterns": 5,
+      "logging_patterns": 5,
+      "serialization_patterns": 3,
+      "infrastructure_patterns": 2
+    }
+  },
+  "statistics": {
+    "context_breakdown": {
+      "orm_class": 4,
+      "sql_string": 14,
+      "orm_pattern": 8,
+      "raw_execute": 1,
+      "configuration": 6,
+      "variable_assignment": 4,
+      "string_literal": 8,
+      "exotic_pattern": 16,
+      "unicode_table": 2
+    },
+    "operation_breakdown": {
+      "": 48,
+      "SELECT": 5,
+      "INSERT": 4,
+      "UPDATE": 2,
+      "JOIN": 1,
+      "CREATE": 1,
+      "DELETE": 1,
+      "DROP": 1
+    },
+    "confidence_breakdown": {
+      "high": 42,
+      "medium": 12,
+      "low": 9
+    },
+    "encoding_breakdown": {
+      "normal": 61,
+      "unicode": 2
+    },
+    "most_referenced_tables": [
+      {
+        "table": "auth_users",
+        "references": 9
+      },
+      {
+        "table": "django_sessions",
+        "references": 9
+      },
+      {
+        "table": "enderecos_entrega",
+        "references": 7
+      },
+      {
+        "table": "categorias_produto",
+        "references": 5
+      },
+      {
+        "table": "usuarios_sistema",
+        "references": 4
+      },
+      {
+        "table": "vendas_mensais",
+        "references": 4
+      },
+      {
+        "table": "dados_consolidados",
+        "references": 3
+      },
+      {
+        "table": "backup_dados",
+        "references": 3
+      },
+      {
+        "table": "temp_processamento",
+        "references": 3
+      },
+      {
+        "table": "historico_alteracoes",
+        "references": 3
+      }
+    ]
+  },
+  "tables_discovered": {
+    "categorias_produto": {
+      "reference_count": 5,
+      "files": [
+        "efficiency_test_controlled.py"
+      ],
+      "contexts": [
+        "variable_assignment",
+        "exotic_pattern",
+        "orm_pattern",
+        "configuration",
+        "orm_class"
+      ],
+      "operations": [],
+      "encoding_types": [],
+      "average_confidence": 0.836,
+      "references": [
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 58,
+          "context": "orm_class",
+          "operation": "",
+          "confidence": 0.95,
+          "encoding": "",
+          "raw_content": ""
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 58,
+          "context": "orm_pattern",
+          "operation": "",
+          "confidence": 0.98,
+          "encoding": "",
+          "raw_content": "__tablename__ = 'categorias_produto'"
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 58,
+          "context": "configuration",
+          "operation": "",
+          "confidence": 0.65,
+          "encoding": "",
+          "raw_content": "__tablename__ = 'categorias_produto'"
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 58,
+          "context": "variable_assignment",
+          "operation": "",
+          "confidence": 0.75,
+          "encoding": "",
+          "raw_content": ""
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 9,
+          "context": "exotic_pattern",
+          "operation": "",
+          "confidence": 0.85,
+          "encoding": "",
+          "raw_content": "expected_tables = [\"categorias_produto\", ...]"
+        }
+      ]
+    },
+    "enderecos_entrega": {
+      "reference_count": 7,
+      "files": [
+        "efficiency_test_controlled.py"
+      ],
+      "contexts": [
+        "variable_assignment",
+        "sql_string",
+        "exotic_pattern",
+        "orm_pattern",
+        "configuration",
+        "raw_execute",
+        "orm_class"
+      ],
+      "operations": [
+        "INSERT"
+      ],
+      "encoding_types": [],
+      "average_confidence": 0.8549999999999999,
+      "references": [
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 63,
+          "context": "orm_class",
+          "operation": "",
+          "confidence": 0.95,
+          "encoding": "",
+          "raw_content": ""
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 67,
+          "context": "sql_string",
+          "operation": "INSERT",
+          "confidence": 0.95,
+          "encoding": "",
+          "raw_content": "return engine.execute(\"INSERT INTO enderecos_entrega VALUES (%s)\", self.data)"
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 63,
+          "context": "orm_pattern",
+          "operation": "",
+          "confidence": 0.98,
+          "encoding": "",
+          "raw_content": "__tablename__ = 'enderecos_entrega'"
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 67,
+          "context": "raw_execute",
+          "operation": "INSERT",
+          "confidence": 0.855,
+          "encoding": "",
+          "raw_content": "INSERT INTO enderecos_entrega VALUES (%s)"
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 63,
+          "context": "configuration",
+          "operation": "",
+          "confidence": 0.65,
+          "encoding": "",
+          "raw_content": "__tablename__ = 'enderecos_entrega'"
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 63,
+          "context": "variable_assignment",
+          "operation": "",
+          "confidence": 0.75,
+          "encoding": "",
+          "raw_content": ""
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 9,
+          "context": "exotic_pattern",
+          "operation": "",
+          "confidence": 0.85,
+          "encoding": "",
+          "raw_content": "expected_tables = [\"enderecos_entrega\", ...]"
+        }
+      ]
+    },
+    "auth_users": {
+      "reference_count": 9,
+      "files": [
+        "efficiency_test_controlled.py"
+      ],
+      "contexts": [
+        "string_literal",
+        "variable_assignment",
+        "exotic_pattern",
+        "orm_pattern",
+        "configuration",
+        "orm_class"
+      ],
+      "operations": [],
+      "encoding_types": [],
+      "average_confidence": 0.7388888888888889,
+      "references": [
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 112,
+          "context": "orm_class",
+          "operation": "",
+          "confidence": 0.95,
+          "encoding": "",
+          "raw_content": ""
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 112,
+          "context": "orm_pattern",
+          "operation": "",
+          "confidence": 0.95,
+          "encoding": "",
+          "raw_content": "db_table = 'auth_users'"
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 112,
+          "context": "orm_pattern",
+          "operation": "",
+          "confidence": 0.9,
+          "encoding": "",
+          "raw_content": "db_table = 'auth_users'"
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 112,
+          "context": "configuration",
+          "operation": "",
+          "confidence": 0.7,
+          "encoding": "",
+          "raw_content": "db_table = 'auth_users'"
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 112,
+          "context": "configuration",
+          "operation": "",
+          "confidence": 0.65,
+          "encoding": "",
+          "raw_content": "db_table = 'auth_users'"
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 112,
+          "context": "variable_assignment",
+          "operation": "",
+          "confidence": 0.75,
+          "encoding": "",
+          "raw_content": ""
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 36,
+          "context": "string_literal",
+          "operation": "",
+          "confidence": 0.45000000000000007,
+          "encoding": "",
+          "raw_content": ""
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 112,
+          "context": "string_literal",
+          "operation": "",
+          "confidence": 0.45000000000000007,
+          "encoding": "",
+          "raw_content": ""
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 9,
+          "context": "exotic_pattern",
+          "operation": "",
+          "confidence": 0.85,
+          "encoding": "",
+          "raw_content": "expected_tables = [\"auth_users\", ...]"
+        }
+      ]
+    },
+    "django_sessions": {
+      "reference_count": 9,
+      "files": [
+        "efficiency_test_controlled.py"
+      ],
+      "contexts": [
+        "string_literal",
+        "variable_assignment",
+        "exotic_pattern",
+        "orm_pattern",
+        "configuration",
+        "orm_class"
+      ],
+      "operations": [],
+      "encoding_types": [],
+      "average_confidence": 0.7055555555555555,
+      "references": [
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 118,
+          "context": "orm_class",
+          "operation": "",
+          "confidence": 0.95,
+          "encoding": "",
+          "raw_content": ""
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 118,
+          "context": "orm_pattern",
+          "operation": "",
+          "confidence": 0.95,
+          "encoding": "",
+          "raw_content": "db_table = 'django_sessions'"
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 118,
+          "context": "orm_pattern",
+          "operation": "",
+          "confidence": 0.9,
+          "encoding": "",
+          "raw_content": "db_table = 'django_sessions'"
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 118,
+          "context": "configuration",
+          "operation": "",
+          "confidence": 0.7,
+          "encoding": "",
+          "raw_content": "db_table = 'django_sessions'"
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 118,
+          "context": "configuration",
+          "operation": "",
+          "confidence": 0.65,
+          "encoding": "",
+          "raw_content": "db_table = 'django_sessions'"
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 118,
+          "context": "variable_assignment",
+          "operation": "",
+          "confidence": 0.75,
+          "encoding": "",
+          "raw_content": ""
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 37,
+          "context": "string_literal",
+          "operation": "",
+          "confidence": 0.30000000000000004,
+          "encoding": "",
+          "raw_content": ""
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 118,
+          "context": "string_literal",
+          "operation": "",
+          "confidence": 0.30000000000000004,
+          "encoding": "",
+          "raw_content": ""
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 9,
+          "context": "exotic_pattern",
+          "operation": "",
+          "confidence": 0.85,
+          "encoding": "",
+          "raw_content": "expected_tables = [\"django_sessions\", ...]"
+        }
+      ]
+    },
+    "usuarios_sistema": {
+      "reference_count": 4,
+      "files": [
+        "efficiency_test_controlled.py"
+      ],
+      "contexts": [
+        "exotic_pattern",
+        "unicode_table",
+        "sql_string"
+      ],
+      "operations": [
+        "SELECT"
+      ],
+      "encoding_types": [
+        "unicode"
+      ],
+      "average_confidence": 0.8125,
+      "references": [
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 48,
+          "context": "sql_string",
+          "operation": "SELECT",
+          "confidence": 0.9,
+          "encoding": "",
+          "raw_content": "sql1 = \"SELECT * FROM usuarios_sistema WHERE ativo = true\""
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 9,
+          "context": "exotic_pattern",
+          "operation": "",
+          "confidence": 0.85,
+          "encoding": "",
+          "raw_content": "expected_tables = [\"usuarios_sistema\", ...]"
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 11,
+          "context": "unicode_table",
+          "operation": "",
+          "confidence": 0.75,
+          "encoding": "unicode",
+          "raw_content": "\"usuarios_sistema\","
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 48,
+          "context": "unicode_table",
+          "operation": "",
+          "confidence": 0.75,
+          "encoding": "unicode",
+          "raw_content": "sql1 = \"SELECT * FROM usuarios_sistema WHERE ativo = true\""
+        }
+      ]
+    },
+    "produtos_estoque": {
+      "reference_count": 2,
+      "files": [
+        "efficiency_test_controlled.py"
+      ],
+      "contexts": [
+        "exotic_pattern",
+        "sql_string"
+      ],
+      "operations": [
+        "INSERT"
+      ],
+      "encoding_types": [],
+      "average_confidence": 0.8999999999999999,
+      "references": [
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 50,
+          "context": "sql_string",
+          "operation": "INSERT",
+          "confidence": 0.95,
+          "encoding": "",
+          "raw_content": "INSERT INTO produtos_estoque (nome, quantidade, preco)"
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 9,
+          "context": "exotic_pattern",
+          "operation": "",
+          "confidence": 0.85,
+          "encoding": "",
+          "raw_content": "expected_tables = [\"produtos_estoque\", ...]"
+        }
+      ]
+    },
+    "pedidos_online": {
+      "reference_count": 2,
+      "files": [
+        "efficiency_test_controlled.py"
+      ],
+      "contexts": [
+        "exotic_pattern",
+        "sql_string"
+      ],
+      "operations": [
+        "UPDATE"
+      ],
+      "encoding_types": [],
+      "average_confidence": 0.8999999999999999,
+      "references": [
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 53,
+          "context": "sql_string",
+          "operation": "UPDATE",
+          "confidence": 0.95,
+          "encoding": "",
+          "raw_content": "sql3 = \"UPDATE pedidos_online SET status = 'enviado' WHERE id = 123\""
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 9,
+          "context": "exotic_pattern",
+          "operation": "",
+          "confidence": 0.85,
+          "encoding": "",
+          "raw_content": "expected_tables = [\"pedidos_online\", ...]"
+        }
+      ]
+    },
+    "vendas_mensais": {
+      "reference_count": 4,
+      "files": [
+        "efficiency_test_controlled.py"
+      ],
+      "contexts": [
+        "exotic_pattern",
+        "orm_pattern",
+        "sql_string",
+        "string_literal"
+      ],
+      "operations": [
+        "SELECT"
+      ],
+      "encoding_types": [],
+      "average_confidence": 0.725,
+      "references": [
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 72,
+          "context": "sql_string",
+          "operation": "SELECT",
+          "confidence": 0.9,
+          "encoding": "",
+          "raw_content": "df_vendas = pd.read_sql(\"SELECT * FROM vendas_mensais\", connection)"
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 72,
+          "context": "orm_pattern",
+          "operation": "",
+          "confidence": 0.85,
+          "encoding": "",
+          "raw_content": "df_vendas = pd.read_sql(\"SELECT * FROM vendas_mensais\", connection)"
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 20,
+          "context": "string_literal",
+          "operation": "",
+          "confidence": 0.30000000000000004,
+          "encoding": "",
+          "raw_content": ""
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 9,
+          "context": "exotic_pattern",
+          "operation": "",
+          "confidence": 0.85,
+          "encoding": "",
+          "raw_content": "expected_tables = [\"vendas_mensais\", ...]"
+        }
+      ]
+    },
+    "dados_consolidados": {
+      "reference_count": 3,
+      "files": [
+        "efficiency_test_controlled.py"
+      ],
+      "contexts": [
+        "exotic_pattern",
+        "sql_string",
+        "string_literal"
+      ],
+      "operations": [
+        "SELECT"
+      ],
+      "encoding_types": [],
+      "average_confidence": 0.6833333333333332,
+      "references": [
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 93,
+          "context": "sql_string",
+          "operation": "SELECT",
+          "confidence": 0.9,
+          "encoding": "",
+          "raw_content": "SELECT * FROM dados_consolidados d"
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 28,
+          "context": "string_literal",
+          "operation": "",
+          "confidence": 0.30000000000000004,
+          "encoding": "",
+          "raw_content": ""
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 9,
+          "context": "exotic_pattern",
+          "operation": "",
+          "confidence": 0.85,
+          "encoding": "",
+          "raw_content": "expected_tables = [\"dados_consolidados\", ...]"
+        }
+      ]
+    },
+    "metricas_performance": {
+      "reference_count": 2,
+      "files": [
+        "efficiency_test_controlled.py"
+      ],
+      "contexts": [
+        "exotic_pattern",
+        "sql_string"
+      ],
+      "operations": [
+        "JOIN"
+      ],
+      "encoding_types": [],
+      "average_confidence": 0.85,
+      "references": [
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 94,
+          "context": "sql_string",
+          "operation": "JOIN",
+          "confidence": 0.85,
+          "encoding": "",
+          "raw_content": "INNER JOIN metricas_performance m ON d.id = m.produto_id"
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 9,
+          "context": "exotic_pattern",
+          "operation": "",
+          "confidence": 0.85,
+          "encoding": "",
+          "raw_content": "expected_tables = [\"metricas_performance\", ...]"
+        }
+      ]
+    },
+    "backup_dados": {
+      "reference_count": 3,
+      "files": [
+        "efficiency_test_controlled.py"
+      ],
+      "contexts": [
+        "exotic_pattern",
+        "sql_string",
+        "string_literal"
+      ],
+      "operations": [
+        "CREATE"
+      ],
+      "encoding_types": [],
+      "average_confidence": 0.7133333333333334,
+      "references": [
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 101,
+          "context": "sql_string",
+          "operation": "CREATE",
+          "confidence": 0.99,
+          "encoding": "",
+          "raw_content": "\"CREATE TABLE backup_dados AS SELECT * FROM dados_principais\","
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 31,
+          "context": "string_literal",
+          "operation": "",
+          "confidence": 0.30000000000000004,
+          "encoding": "",
+          "raw_content": ""
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 9,
+          "context": "exotic_pattern",
+          "operation": "",
+          "confidence": 0.85,
+          "encoding": "",
+          "raw_content": "expected_tables = [\"backup_dados\", ...]"
+        }
+      ]
+    },
+    "dados_principais": {
+      "reference_count": 1,
+      "files": [
+        "efficiency_test_controlled.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "SELECT"
+      ],
+      "encoding_types": [],
+      "average_confidence": 0.9,
+      "references": [
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 101,
+          "context": "sql_string",
+          "operation": "SELECT",
+          "confidence": 0.9,
+          "encoding": "",
+          "raw_content": "\"CREATE TABLE backup_dados AS SELECT * FROM dados_principais\","
+        }
+      ]
+    },
+    "dados_raw": {
+      "reference_count": 1,
+      "files": [
+        "efficiency_test_controlled.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "SELECT"
+      ],
+      "encoding_types": [],
+      "average_confidence": 0.9,
+      "references": [
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 102,
+          "context": "sql_string",
+          "operation": "SELECT",
+          "confidence": 0.9,
+          "encoding": "",
+          "raw_content": "\"INSERT INTO temp_processamento SELECT * FROM dados_raw WHERE status = 'new'\","
+        }
+      ]
+    },
+    "temp_processamento": {
+      "reference_count": 3,
+      "files": [
+        "efficiency_test_controlled.py"
+      ],
+      "contexts": [
+        "exotic_pattern",
+        "sql_string"
+      ],
+      "operations": [
+        "INSERT",
+        "UPDATE"
+      ],
+      "encoding_types": [],
+      "average_confidence": 0.9166666666666666,
+      "references": [
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 102,
+          "context": "sql_string",
+          "operation": "INSERT",
+          "confidence": 0.95,
+          "encoding": "",
+          "raw_content": "\"INSERT INTO temp_processamento SELECT * FROM dados_raw WHERE status = 'new'\","
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 103,
+          "context": "sql_string",
+          "operation": "UPDATE",
+          "confidence": 0.95,
+          "encoding": "",
+          "raw_content": "\"UPDATE temp_processamento SET processado = true WHERE id > 0\","
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 9,
+          "context": "exotic_pattern",
+          "operation": "",
+          "confidence": 0.85,
+          "encoding": "",
+          "raw_content": "expected_tables = [\"temp_processamento\", ...]"
+        }
+      ]
+    },
+    "historico_alteracoes": {
+      "reference_count": 3,
+      "files": [
+        "efficiency_test_controlled.py"
+      ],
+      "contexts": [
+        "exotic_pattern",
+        "sql_string",
+        "string_literal"
+      ],
+      "operations": [
+        "DELETE"
+      ],
+      "encoding_types": [],
+      "average_confidence": 0.7000000000000001,
+      "references": [
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 104,
+          "context": "sql_string",
+          "operation": "DELETE",
+          "confidence": 0.95,
+          "encoding": "",
+          "raw_content": "\"DELETE FROM historico_alteracoes WHERE data < '2024-01-01'\","
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 33,
+          "context": "string_literal",
+          "operation": "",
+          "confidence": 0.30000000000000004,
+          "encoding": "",
+          "raw_content": ""
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 9,
+          "context": "exotic_pattern",
+          "operation": "",
+          "confidence": 0.85,
+          "encoding": "",
+          "raw_content": "expected_tables = [\"historico_alteracoes\", ...]"
+        }
+      ]
+    },
+    "temp_old_data": {
+      "reference_count": 1,
+      "files": [
+        "efficiency_test_controlled.py"
+      ],
+      "contexts": [
+        "sql_string"
+      ],
+      "operations": [
+        "DROP"
+      ],
+      "encoding_types": [],
+      "average_confidence": 0.99,
+      "references": [
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 105,
+          "context": "sql_string",
+          "operation": "DROP",
+          "confidence": 0.99,
+          "encoding": "",
+          "raw_content": "\"DROP TABLE temp_old_data\""
+        }
+      ]
+    },
+    "relatorio_financeiro": {
+      "reference_count": 2,
+      "files": [
+        "efficiency_test_controlled.py"
+      ],
+      "contexts": [
+        "exotic_pattern",
+        "orm_pattern"
+      ],
+      "operations": [],
+      "encoding_types": [],
+      "average_confidence": 0.875,
+      "references": [
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 75,
+          "context": "orm_pattern",
+          "operation": "",
+          "confidence": 0.9,
+          "encoding": "",
+          "raw_content": "df_vendas.to_sql(\"relatorio_financeiro\", con=connection, if_exists='replace')"
+        },
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 9,
+          "context": "exotic_pattern",
+          "operation": "",
+          "confidence": 0.85,
+          "encoding": "",
+          "raw_content": "expected_tables = [\"relatorio_financeiro\", ...]"
+        }
+      ]
+    },
+    "🎯 arquivo de teste controlado criado": {
+      "reference_count": 1,
+      "files": [
+        "efficiency_test_controlled.py"
+      ],
+      "contexts": [
+        "exotic_pattern"
+      ],
+      "operations": [],
+      "encoding_types": [],
+      "average_confidence": 0.3,
+      "references": [
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 139,
+          "context": "exotic_pattern",
+          "operation": "",
+          "confidence": 0.3,
+          "encoding": "",
+          "raw_content": "print(\"🎯 ARQUIVO DE TESTE CONTROLADO CRIADO\")"
+        }
+      ]
+    },
+    "logs_auditoria": {
+      "reference_count": 1,
+      "files": [
+        "efficiency_test_controlled.py"
+      ],
+      "contexts": [
+        "exotic_pattern"
+      ],
+      "operations": [],
+      "encoding_types": [],
+      "average_confidence": 0.85,
+      "references": [
+        {
+          "file": "efficiency_test_controlled.py",
+          "line": 9,
+          "context": "exotic_pattern",
+          "operation": "",
+          "confidence": 0.85,
+          "encoding": "",
+          "raw_content": "expected_tables = [\"logs_auditoria\", ...]"
+        }
+      ]
+    }
+  }
+}

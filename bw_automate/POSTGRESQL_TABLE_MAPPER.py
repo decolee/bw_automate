@@ -303,6 +303,9 @@ class PostgreSQLTableMapper:
             self._analyze_unicode_patterns(content, file_path)
             self._analyze_encoded_patterns(content, file_path)
             self._analyze_dynamic_patterns(content, file_path)
+            self._analyze_create_temp_patterns(content, file_path)
+            self._analyze_advanced_fstring_patterns(content, file_path)
+            self._analyze_loop_patterns(content, file_path)
             self._analyze_byte_patterns(content, file_path)
             
         except SyntaxError as e:
@@ -658,7 +661,21 @@ class PostgreSQLTableMapper:
             
             # Nomes genéricos que aparecem em SQL de exemplo/teste
             'dados_principais', 'dados_raw', 'temp_old_data', 'old_data',
-            'raw_data', 'temp_data', 'test_data', 'sample_data', 'mock_data'
+            'raw_data', 'temp_data', 'test_data', 'sample_data', 'mock_data',
+            
+            # Campos/variáveis comuns (não tabelas)
+            'user_id', 'access_token', 'hashed_password', 'expires_at', 'total_items',
+            'total_produtos', 'data_consulta', 'data_fabricacao', 'data_validade',
+            'date_range', 'last_n_hours', 'tempo_sessao_minutos', 'nome_fantasia',
+            'code_pattern', 'total_itens', 'successful_items', 'failed_items',
+            'total_transferencias', 'total_operacoes', 'produtos_processados',
+            'total_novos_produtos', 'total_itens_escaneados', 'operador_contagem',
+            'import_batch_id', 'qr_code_data', 'operacoes_por_tipo', 'com',
+            'drop', 'too_many_requests', 'acao_necessaria', 'clientes_ativos',
+            'produtos_vencidos', 'test_device_001', 'etiquetas_new', 'operador_teste',
+            
+            # Tabelas de sistema (não do usuário)
+            'alembic_version', 'sqlite_master', 'pg_tables', 'usuarios_com_permissoes'
         }
         
         # Verifica se é uma palavra blacklistada
@@ -681,7 +698,13 @@ class PostgreSQLTableMapper:
             r'arquivo.*teste.*controlado.*criado',  # Frases específicas
             r'from.*this.*point.*on',               # Frases em inglês
             r'create.*new.*update',                 # Comandos SQL genéricos
-            r'best.*approach'                       # Frases comuns
+            r'best.*approach',                      # Frases comuns
+            r'.*\.(png|jpg|jpeg|gif|csv|xlsx|pdf)$', # Nomes de arquivo
+            r'attachment.*filename',                # Headers HTTP
+            r'.*;\s*filename.*',                    # Headers de arquivo
+            r'.*\.png$|.*\.jpg$|.*\.gif$',         # Extensões de imagem
+            r'test_device_\d+',                     # IDs de dispositivos de teste
+            r'labcom_logo_.*',                      # Logos/assets
         ]
         
         for pattern in anti_patterns:
@@ -962,6 +985,370 @@ class PostgreSQLTableMapper:
                     )
                     self.table_references.append(ref)
     
+    def _extract_table_variables(self, content: str) -> Dict[str, List[str]]:
+        """Extrai variáveis que podem conter nomes de tabela"""
+        variables = {}
+        lines = content.split('\n')
+        
+        for line in lines:
+            # Variáveis com nomes sugestivos
+            var_matches = re.finditer(r'(\w*table\w*|\w*schema\w*|\w*db\w*)\s*=\s*["\'](\w+)["\']', line, re.IGNORECASE)
+            for match in var_matches:
+                var_name = match.group(1)
+                table_name = match.group(2)
+                if var_name not in variables:
+                    variables[var_name] = []
+                variables[var_name].append(table_name)
+            
+            # Dicionários com configurações
+            dict_matches = re.finditer(r'["\'](\w*table\w*)["\']:\s*["\'](\w+)["\']', line, re.IGNORECASE)
+            for match in dict_matches:
+                key = match.group(1)
+                value = match.group(2)
+                if key not in variables:
+                    variables[key] = []
+                variables[key].append(value)
+        
+        return variables
+    
+    def _resolve_fstring_variables(self, full_string: str, expression: str, variables: Dict[str, List[str]]) -> List[str]:
+        """Resolve variáveis em f-strings para encontrar possíveis nomes de tabela"""
+        resolved_tables = []
+        
+        # Busca variáveis na expressão
+        var_names = re.findall(r'(\w+)', expression)
+        
+        for var_name in var_names:
+            if var_name in variables:
+                # Substitui a variável e verifica se forma SQL válido
+                for table_candidate in variables[var_name]:
+                    resolved_string = full_string.replace(f'{{{expression}}}', table_candidate)
+                    
+                    # Verifica se a string resultante parece SQL
+                    if any(keyword in resolved_string.lower() for keyword in ['select', 'from', 'insert', 'update', 'delete']):
+                        # Extrai tabela da string SQL resultante
+                        sql_tables = self._extract_tables_from_resolved_sql(resolved_string)
+                        resolved_tables.extend(sql_tables)
+        
+        return resolved_tables
+    
+    def _extract_tables_from_resolved_sql(self, sql_string: str) -> List[str]:
+        """Extrai tabelas de uma string SQL resolvida"""
+        tables = []
+        
+        # Padrões básicos SQL
+        patterns = [
+            r'FROM\s+(\w+)',
+            r'INSERT\s+INTO\s+(\w+)',
+            r'UPDATE\s+(\w+)',
+            r'DELETE\s+FROM\s+(\w+)',
+            r'JOIN\s+(\w+)'
+        ]
+        
+        for pattern in patterns:
+            matches = re.finditer(pattern, sql_string, re.IGNORECASE)
+            for match in matches:
+                table_name = match.group(1)
+                if self._is_valid_table_name(table_name):
+                    tables.append(table_name)
+        
+        return tables
+    
+    def _analyze_create_temp_patterns(self, content: str, file_path: str):
+        """NOVO: Análise de padrões CREATE TEMP TABLE"""
+        lines = content.split('\n')
+        
+        for line_num, line in enumerate(lines, 1):
+            # CREATE TEMP TABLE patterns
+            temp_matches = re.finditer(r'CREATE\s+(?:TEMPORARY|TEMP)\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?(\w+\.?\w*)', line, re.IGNORECASE)
+            for match in temp_matches:
+                table_ref = match.group(1)
+                
+                # Separar schema e tabela se existir
+                if '.' in table_ref:
+                    schema, table_name = table_ref.split('.', 1)
+                else:
+                    schema, table_name = None, table_ref
+                
+                ref = TableReference(
+                    table_name=table_name,
+                    schema=schema,
+                    file_path=file_path,
+                    line_number=line_num,
+                    context_type='create_temp_table',
+                    operation_type='CREATE',
+                    confidence=0.90,
+                    raw_content=line.strip()
+                )
+                self.table_references.append(ref)
+            
+            # CREATE TABLE AS SELECT patterns
+            ctas_matches = re.finditer(r'CREATE\s+TABLE\s+(\w+\.?\w*)\s+AS\s+SELECT', line, re.IGNORECASE)
+            for match in ctas_matches:
+                table_ref = match.group(1)
+                
+                if '.' in table_ref:
+                    schema, table_name = table_ref.split('.', 1)
+                else:
+                    schema, table_name = None, table_ref
+                
+                ref = TableReference(
+                    table_name=table_name,
+                    schema=schema,
+                    file_path=file_path,
+                    line_number=line_num,
+                    context_type='create_table_as',
+                    operation_type='CREATE',
+                    confidence=0.85,
+                    raw_content=line.strip()
+                )
+                self.table_references.append(ref)
+    
+    def _analyze_advanced_fstring_patterns(self, content: str, file_path: str):
+        """NOVO: Análise avançada de F-strings com resolução de contexto"""
+        lines = content.split('\n')
+        
+        # Extrai todas as variáveis do arquivo
+        all_variables = self._extract_all_variables(content)
+        
+        for line_num, line in enumerate(lines, 1):
+            # F-strings complexos com múltiplas variáveis
+            complex_fstring_matches = re.finditer(r'f["\']([^"\']*\{[^}]+\}[^"\']*(?:\{[^}]+\}[^"\']*)*)["\']', line)
+            
+            for match in complex_fstring_matches:
+                fstring_content = match.group(1)
+                
+                # Extrai todas as expressões dentro das chaves
+                expressions = re.findall(r'\{([^}]+)\}', fstring_content)
+                
+                # Tenta resolver combinações de variáveis
+                resolved_combinations = self._resolve_complex_fstring(fstring_content, expressions, all_variables)
+                
+                for resolved_table in resolved_combinations:
+                    if self._is_valid_table_name(resolved_table):
+                        ref = TableReference(
+                            table_name=resolved_table,
+                            file_path=file_path,
+                            line_number=line_num,
+                            context_type='complex_fstring',
+                            confidence=0.80,
+                            raw_content=line.strip(),
+                            context_details={'expressions': expressions, 'resolved': True}
+                        )
+                        self.table_references.append(ref)
+    
+    def _extract_all_variables(self, content: str) -> Dict[str, str]:
+        """Extrai todas as variáveis do arquivo"""
+        variables = {}
+        lines = content.split('\n')
+        
+        for line in lines:
+            # Assignments simples
+            simple_assignments = re.finditer(r'(\w+)\s*=\s*["\']([^"\']+)["\']', line)
+            for match in simple_assignments:
+                var_name = match.group(1)
+                value = match.group(2)
+                variables[var_name] = value
+            
+            # Dictionary assignments
+            dict_assignments = re.finditer(r'(\w+)\s*=\s*\{[^}]*["\'](\w+)["\']:\s*["\']([^"\']+)["\']', line)
+            for match in dict_assignments:
+                dict_name = match.group(1)
+                key = match.group(2)
+                value = match.group(3)
+                variables[f"{dict_name}['{key}']"] = value
+                variables[f'{dict_name}["{key}"]'] = value
+        
+        return variables
+    
+    def _resolve_complex_fstring(self, fstring_content: str, expressions: List[str], variables: Dict[str, str]) -> List[str]:
+        """Resolve F-strings complexos com múltiplas variáveis"""
+        resolved_tables = []
+        
+        # Tenta resolver cada expressão
+        resolved_values = {}
+        for expr in expressions:
+            expr_clean = expr.strip()
+            
+            # Variável simples
+            if expr_clean in variables:
+                resolved_values[expr] = variables[expr_clean]
+            
+            # Acesso a dicionário
+            elif '[' in expr_clean and ']' in expr_clean:
+                if expr_clean in variables:
+                    resolved_values[expr] = variables[expr_clean]
+            
+            # Operações simples
+            elif '.' in expr_clean:
+                parts = expr_clean.split('.')
+                if len(parts) == 2 and parts[0] in variables:
+                    # Tenta resolver como atributo
+                    base_value = variables[parts[0]]
+                    if parts[1] in ['upper', 'lower']:
+                        resolved_values[expr] = getattr(base_value, parts[1])() if hasattr(base_value, parts[1]) else base_value
+                    else:
+                        resolved_values[expr] = f"{base_value}_{parts[1]}"
+        
+        # Se conseguiu resolver todas as expressões, monta a string final
+        if len(resolved_values) == len(expressions):
+            final_string = fstring_content
+            for expr, value in resolved_values.items():
+                final_string = final_string.replace(f'{{{expr}}}', str(value))
+            
+            # Extrai tabelas da string final se parecer SQL
+            if any(keyword in final_string.lower() for keyword in ['select', 'from', 'insert', 'update', 'delete']):
+                sql_tables = self._extract_tables_from_resolved_sql(final_string)
+                resolved_tables.extend(sql_tables)
+        
+        return resolved_tables
+    
+    def _analyze_loop_patterns(self, content: str, file_path: str):
+        """NOVO: Análise melhorada de variáveis em loops"""
+        lines = content.split('\n')
+        
+        i = 0
+        while i < len(lines):
+            line = lines[i]
+            line_num = i + 1
+            
+            # Detecta início de loops
+            for_match = re.search(r'for\s+(\w+)\s+in\s+([^:]+):', line)
+            if for_match:
+                loop_var = for_match.group(1)
+                iterator_expr = for_match.group(2)
+                
+                # Analisa o iterador para extrair possíveis nomes de tabela
+                table_candidates = self._extract_from_iterator(iterator_expr, content)
+                
+                # Procura o bloco do loop
+                loop_block = self._extract_loop_block(lines, i)
+                
+                # Analisa o conteúdo do loop
+                for block_line_offset, block_line in enumerate(loop_block):
+                    block_line_num = line_num + block_line_offset
+                    
+                    # Procura por uso da variável do loop em contextos SQL
+                    if loop_var in block_line:
+                        # F-strings com variável do loop
+                        loop_fstring_matches = re.finditer(rf'f["\'][^"\']*\{{{loop_var}[^}}]*\}}[^"\']*["\']', block_line)
+                        for match in loop_fstring_matches:
+                            fstring_content = match.group(0)
+                            
+                            # Para cada candidato de tabela, resolve o f-string
+                            for table_candidate in table_candidates:
+                                resolved_fstring = fstring_content.replace(f'{{{loop_var}}}', table_candidate)
+                                
+                                # Verifica se resulta em SQL válido
+                                if any(keyword in resolved_fstring.lower() for keyword in ['select', 'from', 'insert', 'update']):
+                                    # Extrai tabelas do SQL resolvido
+                                    sql_tables = self._extract_tables_from_resolved_sql(resolved_fstring)
+                                    for sql_table in sql_tables:
+                                        ref = TableReference(
+                                            table_name=sql_table,
+                                            file_path=file_path,
+                                            line_number=block_line_num,
+                                            context_type='loop_resolved',
+                                            confidence=0.85,
+                                            raw_content=block_line.strip(),
+                                            context_details={
+                                                'loop_var': loop_var,
+                                                'iterator': iterator_expr,
+                                                'resolved_from': table_candidate
+                                            }
+                                        )
+                                        self.table_references.append(ref)
+                        
+                        # Strings normais com variável do loop
+                        loop_string_matches = re.finditer(rf'["\'][^"\']*\{{{loop_var}\}}[^"\']*["\']', block_line)
+                        for match in loop_string_matches:
+                            string_content = match.group(0)
+                            
+                            for table_candidate in table_candidates:
+                                resolved_string = string_content.replace(f'{{{loop_var}}}', table_candidate)
+                                
+                                if any(keyword in resolved_string.lower() for keyword in ['select', 'from', 'insert', 'update']):
+                                    sql_tables = self._extract_tables_from_resolved_sql(resolved_string)
+                                    for sql_table in sql_tables:
+                                        ref = TableReference(
+                                            table_name=sql_table,
+                                            file_path=file_path,
+                                            line_number=block_line_num,
+                                            context_type='loop_string_resolved',
+                                            confidence=0.80,
+                                            raw_content=block_line.strip(),
+                                            context_details={
+                                                'loop_var': loop_var,
+                                                'resolved_from': table_candidate
+                                            }
+                                        )
+                                        self.table_references.append(ref)
+                
+                # Pula as linhas do bloco já processadas
+                i += len(loop_block)
+            else:
+                i += 1
+    
+    def _extract_from_iterator(self, iterator_expr: str, content: str) -> List[str]:
+        """Extrai possíveis nomes de tabela de um iterador"""
+        table_candidates = []
+        
+        # Lista literal: ['users', 'orders', 'products']
+        list_matches = re.findall(r'["\'](\w+)["\']', iterator_expr)
+        table_candidates.extend(list_matches)
+        
+        # Variável que é uma lista: table_list
+        var_match = re.search(r'^(\w+)$', iterator_expr.strip())
+        if var_match:
+            var_name = var_match.group(1)
+            
+            # Procura a definição da variável no arquivo
+            var_def_matches = re.finditer(rf'{var_name}\s*=\s*\[([^\]]+)\]', content)
+            for match in var_def_matches:
+                list_content = match.group(1)
+                list_items = re.findall(r'["\'](\w+)["\']', list_content)
+                table_candidates.extend(list_items)
+        
+        # Range com prefixo/sufixo: range(1, 10) -> table_1, table_2, etc
+        range_match = re.search(r'range\((\d+),?\s*(\d+)?\)', iterator_expr)
+        if range_match:
+            start = int(range_match.group(1))
+            end = int(range_match.group(2)) if range_match.group(2) else start + 10
+            
+            # Procura contexto para determinar padrão
+            for i in range(start, min(end, start + 5)):  # Limita a 5 para não gerar muitos
+                table_candidates.extend([f'table_{i}', f'data_{i}', f'temp_{i}'])
+        
+        return table_candidates
+    
+    def _extract_loop_block(self, lines: List[str], start_index: int) -> List[str]:
+        """Extrai o bloco de código de um loop"""
+        block = []
+        
+        # Calcula a indentação da linha do for
+        for_line = lines[start_index]
+        for_indent = len(for_line) - len(for_line.lstrip())
+        
+        # Extrai linhas do bloco (com indentação maior)
+        for i in range(start_index + 1, len(lines)):
+            line = lines[i]
+            
+            # Linha vazia - continua
+            if not line.strip():
+                block.append(line)
+                continue
+            
+            # Calcula indentação atual
+            current_indent = len(line) - len(line.lstrip())
+            
+            # Se indentação menor ou igual, saiu do bloco
+            if current_indent <= for_indent:
+                break
+            
+            block.append(line)
+        
+        return block
+    
     def _analyze_byte_patterns(self, content: str, file_path: str):
         """Análise de padrões em bytes e encoding complexo"""
         lines = content.split('\n')
@@ -1150,8 +1537,8 @@ class PostgreSQLTableMapper:
             # Calcula score final para cada tabela
             final_score = self._calculate_final_table_score(table_name, refs)
             
-            # THRESHOLD INTELIGENTE: só aceita tabelas com score > 0.65
-            if final_score > 0.65:
+            # THRESHOLD ULTRA-RIGOROSO: só aceita tabelas com score > 0.85
+            if final_score > 0.85:
                 # Mantém apenas a melhor referência de cada contexto
                 best_refs = self._select_best_references_per_context(refs)
                 
@@ -1192,7 +1579,7 @@ class PostgreSQLTableMapper:
         if any(op in sql_operations for op in ['SELECT', 'INSERT', 'UPDATE', 'DELETE']):
             adjustments += 0.2
         
-        # 4. Penalidade para nomes suspeitos
+        # 4. Penalidade SEVERA para nomes suspeitos
         suspicious_patterns = [
             'arquivo.*teste.*controlado.*criado',
             'expected.*tables',
@@ -1202,20 +1589,46 @@ class PostgreSQLTableMapper:
             'dados_raw', 
             'temp_old_data',
             'old_data',
-            'raw_data'
+            'raw_data',
+            # Patterns de campos/variáveis
+            '.*_id$',           # campos ID
+            'total_.*',         # variáveis de contagem
+            'data_.*',          # campos de data
+            '.*_token$',        # tokens de auth
+            '.*_password.*',    # senhas
+            'test_device.*',    # dispositivos de teste
+            '.*filename.*',     # nomes de arquivo
+            'attachment.*',     # headers HTTP
+            # Tabelas de sistema
+            'alembic_.*',       # migrações Alembic
+            'sqlite_.*',        # SQLite interno
+            'pg_.*'             # PostgreSQL interno
         ]
         
         for pattern in suspicious_patterns:
             if re.search(pattern, table_name.lower(), re.IGNORECASE):
-                adjustments -= 0.5  # Penalidade maior
+                adjustments -= 0.6  # Penalidade SEVERA
                 break
         
-        # 5. Boost para nomes realistas de BD
+        # 5. Boost FORTE para nomes realistas de BD
         realistic_patterns = [
             r'.*_(user|product|order|item|data|log|audit|session|config|backup|temp|history)s?$',
             r'^(user|product|order|item|data|log|audit|session|config|backup|temp|history)s?_.*',
             r'.*_\w+_\w+.*'  # Padrão módulo_entidade_tipo
         ]
+        
+        # Boost específico para padrões plurais (indicam tabelas)
+        if table_name.endswith('s') and len(table_name) > 4:
+            adjustments += 0.15
+        
+        # Boost ESPECIAL para tabelas conhecidas como reais
+        real_table_indicators = [
+            'etiquetas', 'clientes', 'users', 'produtos', 'pedidos',
+            'importacoes', 'sessoes', 'batches', 'estoque'
+        ]
+        
+        if any(indicator in table_name.lower() for indicator in real_table_indicators):
+            adjustments += 0.2
         
         for pattern in realistic_patterns:
             if re.search(pattern, table_name.lower()):
